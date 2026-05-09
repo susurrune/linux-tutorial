@@ -1337,20 +1337,23 @@
         .search-btn {
             width: 40px;
             height: 40px;
-            background: var(--color-bg-elevated);
-            border: 1px solid var(--border-subtle);
+            background: var(--color-bg-card);
+            border: 1px solid var(--border-hover);
             border-radius: 50%;
-            color: var(--text-muted);
+            color: var(--color-text);
             cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
             transition: all 0.3s;
+            box-shadow: var(--shadow-sm);
         }
 
         .search-btn:hover {
-            background: var(--color-bg-card);
-            color: var(--color-text);
+            background: var(--color-primary);
+            color: var(--color-bg);
+            border-color: var(--color-primary);
+            transform: scale(1.05);
         }
 
         .search-modal {
@@ -1375,30 +1378,36 @@
         .search-box {
             width: 90%;
             max-width: 600px;
-            background: var(--color-bg-elevated);
-            border: 1px solid var(--border-subtle);
+            background: var(--color-bg);
+            border: 1px solid var(--border-hover);
             border-radius: 12px;
             padding: 16px 20px;
             font-family: var(--font-body);
             font-size: 1.125rem;
             color: var(--color-text);
             outline: none;
+            box-shadow: var(--shadow-md);
         }
 
         .search-box:focus {
             border-color: var(--color-primary);
-            box-shadow: 0 0 0 3px oklch(70% 0.15 195 / 0.2);
+            box-shadow: 0 0 0 3px oklch(70% 0.15 195 / 0.3), var(--shadow-md);
+        }
+
+        .search-box::placeholder {
+            color: var(--text-dim);
         }
 
         .search-results {
             width: 90%;
             max-width: 600px;
             margin-top: 16px;
-            background: var(--color-bg-elevated);
-            border: 1px solid var(--border-subtle);
+            background: var(--color-bg);
+            border: 1px solid var(--border-hover);
             border-radius: 12px;
             max-height: 400px;
             overflow-y: auto;
+            box-shadow: var(--shadow-lg);
         }
 
         .search-result-item {
@@ -1557,6 +1566,19 @@
             .search-container {
                 right: 16px;
                 top: 16px;
+            }
+
+            .search-btn {
+                width: 36px;
+                height: 36px;
+                background: var(--color-bg-card);
+                border: 1px solid var(--border-hover);
+            }
+
+            .search-btn:hover,
+            .search-btn:active {
+                background: var(--color-primary);
+                color: var(--color-bg);
             }
 
             .toc-toggle {
