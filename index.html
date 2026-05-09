@@ -745,11 +745,13 @@
                 right: 0;
                 bottom: 0;
                 background: var(--color-bg);
+                backdrop-filter: blur(20px);
+                -webkit-backdrop-filter: blur(20px);
                 flex-direction: column;
                 padding: 20px;
                 gap: 0;
                 z-index: 99;
-                border-top: 1px solid var(--border-subtle);
+                border-top: 1px solid var(--border-hover);
             }
 
             .nav-links.active {
@@ -763,7 +765,9 @@
             .nav-links a {
                 display: block;
                 padding: 16px 0;
-                font-size: 1rem;
+                font-size: 1.125rem;
+                font-weight: 500;
+                color: var(--color-text);
             }
 
             .nav-links a::after {
@@ -1186,35 +1190,6 @@
             transform: translateX(0);
         }
 
-        .toc-toggle {
-            position: fixed;
-            left: 20px;
-            bottom: 80px;
-            width: 48px;
-            height: 48px;
-            background: var(--color-primary);
-            border: none;
-            border-radius: 50%;
-            color: var(--color-bg);
-            font-size: 1.25rem;
-            cursor: pointer;
-            z-index: 95;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: var(--shadow-md);
-            transition: all 0.3s var(--ease-out-expo);
-        }
-
-        .toc-toggle:hover {
-            transform: scale(1.1);
-            box-shadow: var(--shadow-lg);
-        }
-
-        .toc-toggle.active {
-            left: 260px;
-        }
-
         .toc-title {
             font-family: var(--font-display);
             font-size: 0.875rem;
@@ -1549,10 +1524,6 @@
                 width: 280px;
             }
 
-            .toc-toggle.active {
-                left: 300px;
-            }
-
             .section-indicator {
                 display: none;
             }
@@ -1581,22 +1552,11 @@
                 color: var(--color-bg);
             }
 
-            .toc-toggle {
-                left: 16px;
-                bottom: 70px;
-                width: 44px;
-                height: 44px;
-            }
-
             .toc-sidebar {
                 width: 85%;
                 max-width: 300px;
                 background: var(--color-bg);
                 box-shadow: 4px 0 24px rgba(0, 0, 0, 0.3);
-            }
-
-            .toc-toggle.active {
-                left: calc(85% + 20px);
             }
 
             .back-to-top {
@@ -1647,11 +1607,6 @@
             </li>
         </ul>
     </aside>
-
-    <!-- 目录切换按钮 -->
-    <button class="toc-toggle" id="tocToggle" aria-label="打开目录">
-        ☰
-    </button>
 
     <!-- 搜索按钮 -->
     <div class="search-container">
@@ -2202,34 +2157,6 @@
             { command: '|', section: 'tools-pipe', title: '管道', desc: 'Pipe output' },
         ];
 
-        // TOC Sidebar Toggle
-        const tocToggle = document.getElementById('tocToggle');
-        const tocSidebar = document.getElementById('tocSidebar');
-
-        if (tocToggle && tocSidebar) {
-            tocToggle.addEventListener('click', () => {
-                tocToggle.classList.toggle('active');
-                tocSidebar.classList.toggle('active');
-                tocToggle.textContent = tocSidebar.classList.contains('active') ? '✕' : '☰';
-            });
-
-            tocSidebar.querySelectorAll('a').forEach(link => {
-                link.addEventListener('click', () => {
-                    tocToggle.classList.remove('active');
-                    tocSidebar.classList.remove('active');
-                    tocToggle.textContent = '☰';
-                });
-            });
-
-            document.addEventListener('click', (e) => {
-                if (!tocSidebar.contains(e.target) && !tocToggle.contains(e.target)) {
-                    tocToggle.classList.remove('active');
-                    tocSidebar.classList.remove('active');
-                    tocToggle.textContent = '☰';
-                }
-            });
-        }
-
         // Active TOC link highlighting
         const sections = ['hero', 'basics', 'basics-nav', 'basics-ops', 'basics-tips',
                           'system', 'system-perm', 'system-proc', 'system-signal',
@@ -2469,12 +2396,6 @@
                 menuBtn.classList.remove('active');
                 navLinks.classList.remove('active');
                 document.body.style.overflow = '';
-            }
-            // ESC to close TOC
-            if (e.key === 'Escape' && tocSidebar && tocSidebar.classList.contains('active')) {
-                tocToggle.classList.remove('active');
-                tocSidebar.classList.remove('active');
-                tocToggle.textContent = '☰';
             }
             // ESC to close search is handled in search modal
         });
