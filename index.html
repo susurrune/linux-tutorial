@@ -313,6 +313,83 @@
             width: 100%;
         }
 
+        /* Search Button in Nav */
+        .search-btn {
+            width: 36px;
+            height: 36px;
+            background: var(--color-bg-card);
+            border: 1px solid var(--border-subtle);
+            border-radius: 8px;
+            color: var(--color-text);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.875rem;
+            transition: all 0.3s var(--ease-out-expo);
+        }
+
+        .search-btn:hover {
+            background: var(--color-primary);
+            border-color: var(--color-primary);
+            color: var(--color-bg);
+            transform: scale(1.05);
+        }
+
+        /* Mobile Menu Button - Enhanced */
+        .nav-menu-btn {
+            display: none;
+            width: 44px;
+            height: 44px;
+            padding: 10px;
+            background: var(--color-bg-card);
+            border: 1px solid var(--border-subtle);
+            border-radius: 10px;
+            cursor: pointer;
+            position: relative;
+            z-index: 101;
+            transition: all 0.3s var(--ease-out-expo);
+        }
+
+        .nav-menu-btn:hover {
+            border-color: var(--border-hover);
+            background: var(--color-bg-elevated);
+        }
+
+        .nav-menu-btn:active {
+            transform: scale(0.95);
+        }
+
+        .nav-menu-btn span {
+            display: block;
+            width: 20px;
+            height: 2px;
+            background: var(--color-text);
+            border-radius: 2px;
+            position: absolute;
+            left: 11px;
+            transition: all 0.3s var(--ease-out-expo);
+        }
+
+        .nav-menu-btn span:nth-child(1) { top: 13px; }
+        .nav-menu-btn span:nth-child(2) { top: 20px; }
+        .nav-menu-btn span:nth-child(3) { top: 27px; }
+
+        /* Hamburger Animation */
+        .nav-menu-btn.active span:nth-child(1) {
+            top: 20px;
+            transform: rotate(45deg);
+        }
+
+        .nav-menu-btn.active span:nth-child(2) {
+            opacity: 0;
+            transform: translateX(-10px);
+        }
+        .nav-menu-btn.active span:nth-child(3) {
+            top: 20px;
+            transform: rotate(-45deg);
+        }
+
         /* Main Layout with Sidebar */
         .main-layout {
             display: flex;
@@ -1100,23 +1177,94 @@
 
         @media (max-width: 768px) {
             .nav-links {
-                display: none;
+                display: flex;
                 position: fixed;
-                top: 60px;
-                left: 0;
-                right: 0;
-                bottom: 0;
+                top: 70px;
+                right: -100%;
+                width: 280px;
+                height: calc(100vh - 70px);
                 background: var(--color-bg);
+                backdrop-filter: blur(20px);
+                -webkit-backdrop-filter: blur(20px);
                 flex-direction: column;
-                padding: 20px;
+                padding: 24px;
+                gap: 8px;
+                transition: right 0.4s var(--ease-out-expo);
+                z-index: 99;
+                border-left: 1px solid var(--border-subtle);
+                box-shadow: -8px 0 32px oklch(5% 0.02 260 / 0.5);
             }
 
             .nav-links.active {
+                right: 0;
+            }
+
+            .nav-links li {
+                list-style: none;
+                width: 100%;
+            }
+
+            .nav-links a {
                 display: flex;
+                align-items: center;
+                padding: 14px 18px;
+                font-size: 1rem;
+                font-weight: 500;
+                color: var(--text-muted);
+                border-radius: 10px;
+                transition: all 0.2s;
+            }
+
+            .nav-links a::after {
+                display: none;
+            }
+
+            .nav-links a:hover {
+                background: var(--color-bg-card);
+                color: var(--color-text);
+            }
+
+            .nav-links a:active {
+                background: var(--color-bg-elevated);
+                transform: scale(0.98);
+            }
+
+            /* Mobile search button in menu */
+            .nav-links .search-btn {
+                width: 100%;
+                height: auto;
+                padding: 14px 18px;
+                border-radius: 10px;
+                justify-content: flex-start;
+                gap: 12px;
+                font-family: var(--font-body);
+                font-size: 1rem;
+                font-weight: 500;
+            }
+
+            .nav-links .search-btn::before {
+                content: "🔍";
             }
 
             .nav-menu-btn {
                 display: flex;
+            }
+
+            /* Backdrop overlay when menu is open */
+            .menu-overlay {
+                display: none;
+                position: fixed;
+                inset: 0;
+                background: oklch(5% 0.02 260 / 0.5);
+                backdrop-filter: blur(4px);
+                z-index: 98;
+                opacity: 0;
+                transition: opacity 0.3s;
+            }
+
+            .menu-overlay.active {
+                display: block;
+                opacity: 1;
             }
 
             .hero {
@@ -1192,19 +1340,27 @@
     <!-- Navigation -->
     <nav class="nav">
         <a href="#" class="nav-logo"><span>$</span> Linux Guide</a>
-        <button class="nav-menu-btn" id="menuBtn">
-            <span></span><span></span><span></span>
-        </button>
+        <div style="display: flex; align-items: center; gap: 12px;">
+            <button class="search-btn" id="searchBtnNav" aria-label="搜索">🔍</button>
+            <button class="nav-menu-btn" id="menuBtn" aria-label="菜单">
+                <span></span><span></span><span></span>
+            </button>
+        </div>
         <ul class="nav-links" id="navLinks">
-            <li><a href="#intro">入门</a></li>
-            <li><a href="#basics">文件</a></li>
-            <li><a href="#system">系统</a></li>
-            <li><a href="#network">网络</a></li>
-            <li><a href="#text">文本</a></li>
-            <li><a href="#shell">Shell</a></li>
-            <li><button class="search-btn" id="searchBtn">🔍</button></li>
+            <li><a href="#intro">🚀 入门指南</a></li>
+            <li><a href="#basics">📁 文件操作</a></li>
+            <li><a href="#system">🔐 权限进程</a></li>
+            <li><a href="#network">🌐 网络诊断</a></li>
+            <li><a href="#text">📝 文本处理</a></li>
+            <li><a href="#shell">💻 Shell编程</a></li>
+            <li><a href="#regex">🔍 正则表达式</a></li>
+            <li><a href="#reference">📚 速查手册</a></li>
+            <li><a href="#practice">🎯 实战练习</a></li>
         </ul>
     </nav>
+
+    <!-- Menu Overlay -->
+    <div class="menu-overlay" id="menuOverlay"></div>
 
     <!-- Hero -->
     <header class="hero" id="hero">
@@ -2894,11 +3050,38 @@
         // Mobile menu
         const menuBtn = document.getElementById('menuBtn');
         const navLinks = document.getElementById('navLinks');
+        const menuOverlay = document.getElementById('menuOverlay');
+
+        function toggleMenu() {
+            menuBtn.classList.toggle('active');
+            navLinks.classList.toggle('active');
+            menuOverlay?.classList.toggle('active');
+            document.body.style.overflow = navLinks.classList.contains('active') ? 'hidden' : '';
+        }
+
+        function closeMenu() {
+            menuBtn.classList.remove('active');
+            navLinks.classList.remove('active');
+            menuOverlay?.classList.remove('active');
+            document.body.style.overflow = '';
+        }
 
         if (menuBtn && navLinks) {
-            menuBtn.addEventListener('click', () => {
-                menuBtn.classList.toggle('active');
-                navLinks.classList.toggle('active');
+            menuBtn.addEventListener('click', toggleMenu);
+
+            // Close menu when clicking overlay
+            menuOverlay?.addEventListener('click', closeMenu);
+
+            // Close menu when clicking a link
+            navLinks.querySelectorAll('a').forEach(link => {
+                link.addEventListener('click', closeMenu);
+            });
+
+            // Close menu on escape key
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape' && navLinks.classList.contains('active')) {
+                    closeMenu();
+                }
             });
         }
 
@@ -2933,7 +3116,7 @@
         });
 
         // Search functionality
-        const searchBtn = document.getElementById('searchBtn');
+        const searchBtn = document.getElementById('searchBtnNav');
         const searchModal = document.getElementById('searchModal');
         const searchBox = document.getElementById('searchBox');
         const searchResults = document.getElementById('searchResults');
@@ -2963,11 +3146,13 @@
         function openSearch() {
             searchModal.classList.add('active');
             searchBox.focus();
+            // Close mobile menu if open
+            if (typeof closeMenu === 'function') closeMenu();
         }
 
         function closeSearch() {
             searchModal.classList.remove('active');
-            searchResults.innerHTML = '';
+            if (searchResults) searchResults.innerHTML = '';
         }
 
         searchBtn?.addEventListener('click', openSearch);
@@ -2982,10 +3167,7 @@
             }
             if (e.key === 'Escape') {
                 closeSearch();
-                if (navLinks?.classList.contains('active')) {
-                    menuBtn.classList.remove('active');
-                    navLinks.classList.remove('active');
-                }
+                if (typeof closeMenu === 'function') closeMenu();
             }
         });
 
