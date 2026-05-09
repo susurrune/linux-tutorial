@@ -60,24 +60,24 @@
 
     <style>
         :root {
-            /* oklch Color System */
-            --color-bg: oklch(12% 0.02 260);
-            --color-bg-elevated: oklch(18% 0.03 260);
-            --color-bg-card: oklch(22% 0.04 260);
-            --color-bg-code: oklch(15% 0.03 260);
+            /* oklch Color System - Enhanced contrast */
+            --color-bg: oklch(10% 0.02 260);
+            --color-bg-elevated: oklch(16% 0.03 260);
+            --color-bg-card: oklch(20% 0.04 260);
+            --color-bg-code: oklch(13% 0.03 260);
 
-            --color-primary: oklch(70% 0.15 195);
-            --color-primary-dim: oklch(60% 0.12 195);
-            --color-accent: oklch(75% 0.18 145);
-            --color-warm: oklch(65% 0.15 45);
-            --color-purple: oklch(70% 0.15 300);
+            --color-primary: oklch(72% 0.16 195);
+            --color-primary-dim: oklch(62% 0.13 195);
+            --color-accent: oklch(77% 0.19 145);
+            --color-warm: oklch(67% 0.16 45);
+            --color-purple: oklch(72% 0.16 300);
 
-            --color-text: oklch(95% 0.01 260);
-            --text-muted: oklch(70% 0.02 260);
-            --text-dim: oklch(60% 0.02 260);
+            --color-text: oklch(97% 0.01 260);
+            --text-muted: oklch(75% 0.02 260);
+            --text-dim: oklch(65% 0.02 260);
 
-            --border-subtle: oklch(30% 0.04 260);
-            --border-hover: oklch(40% 0.06 260);
+            --border-subtle: oklch(28% 0.04 260);
+            --border-hover: oklch(38% 0.06 260);
 
             --shadow-sm: 0 2px 8px oklch(8% 0.02 260 / 0.4);
             --shadow-md: 0 8px 32px oklch(8% 0.02 260 / 0.5);
@@ -320,6 +320,12 @@
             color: var(--color-primary);
         }
 
+        .nav-controls {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
         .nav-links {
             display: flex;
             gap: var(--space-lg);
@@ -375,6 +381,57 @@
             border-color: var(--color-primary);
             color: var(--color-bg);
             transform: scale(1.05);
+        }
+
+        /* Theme Toggle Button in Nav */
+        .theme-btn {
+            width: 36px;
+            height: 36px;
+            background: var(--color-bg-card);
+            border: 1px solid var(--border-subtle);
+            border-radius: 8px;
+            color: var(--color-text);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.875rem;
+            transition: all 0.3s var(--ease-out-expo);
+            position: relative;
+        }
+
+        .theme-btn:hover {
+            background: var(--color-accent);
+            border-color: var(--color-accent);
+            color: var(--color-bg);
+            transform: scale(1.05);
+        }
+
+        .theme-btn .sun-icon,
+        .theme-btn .moon-icon {
+            position: absolute;
+            transition: all 0.3s var(--ease-out-expo);
+        }
+
+        .theme-btn .sun-icon {
+            opacity: 0;
+            transform: rotate(180deg) scale(0);
+        }
+
+        .theme-btn .moon-icon {
+            opacity: 1;
+            transform: rotate(0deg) scale(1);
+        }
+
+        /* Light theme - show sun icon */
+        html.light-theme .theme-btn .sun-icon {
+            opacity: 1;
+            transform: rotate(0deg) scale(1);
+        }
+
+        html.light-theme .theme-btn .moon-icon {
+            opacity: 0;
+            transform: rotate(-180deg) scale(0);
         }
 
         /* Mobile Menu Button - Enhanced */
@@ -1292,6 +1349,17 @@
                 display: flex;
             }
 
+            /* Mobile nav controls layout */
+            .nav-controls {
+                gap: 8px;
+            }
+
+            .nav-controls .search-btn,
+            .nav-controls .theme-btn {
+                width: 44px;
+                height: 44px;
+            }
+
             /* Backdrop overlay when menu is open */
             .menu-overlay {
                 display: none;
@@ -1341,7 +1409,7 @@
 
         /* Print styles */
         @media print {
-            .nav, .toc-sidebar, .back-to-top, .search-btn, .nav-menu-btn, .scroll-progress, .menu-overlay {
+            .nav, .toc-sidebar, .back-to-top, .search-btn, .theme-btn, .nav-menu-btn, .scroll-progress, .menu-overlay {
                 display: none !important;
             }
 
@@ -1444,8 +1512,12 @@
     <!-- Navigation -->
     <nav class="nav" role="navigation" aria-label="主导航">
         <a href="#" class="nav-logo" aria-label="Linux Guide 首页"><span>$</span> Linux Guide</a>
-        <div style="display: flex; align-items: center; gap: 12px;">
+        <div class="nav-controls">
             <button class="search-btn" id="searchBtnNav" aria-label="打开搜索" title="搜索 (Ctrl+K)"><svg class="icon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></button>
+            <button class="theme-btn" id="themeBtn" aria-label="切换主题" title="切换明暗主题">
+                <svg class="icon sun-icon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+                <svg class="icon moon-icon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+            </button>
             <button class="nav-menu-btn" id="menuBtn" aria-label="打开菜单" aria-expanded="false" aria-controls="navLinks">
                 <span></span><span></span><span></span>
             </button>
@@ -3119,7 +3191,6 @@
                 <p class="cta-desc animate-on-scroll">命令行是无尽的探索。最好的老师就是实践。</p>
                 <div style="display: flex; gap: var(--space-md); justify-content: center; flex-wrap: wrap;" class="animate-on-scroll">
                     <a href="https://github.com/susurrune/linux-tutorial" class="btn">查看源码 →</a>
-                    <button class="btn btn-secondary" onclick="toggleTheme()">切换主题</button>
                 </div>
             </section>
         </main>
@@ -3217,6 +3288,10 @@
                 }
             });
         }
+
+        // Theme button event listener
+        const themeBtn = document.getElementById('themeBtn');
+        themeBtn?.addEventListener('click', toggleTheme);
 
         // Sidebar TOC highlighting
         const sections = document.querySelectorAll('section[id], .command-card[id]');
@@ -3355,18 +3430,24 @@
             darkTheme = !darkTheme;
 
             if (!darkTheme) {
+                root.classList.add('light-theme');
                 root.style.setProperty('--color-bg', 'oklch(98% 0.01 260)');
                 root.style.setProperty('--color-bg-elevated', 'oklch(95% 0.02 260)');
                 root.style.setProperty('--color-bg-card', 'oklch(100% 0 0)');
                 root.style.setProperty('--color-bg-code', 'oklch(93% 0.01 260)');
-                root.style.setProperty('--color-text', 'oklch(20% 0.02 260)');
-                root.style.setProperty('--text-muted', 'oklch(45% 0.03 260)');
-                root.style.setProperty('--text-dim', 'oklch(60% 0.04 260)');
+                root.style.setProperty('--color-text', 'oklch(15% 0.02 260)');
+                root.style.setProperty('--text-muted', 'oklch(40% 0.03 260)');
+                root.style.setProperty('--text-dim', 'oklch(55% 0.04 260)');
                 root.style.setProperty('--border-subtle', 'oklch(85% 0.02 260)');
                 root.style.setProperty('--border-hover', 'oklch(75% 0.03 260)');
+                // Light theme enhanced colors for better contrast
+                root.style.setProperty('--color-primary', 'oklch(55% 0.18 195)');
+                root.style.setProperty('--color-accent', 'oklch(55% 0.20 145)');
             } else {
+                root.classList.remove('light-theme');
                 ['--color-bg', '--color-bg-elevated', '--color-bg-card', '--color-bg-code',
-                 '--color-text', '--text-muted', '--text-dim', '--border-subtle', '--border-hover']
+                 '--color-text', '--text-muted', '--text-dim', '--border-subtle', '--border-hover',
+                 '--color-primary', '--color-accent']
                 .forEach(prop => root.style.removeProperty(prop));
             }
         }
