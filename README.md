@@ -14,10 +14,12 @@
 - 🔤 **精选字体组合** — Space Grotesk + Inter + JetBrains Mono
 - 📐 **非对称网格布局** — 杂志编辑风格的不对称卡片系统
 - 📱 **全面移动端优化** — 汉堡菜单、触摸适配、刘海屏支持
+- 🔍 **SEO 优化** — Schema.org 结构化数据、Open Graph、Twitter Cards
+- 📊 **滚动进度条** — 顶部进度指示器，实时反馈阅读进度
 - 💫 **精致动效** — 滚动触发动画和悬浮交互
 - 🌙 **深色主题优先** — 保护眼睛的科技风格深色界面
 - ♿ **可访问性** — 符合 WCAG 对比度标准
-- ⚡ **性能优化** — 减少动画偏好支持、触摸设备优化
+- ⚡ **性能优化** — 减少动画偏好支持、触摸设备优化、触觉反馈
 
 ## 🚀 在线预览
 
@@ -110,6 +112,21 @@ python3 -m http.server 8080
 - **CSS Grid + Flexbox** — 现代布局方案
 - **Intersection Observer** — 高性能滚动动画
 - **CSS oklch()** — 感知均匀色彩空间
+- **SEO 优化** — Schema.org 结构化数据、Open Graph、Twitter Cards
+- **自动部署** — GitHub Actions 自动部署到 GitHub Pages
+- **触觉反馈** — 移动端代码复制时的振动反馈
+- **键盘快捷键** — ESC 关闭菜单，支持未来扩展
+- **安全区域** — 刘海屏、灵动岛适配
+
+## 🚀 自动部署
+
+本仓库已配置 GitHub Actions 自动部署：
+
+1. 推送代码到 `main` 分支
+2. GitHub Actions 自动运行
+3. 自动部署到 GitHub Pages
+
+查看部署状态: [Actions 页面](../../actions)
 
 ## 📖 设计参考
 
