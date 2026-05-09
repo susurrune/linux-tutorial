@@ -682,6 +682,27 @@
         .code-content .output { color: var(--text-muted); opacity: 0.8; }
         .code-content .path { color: var(--color-purple); }
 
+        /* Light theme code block adjustments */
+        html.light-theme .code-block {
+            background: oklch(18% 0.02 280);
+            border-color: oklch(25% 0.03 280);
+        }
+
+        html.light-theme .code-header {
+            border-bottom-color: oklch(25% 0.03 280);
+        }
+
+        html.light-theme .code-content {
+            color: oklch(85% 0.01 260);
+        }
+
+        html.light-theme .code-content .comment { color: oklch(60% 0.03 140); }
+        html.light-theme .code-content .command { color: oklch(70% 0.12 195); }
+        html.light-theme .code-content .arg { color: oklch(70% 0.12 145); }
+        html.light-theme .code-content .option { color: oklch(70% 0.10 45); }
+        html.light-theme .code-content .output { color: oklch(70% 0.02 260); opacity: 0.9; }
+        html.light-theme .code-content .path { color: oklch(75% 0.12 300); }
+
         /* Parameter Table */
         .param-table {
             width: 100%;
