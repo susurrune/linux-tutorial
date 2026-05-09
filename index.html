@@ -1163,10 +1163,505 @@
             opacity: 1;
             transform: translateY(0);
         }
+
+        /* 侧边栏目录导航 */
+        .toc-sidebar {
+            position: fixed;
+            left: 0;
+            top: 70px;
+            width: 240px;
+            height: calc(100vh - 70px);
+            background: var(--color-bg-elevated);
+            border-right: 1px solid var(--border-subtle);
+            padding: 20px;
+            overflow-y: auto;
+            z-index: 90;
+            transform: translateX(-100%);
+            transition: transform 0.3s var(--ease-out-expo);
+        }
+
+        .toc-sidebar.active {
+            transform: translateX(0);
+        }
+
+        .toc-toggle {
+            position: fixed;
+            left: 20px;
+            bottom: 80px;
+            width: 48px;
+            height: 48px;
+            background: var(--color-primary);
+            border: none;
+            border-radius: 50%;
+            color: var(--color-bg);
+            font-size: 1.25rem;
+            cursor: pointer;
+            z-index: 95;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: var(--shadow-md);
+            transition: all 0.3s var(--ease-out-expo);
+        }
+
+        .toc-toggle:hover {
+            transform: scale(1.1);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .toc-toggle.active {
+            left: 260px;
+        }
+
+        .toc-title {
+            font-family: var(--font-display);
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 16px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid var(--border-subtle);
+        }
+
+        .toc-list {
+            list-style: none;
+        }
+
+        .toc-item {
+            margin-bottom: 4px;
+        }
+
+        .toc-link {
+            display: block;
+            padding: 8px 12px;
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 0.8125rem;
+            border-radius: 6px;
+            transition: all 0.2s;
+            position: relative;
+            padding-left: 24px;
+        }
+
+        .toc-link::before {
+            content: '';
+            position: absolute;
+            left: 8px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: var(--border-subtle);
+            transition: all 0.2s;
+        }
+
+        .toc-link:hover {
+            color: var(--color-text);
+            background: var(--color-bg-card);
+        }
+
+        .toc-link.active {
+            color: var(--color-primary);
+            background: oklch(70% 0.15 195 / 0.1);
+        }
+
+        .toc-link.active::before {
+            background: var(--color-primary);
+            transform: translateY(-50%) scale(1.2);
+        }
+
+        .toc-section {
+            font-weight: 600;
+            color: var(--color-text);
+            margin-top: 12px;
+        }
+
+        .toc-section::before {
+            width: 8px;
+            height: 8px;
+            border-radius: 2px;
+            transform: translateY(-50%) rotate(45deg);
+        }
+
+        /* 返回顶部按钮 */
+        .back-to-top {
+            position: fixed;
+            right: 20px;
+            bottom: 20px;
+            width: 48px;
+            height: 48px;
+            background: var(--color-bg-elevated);
+            border: 1px solid var(--border-subtle);
+            border-radius: 50%;
+            color: var(--color-text);
+            font-size: 1.25rem;
+            cursor: pointer;
+            z-index: 95;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(20px);
+            transition: all 0.3s var(--ease-out-expo);
+            box-shadow: var(--shadow-md);
+        }
+
+        .back-to-top.visible {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .back-to-top:hover {
+            background: var(--color-primary);
+            color: var(--color-bg);
+            border-color: var(--color-primary);
+        }
+
+        /* 搜索框 */
+        .search-container {
+            position: fixed;
+            top: 70px;
+            right: 20px;
+            z-index: 96;
+            display: flex;
+            align-items: center;
+        }
+
+        .search-btn {
+            width: 40px;
+            height: 40px;
+            background: var(--color-bg-elevated);
+            border: 1px solid var(--border-subtle);
+            border-radius: 50%;
+            color: var(--text-muted);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+        }
+
+        .search-btn:hover {
+            background: var(--color-bg-card);
+            color: var(--color-text);
+        }
+
+        .search-modal {
+            position: fixed;
+            inset: 0;
+            background: oklch(12% 0.02 260 / 0.95);
+            z-index: 200;
+            display: flex;
+            align-items: flex-start;
+            justify-content: center;
+            padding-top: 100px;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s;
+        }
+
+        .search-modal.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .search-box {
+            width: 90%;
+            max-width: 600px;
+            background: var(--color-bg-elevated);
+            border: 1px solid var(--border-subtle);
+            border-radius: 12px;
+            padding: 16px 20px;
+            font-family: var(--font-body);
+            font-size: 1.125rem;
+            color: var(--color-text);
+            outline: none;
+        }
+
+        .search-box:focus {
+            border-color: var(--color-primary);
+            box-shadow: 0 0 0 3px oklch(70% 0.15 195 / 0.2);
+        }
+
+        .search-results {
+            width: 90%;
+            max-width: 600px;
+            margin-top: 16px;
+            background: var(--color-bg-elevated);
+            border: 1px solid var(--border-subtle);
+            border-radius: 12px;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+
+        .search-result-item {
+            padding: 12px 20px;
+            border-bottom: 1px solid var(--border-subtle);
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .search-result-item:last-child {
+            border-bottom: none;
+        }
+
+        .search-result-item:hover {
+            background: var(--color-bg-card);
+        }
+
+        .search-result-title {
+            font-weight: 600;
+            color: var(--color-text);
+            font-size: 0.9375rem;
+            margin-bottom: 4px;
+        }
+
+        .search-result-desc {
+            color: var(--text-muted);
+            font-size: 0.8125rem;
+        }
+
+        .search-result-match {
+            color: var(--color-primary);
+            background: oklch(70% 0.15 195 / 0.2);
+            padding: 0 2px;
+            border-radius: 2px;
+        }
+
+        .search-hint {
+            position: absolute;
+            bottom: -24px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: var(--text-dim);
+            font-size: 0.75rem;
+            white-space: nowrap;
+        }
+
+        /* 章节指示器 */
+        .section-indicator {
+            position: fixed;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 90;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .section-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--border-subtle);
+            cursor: pointer;
+            transition: all 0.3s;
+            position: relative;
+        }
+
+        .section-dot:hover,
+        .section-dot.active {
+            background: var(--color-primary);
+            transform: scale(1.3);
+        }
+
+        .section-dot::after {
+            content: attr(data-title);
+            position: absolute;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: var(--color-bg-elevated);
+            color: var(--color-text);
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 0.75rem;
+            white-space: nowrap;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.2s;
+            border: 1px solid var(--border-subtle);
+        }
+
+        .section-dot:hover::after {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        /* 面包屑导航 */
+        .breadcrumb {
+            position: fixed;
+            top: 70px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 89;
+            background: var(--color-bg-elevated);
+            border: 1px solid var(--border-subtle);
+            border-radius: 100px;
+            padding: 8px 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.8125rem;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s;
+        }
+
+        .breadcrumb.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .breadcrumb-item {
+            color: var(--text-muted);
+        }
+
+        .breadcrumb-item.active {
+            color: var(--color-primary);
+            font-weight: 500;
+        }
+
+        .breadcrumb-separator {
+            color: var(--text-dim);
+        }
+
+        /* 响应式调整 */
+        @media (max-width: 1024px) {
+            .toc-sidebar {
+                width: 280px;
+            }
+
+            .toc-toggle.active {
+                left: 300px;
+            }
+
+            .section-indicator {
+                display: none;
+            }
+
+            .breadcrumb {
+                display: none;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .search-container {
+                right: 16px;
+                top: 16px;
+            }
+
+            .toc-toggle {
+                left: 16px;
+                bottom: 70px;
+                width: 44px;
+                height: 44px;
+            }
+
+            .toc-sidebar {
+                width: 85%;
+                max-width: 300px;
+            }
+
+            .toc-toggle.active {
+                left: calc(85% + 20px);
+            }
+
+            .back-to-top {
+                right: 16px;
+                bottom: 16px;
+                width: 44px;
+                height: 44px;
+            }
+        }
     </style>
 </head>
 <body>
     <div class="scroll-progress" id="scrollProgress"></div>
+
+    <!-- 侧边栏目录 -->
+    <aside class="toc-sidebar" id="tocSidebar">
+        <div class="toc-title">目录导航</div>
+        <ul class="toc-list" id="tocList">
+            <li class="toc-item">
+                <a href="#basics" class="toc-link toc-section" data-section="basics">📁 文件与目录</a>
+                <ul style="list-style: none; margin-left: 12px;">
+                    <li><a href="#basics-nav" class="toc-link" data-section="basics">文件系统导航</a></li>
+                    <li><a href="#basics-ops" class="toc-link" data-section="basics">文件操作</a></li>
+                    <li><a href="#basics-tips" class="toc-link" data-section="basics">路径技巧</a></li>
+                </ul>
+            </li>
+            <li class="toc-item">
+                <a href="#system" class="toc-link toc-section" data-section="system">🔐 权限与进程</a>
+                <ul style="list-style: none; margin-left: 12px;">
+                    <li><a href="#system-perm" class="toc-link" data-section="system">权限管理</a></li>
+                    <li><a href="#system-proc" class="toc-link" data-section="system">进程控制</a></li>
+                    <li><a href="#system-signal" class="toc-link" data-section="system">信号机制</a></li>
+                </ul>
+            </li>
+            <li class="toc-item">
+                <a href="#network" class="toc-link toc-section" data-section="network">🌐 网络诊断</a>
+                <ul style="list-style: none; margin-left: 12px;">
+                    <li><a href="#network-tools" class="toc-link" data-section="network">网络工具箱</a></li>
+                </ul>
+            </li>
+            <li class="toc-item">
+                <a href="#tools" class="toc-link toc-section" data-section="tools">📝 文本与工具</a>
+                <ul style="list-style: none; margin-left: 12px;">
+                    <li><a href="#tools-text" class="toc-link" data-section="tools">文本处理</a></li>
+                    <li><a href="#tools-pkg" class="toc-link" data-section="tools">包管理器</a></li>
+                    <li><a href="#tools-pipe" class="toc-link" data-section="tools">管道艺术</a></li>
+                </ul>
+            </li>
+        </ul>
+    </aside>
+
+    <!-- 目录切换按钮 -->
+    <button class="toc-toggle" id="tocToggle" aria-label="打开目录">
+        ☰
+    </button>
+
+    <!-- 搜索按钮 -->
+    <div class="search-container">
+        <button class="search-btn" id="searchBtn" aria-label="搜索">
+            🔍
+        </button>
+    </div>
+
+    <!-- 搜索弹窗 -->
+    <div class="search-modal" id="searchModal">
+        <input type="text" class="search-box" id="searchBox" placeholder="搜索命令..." autocomplete="off">
+        <div class="search-results" id="searchResults"></div>
+        <div class="search-hint">按 ESC 关闭</div>
+    </div>
+
+    <!-- 章节指示器 -->
+    <div class="section-indicator" id="sectionIndicator">
+        <div class="section-dot active" data-section="hero" data-title="首页"></div>
+        <div class="section-dot" data-section="basics" data-title="文件与目录"></div>
+        <div class="section-dot" data-section="system" data-title="权限与进程"></div>
+        <div class="section-dot" data-section="network" data-title="网络诊断"></div>
+        <div class="section-dot" data-section="tools" data-title="文本与工具"></div>
+    </div>
+
+    <!-- 面包屑导航 -->
+    <div class="breadcrumb" id="breadcrumb">
+        <span class="breadcrumb-item">首页</span>
+        <span class="breadcrumb-separator">/</span>
+        <span class="breadcrumb-item active" id="breadcrumbCurrent">文件与目录</span>
+    </div>
+
+    <!-- 返回顶部按钮 -->
+    <button class="back-to-top" id="backToTop" aria-label="返回顶部">
+        ↑
+    </button>
+
     <nav class="nav">
         <a href="#" class="nav-logo">
             <span>$</span> Linux Art
@@ -1217,14 +1712,14 @@
 
     <main>
         <section class="section" id="basics">
-            <div class="section-header animate-on-scroll">
+            <div class="section-header animate-on-scroll" id="basics-header">
                 <span class="section-number">Module 01</span>
                 <h2 class="section-title">文件与目录</h2>
             </div>
 
             <div class="tutorial-grid">
                 <!-- Basic Commands -->
-                <article class="tutorial-card card-large animate-on-scroll">
+                <article class="tutorial-card card-large animate-on-scroll" id="basics-nav">
                     <div class="card-header">
                         <div class="card-icon">📁</div>
                         <span class="card-tag">Essential</span>
@@ -1318,12 +1813,7 @@
 
             <div class="tutorial-grid">
                 <!-- Permissions -->
-                <article class="tutorial-card card-medium animate-on-scroll">
-                    <div class="card-header">
-                        <div class="card-icon">🔐</div>
-                        <span class="card-tag">Security</span>
-                    </div>
-                    <h3 class="card-title">权限管理</h3>
+                <article class="tutorial-card card-medium animate-on-scroll" id="system-perm">
                     <p class="card-desc">Unix 安全模型的核心：读(4)、写(2)、执行(1)。</p>
                     <div class="code-block">
                         <div class="code-header">
@@ -1352,12 +1842,7 @@
                 </article>
 
                 <!-- Process Management -->
-                <article class="tutorial-card card-large animate-on-scroll">
-                    <div class="card-header">
-                        <div class="card-icon">⚙️</div>
-                        <span class="card-tag">System</span>
-                    </div>
-                    <h3 class="card-title">进程控制</h3>
+                <article class="tutorial-card card-large animate-on-scroll" id="system-proc">
                     <p class="card-desc">每个程序都是一个进程。学会查看、监控和终止它们。</p>
                     <div class="code-block">
                         <div class="code-header">
@@ -1389,12 +1874,7 @@
                 </article>
 
                 <!-- Signals -->
-                <article class="tutorial-card card-small animate-on-scroll">
-                    <div class="card-header">
-                        <div class="card-icon">📡</div>
-                        <span class="card-tag">Advanced</span>
-                    </div>
-                    <h3 class="card-title">信号机制</h3>
+                <article class="tutorial-card card-small animate-on-scroll" id="system-signal">
                     <p class="card-desc">进程间通信的基础。</p>
                     <ul class="feature-list">
                         <li><strong>SIGINT (2)</strong> — Ctrl+C 中断</li>
@@ -1413,12 +1893,7 @@
             </div>
 
             <div class="tutorial-grid">
-                <article class="tutorial-card card-full animate-on-scroll">
-                    <div class="card-header">
-                        <div class="card-icon">🌐</div>
-                        <span class="card-tag">Network</span>
-                    </div>
-                    <h3 class="card-title">网络工具箱</h3>
+                <article class="tutorial-card card-full animate-on-scroll" id="network-tools">
                     <p class="card-desc">网络问题的诊断始于理解连接。从 IP 地址到数据包，掌握网络的每一层。</p>
                     <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: var(--space-md); margin-top: var(--space-md);">
                         <div class="code-block">
@@ -1487,12 +1962,7 @@
 
             <div class="tutorial-grid">
                 <!-- Text Processing -->
-                <article class="tutorial-card card-large animate-on-scroll">
-                    <div class="card-header">
-                        <div class="card-icon">📝</div>
-                        <span class="card-tag">Power Tools</span>
-                    </div>
-                    <h3 class="card-title">文本处理三剑客</h3>
+                <article class="tutorial-card card-large animate-on-scroll" id="tools-text">
                     <p class="card-desc">grep 搜索、sed 流编辑、awk 文本分析——Unix 哲学的完美体现。</p>
                     <div class="code-block">
                         <div class="code-header">
@@ -1523,12 +1993,7 @@
                 </article>
 
                 <!-- Package Managers -->
-                <article class="tutorial-card card-medium animate-on-scroll">
-                    <div class="card-header">
-                        <div class="card-icon">📦</div>
-                        <span class="card-tag">Package</span>
-                    </div>
-                    <h3 class="card-title">包管理器</h3>
+                <article class="tutorial-card card-medium animate-on-scroll" id="tools-pkg">
                     <p class="card-desc">不同发行版的软件管理。</p>
                     <div class="code-block">
                         <div class="code-header">
@@ -1554,12 +2019,7 @@
                 </article>
 
                 <!-- Pipes -->
-                <article class="tutorial-card card-small animate-on-scroll">
-                    <div class="card-header">
-                        <div class="card-icon">🔗</div>
-                        <span class="card-tag">Unix</span>
-                    </div>
-                    <h3 class="card-title">管道艺术</h3>
+                <article class="tutorial-card card-small animate-on-scroll" id="tools-pipe">
                     <p class="card-desc">小工具组合的强大力量。</p>
                     <div class="code-block">
                         <div class="code-header">
@@ -1685,6 +2145,255 @@
 
         // Theme toggle
         let darkTheme = true;
+
+        // Search command database
+        const commandDatabase = [
+            { command: 'pwd', section: 'basics-nav', title: '打印当前工作目录', desc: 'Print Working Directory' },
+            { command: 'ls', section: 'basics-nav', title: '列出文件', desc: 'List directory contents' },
+            { command: 'cd', section: 'basics-nav', title: '切换目录', desc: 'Change directory' },
+            { command: 'touch', section: 'basics-ops', title: '创建空文件', desc: 'Create empty file' },
+            { command: 'mkdir', section: 'basics-ops', title: '创建目录', desc: 'Make directory' },
+            { command: 'cp', section: 'basics-ops', title: '复制文件', desc: 'Copy files' },
+            { command: 'mv', section: 'basics-ops', title: '移动/重命名', desc: 'Move/rename files' },
+            { command: 'rm', section: 'basics-ops', title: '删除文件', desc: 'Remove files' },
+            { command: 'chmod', section: 'system-perm', title: '修改权限', desc: 'Change file permissions' },
+            { command: 'chown', section: 'system-perm', title: '修改所有者', desc: 'Change file owner' },
+            { command: 'ps', section: 'system-proc', title: '查看进程', desc: 'Process status' },
+            { command: 'top', section: 'system-proc', title: '实时进程', desc: 'System monitor' },
+            { command: 'htop', section: 'system-proc', title: '交互式进程', desc: 'Interactive process viewer' },
+            { command: 'kill', section: 'system-proc', title: '终止进程', desc: 'Terminate process' },
+            { command: 'killall', section: 'system-proc', title: '按名终止', desc: 'Kill by name' },
+            { command: 'ping', section: 'network-tools', title: '网络测试', desc: 'Test network connectivity' },
+            { command: 'curl', section: 'network-tools', title: '数据传输', desc: 'Transfer data' },
+            { command: 'wget', section: 'network-tools', title: '下载文件', desc: 'Download files' },
+            { command: 'grep', section: 'tools-text', title: '文本搜索', desc: 'Search text' },
+            { command: 'sed', section: 'tools-text', title: '流编辑', desc: 'Stream editor' },
+            { command: 'awk', section: 'tools-text', title: '文本分析', desc: 'Text processing' },
+            { command: 'apt', section: 'tools-pkg', title: 'Debian包管理', desc: 'Package manager' },
+            { command: 'dnf', section: 'tools-pkg', title: 'Fedora包管理', desc: 'Package manager' },
+            { command: 'pacman', section: 'tools-pkg', title: 'Arch包管理', desc: 'Package manager' },
+            { command: 'cat', section: 'tools-pipe', title: '显示内容', desc: 'Concatenate files' },
+            { command: '|', section: 'tools-pipe', title: '管道', desc: 'Pipe output' },
+        ];
+
+        // TOC Sidebar Toggle
+        const tocToggle = document.getElementById('tocToggle');
+        const tocSidebar = document.getElementById('tocSidebar');
+
+        if (tocToggle && tocSidebar) {
+            tocToggle.addEventListener('click', () => {
+                tocToggle.classList.toggle('active');
+                tocSidebar.classList.toggle('active');
+                tocToggle.textContent = tocSidebar.classList.contains('active') ? '✕' : '☰';
+            });
+
+            tocSidebar.querySelectorAll('a').forEach(link => {
+                link.addEventListener('click', () => {
+                    tocToggle.classList.remove('active');
+                    tocSidebar.classList.remove('active');
+                    tocToggle.textContent = '☰';
+                });
+            });
+
+            document.addEventListener('click', (e) => {
+                if (!tocSidebar.contains(e.target) && !tocToggle.contains(e.target)) {
+                    tocToggle.classList.remove('active');
+                    tocSidebar.classList.remove('active');
+                    tocToggle.textContent = '☰';
+                }
+            });
+        }
+
+        // Active TOC link highlighting
+        const sections = ['hero', 'basics', 'basics-nav', 'basics-ops', 'basics-tips',
+                          'system', 'system-perm', 'system-proc', 'system-signal',
+                          'network', 'network-tools',
+                          'tools', 'tools-text', 'tools-pkg', 'tools-pipe'];
+
+        const tocObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    document.querySelectorAll('.toc-link').forEach(link => {
+                        link.classList.remove('active');
+                    });
+                    const activeLink = document.querySelector(`.toc-link[href="#${entry.target.id}"]`);
+                    if (activeLink) {
+                        activeLink.classList.add('active');
+                        const parentLi = activeLink.closest('ul')?.closest('li');
+                        if (parentLi) {
+                            parentLi.querySelector('.toc-link')?.classList.add('active');
+                        }
+                    }
+                }
+            });
+        }, { threshold: 0.2, rootMargin: '-80px 0px -50% 0px' });
+
+        sections.forEach(id => {
+            const section = document.getElementById(id);
+            if (section) tocObserver.observe(section);
+        });
+
+        // Section Indicator
+        const sectionIndicator = document.getElementById('sectionIndicator');
+        const mainSections = ['hero', 'basics', 'system', 'network', 'tools'];
+
+        const sectionObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    document.querySelectorAll('.section-dot').forEach(dot => {
+                        dot.classList.remove('active');
+                        if (dot.dataset.section === entry.target.id) {
+                            dot.classList.add('active');
+                        }
+                    });
+                }
+            });
+        }, { threshold: 0.3 });
+
+        mainSections.forEach(id => {
+            const section = document.getElementById(id);
+            if (section) sectionObserver.observe(section);
+        });
+
+        document.querySelectorAll('.section-dot').forEach(dot => {
+            dot.addEventListener('click', () => {
+                const target = document.getElementById(dot.dataset.section);
+                if (target) {
+                    window.scrollTo({
+                        top: target.offsetTop - 80,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+
+        // Breadcrumb
+        const breadcrumb = document.getElementById('breadcrumb');
+        const breadcrumbCurrent = document.getElementById('breadcrumbCurrent');
+        const sectionNames = {
+            'hero': '首页',
+            'basics': '文件与目录',
+            'system': '权限与进程',
+            'network': '网络诊断',
+            'tools': '文本与工具'
+        };
+
+        window.addEventListener('scroll', () => {
+            const currentScrollY = window.scrollY;
+            if (currentScrollY > 400) {
+                breadcrumb?.classList.add('visible');
+            } else {
+                breadcrumb?.classList.remove('visible');
+            }
+
+            mainSections.forEach(id => {
+                const section = document.getElementById(id);
+                if (section) {
+                    const rect = section.getBoundingClientRect();
+                    if (rect.top <= 100 && rect.bottom >= 100) {
+                        if (breadcrumbCurrent) {
+                            breadcrumbCurrent.textContent = sectionNames[id];
+                        }
+                    }
+                }
+            });
+        }, { passive: true });
+
+        // Back to top
+        const backToTop = document.getElementById('backToTop');
+        if (backToTop) {
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 500) {
+                    backToTop.classList.add('visible');
+                } else {
+                    backToTop.classList.remove('visible');
+                }
+            }, { passive: true });
+
+            backToTop.addEventListener('click', () => {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            });
+        }
+
+        // Search
+        const searchBtn = document.getElementById('searchBtn');
+        const searchModal = document.getElementById('searchModal');
+        const searchBox = document.getElementById('searchBox');
+        const searchResults = document.getElementById('searchResults');
+
+        function openSearch() {
+            searchModal?.classList.add('active');
+            searchBox?.focus();
+        }
+
+        function closeSearch() {
+            searchModal?.classList.remove('active');
+            if (searchResults) searchResults.innerHTML = '';
+        }
+
+        searchBtn?.addEventListener('click', openSearch);
+
+        document.addEventListener('keydown', (e) => {
+            if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
+                e.preventDefault();
+                openSearch();
+            }
+        });
+
+        if (searchBox) {
+            searchBox.addEventListener('input', (e) => {
+                const query = e.target.value.toLowerCase().trim();
+                if (!searchResults) return;
+                if (query.length === 0) {
+                    searchResults.innerHTML = '';
+                    return;
+                }
+
+                const matches = commandDatabase.filter(cmd =>
+                    cmd.command.toLowerCase().includes(query) ||
+                    cmd.title.toLowerCase().includes(query) ||
+                    cmd.desc.toLowerCase().includes(query)
+                );
+
+                if (matches.length === 0) {
+                    searchResults.innerHTML = '<div style="padding: 20px; color: var(--text-muted); text-align: center;">未找到相关命令</div>';
+                    return;
+                }
+
+                searchResults.innerHTML = matches.map(match => `
+                    <div class="search-result-item" data-section="${match.section}">
+                        <div class="search-result-title">${highlightMatch(match.command, query)} - ${match.title}</div>
+                        <div class="search-result-desc">${highlightMatch(match.desc, query)}</div>
+                    </div>
+                `).join('');
+
+                searchResults.querySelectorAll('.search-result-item').forEach(item => {
+                    item.addEventListener('click', () => {
+                        const section = item.dataset.section;
+                        const target = document.getElementById(section);
+                        if (target) {
+                            closeSearch();
+                            window.scrollTo({
+                                top: target.offsetTop - 100,
+                                behavior: 'smooth'
+                            });
+                        }
+                    });
+                });
+            });
+        }
+
+        function highlightMatch(text, query) {
+            if (!query) return text;
+            const regex = new RegExp(`(${query})`, 'gi');
+            return text.replace(regex, '<span class="search-result-match">$1</span>');
+        }
+
+        searchModal?.addEventListener('click', (e) => {
+            if (e.target === searchModal) closeSearch();
+        });
+
+        // Theme toggle
         function toggleTheme() {
             const root = document.documentElement;
             darkTheme = !darkTheme;
@@ -1735,11 +2444,13 @@
                 navLinks.classList.remove('active');
                 document.body.style.overflow = '';
             }
-            // Ctrl/Cmd + K to focus search (if we add search later)
-            if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
-                e.preventDefault();
-                // Future: focus search input
+            // ESC to close TOC
+            if (e.key === 'Escape' && tocSidebar && tocSidebar.classList.contains('active')) {
+                tocToggle.classList.remove('active');
+                tocSidebar.classList.remove('active');
+                tocToggle.textContent = '☰';
             }
+            // ESC to close search is handled in search modal
         });
 
         function showToast(message) {
