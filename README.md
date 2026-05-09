@@ -1,17 +1,17 @@
-# Linux 命令行艺术 🐧
+# Linux 命令行完全指南 🐧
 
-> 一个精心设计的交互式 Linux 教程网页，将技术文档转化为视觉体验。
+> 一个精心设计的交互式 Linux 教程网页，将技术文档转化为视觉体验。2026 年全新升级版。
 
 [![Linux](https://img.shields.io/badge/Linux-Tutorial-oklch(70%25%200.15%20195)?style=flat-square)](https://github.com/susurrune/linux-tutorial)
 [![HTML5](https://img.shields.io/badge/HTML5-E34F26?style=flat-square&logo=html5&logoColor=white)](https://developer.mozilla.org/en-US/docs/Web/HTML)
 [![CSS3](https://img.shields.io/badge/CSS3-oklch(70%25%200.15%20195)?style=flat-square&logo=css3&logoColor=white)](https://developer.mozilla.org/en-US/docs/Web/CSS)
 
-## ✨ 设计特点
+## ✨ 2026 年设计特点
 
 本教程采用 **Web Design Engineer** 技能构建，遵循现代网页设计最佳实践：
 
 - 🧭 **智能导航系统** — 侧边栏目录、章节指示器、面包屑导航
-- 🔎 **命令搜索** — Ctrl/Cmd+K 快速搜索，25+ 命令数据库
+- 🔎 **命令搜索** — Ctrl/Cmd+K 快速搜索，80+ 命令数据库
 - ⬆️ **返回顶部** — 滚动超过 500px 自动显示返回顶部按钮
 - 🎨 **oklch 色彩系统** — 感知均匀的色彩空间，确保视觉一致性
 - 🔤 **精选字体组合** — Space Grotesk + Inter + JetBrains Mono
@@ -23,19 +23,25 @@
 - 🌙 **深色主题优先** — 保护眼睛的科技风格深色界面
 - ♿ **可访问性** — 符合 WCAG 对比度标准
 - ⚡ **性能优化** — 减少动画偏好支持、触摸设备优化、触觉反馈
+- 🎨 **SVG 图标系统** — 统一风格的矢量图标，清晰锐利
 
 ## 🚀 在线预览
 
 🔗 **GitHub Pages**: https://susurrune.github.io/linux-tutorial
 
-## 📚 内容结构
+## 📚 2026 年版内容结构
 
-| 模块 | 主题 | 命令 |
-|------|------|------|
-| **Module 01** | 文件与目录 | `pwd`, `ls`, `cd`, `touch`, `mkdir`, `cp`, `mv`, `rm` |
-| **Module 02** | 权限与进程 | `chmod`, `chown`, `ps`, `top`, `htop`, `kill` |
-| **Module 03** | 网络诊断 | `ip`, `ping`, `traceroute`, `dig`, `ss`, `curl`, `wget` |
-| **Module 04** | 文本与工具 | `grep`, `sed`, `awk`, `apt`, `dnf`, `pacman` |
+| 模块 | 主题 | 核心命令 |
+|------|------|----------|
+| **Module 00** | 入门指南 | Shell 概念、命令结构、文件系统 |
+| **Module 01** | 文件与目录 | `pwd`, `ls`, `cd`, `touch`, `mkdir`, `cp`, `mv`, `rm`, `find`, `locate` |
+| **Module 02** | 权限与进程 | `chmod`, `chown`, `ps`, `top`, `htop`, `kill`, `killall` |
+| **Module 03** | 网络诊断 | `ip`, `ping`, `traceroute`, `dig`, `ss`, `curl`, `wget`, `netstat` |
+| **Module 04** | 文本处理 | `grep`, `sed`, `awk`, `cat`, `less`, `head`, `tail` |
+| **Module 05** | Shell 编程 | 变量、条件、循环、函数、脚本编写 |
+| **Module 06** | 正则表达式 | 元字符、字符类、量词、分组、实战示例 |
+| **Module 07** | 速查手册 | 6 大分类命令表、终端快捷键 |
+| **Module 08** | 实战练习 | 日志分析、批量处理、系统监控脚本 |
 
 ## 🛠️ 本地使用
 
@@ -61,7 +67,7 @@ python3 -m http.server 8080
 针对手机和平板设备的专门优化：
 
 ### 导航体验
-- 🍔 **汉堡菜单** — 点击展开全屏导航
+- 🍔 **汉堡菜单** — 点击展开右侧抽屉式导航
 - 👆 **触摸优化** — 点击反馈、防误触
 - 📐 **安全区域** — 适配刘海屏、灵动岛
 
@@ -91,6 +97,7 @@ python3 -m http.server 8080
 - 📊 **章节指示器** — 右侧悬浮圆点快速跳转
 - 🍞 **面包屑导航** — 显示当前所在章节位置
 - ⬆️ **返回顶部** — 一键返回页面顶部
+- 🎨 **SVG 图标** — 统一风格的矢量图标系统
 
 ### 快捷键
 
@@ -107,6 +114,7 @@ python3 -m http.server 8080
 --color-bg: oklch(12% 0.02 260);         /* 深海蓝背景 */
 --color-primary: oklch(70% 0.15 195);    /* 电光青强调 */
 --color-accent: oklch(75% 0.18 145);     /* 翠绿点缀 */
+--color-warm: oklch(65% 0.15 45);        /* 橙红警告 */
 --color-text: oklch(95% 0.01 260);       /* 高对比文字 */
 ```
 
@@ -128,6 +136,7 @@ python3 -m http.server 8080
 - **CSS Grid + Flexbox** — 现代布局方案
 - **Intersection Observer** — 高性能滚动动画
 - **CSS oklch()** — 感知均匀色彩空间
+- **SVG Icons** — 矢量图标，清晰锐利
 - **SEO 优化** — Schema.org 结构化数据、Open Graph、Twitter Cards
 - **自动部署** — GitHub Actions 自动部署到 GitHub Pages
 - **触觉反馈** — 移动端代码复制时的振动反馈
@@ -156,6 +165,7 @@ python3 -m http.server 8080
 ## 🤝 贡献
 
 欢迎提交 Issue 和 PR！特别是：
+
 - 🐛 命令错误或过时
 - 🎨 设计改进建议
 - 🌍 多语言支持
@@ -163,7 +173,7 @@ python3 -m http.server 8080
 
 ## 📄 许可证
 
-MIT License © 2025 [susurrune](https://github.com/susurrune)
+MIT License © 2026 [susurrune](https://github.com/susurrune)
 
 ---
 
