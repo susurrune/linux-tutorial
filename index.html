@@ -3,365 +3,1203 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Linux 入门教程 - 从零开始掌握 Linux</title>
+    <title>Linux 命令行艺术 | The Art of Command Line</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
     <style>
+        :root {
+            /* oklch Color System - Perceptually uniform */
+            --color-bg: oklch(12% 0.02 260);
+            --color-bg-elevated: oklch(18% 0.03 260);
+            --color-bg-card: oklch(22% 0.04 260);
+
+            --color-primary: oklch(70% 0.15 195);
+            --color-primary-dim: oklch(60% 0.12 195);
+            --color-accent: oklch(75% 0.18 145);
+            --color-warm: oklch(65% 0.15 45);
+
+            --color-text: oklch(95% 0.01 260);
+            --text-muted: oklch(70% 0.02 260);
+            --text-dim: oklch(50% 0.03 260);
+
+            --border-subtle: oklch(30% 0.04 260);
+            --border-hover: oklch(40% 0.06 260);
+
+            --shadow-sm: 0 2px 8px oklch(8% 0.02 260 / 0.4);
+            --shadow-md: 0 8px 32px oklch(8% 0.02 260 / 0.5);
+            --shadow-lg: 0 24px 64px oklch(5% 0.02 260 / 0.6);
+
+            --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+            --ease-out-quint: cubic-bezier(0.22, 1, 0.36, 1);
+
+            --font-display: 'Space Grotesk', sans-serif;
+            --font-body: 'Inter', sans-serif;
+            --font-mono: 'JetBrains Mono', monospace;
+
+            --space-xs: clamp(0.5rem, 1vw, 0.75rem);
+            --space-sm: clamp(0.75rem, 1.5vw, 1rem);
+            --space-md: clamp(1rem, 2vw, 1.5rem);
+            --space-lg: clamp(1.5rem, 3vw, 2.5rem);
+            --space-xl: clamp(2.5rem, 5vw, 4rem);
+            --space-2xl: clamp(4rem, 8vw, 8rem);
+        }
+
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
 
+        html {
+            scroll-behavior: smooth;
+        }
+
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            font-family: var(--font-body);
+            background: var(--color-bg);
+            color: var(--color-text);
             line-height: 1.6;
-            color: #333;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
+            overflow-x: hidden;
         }
 
-        .container {
-            max-width: 1200px;
+        /* Subtle grid pattern overlay */
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background-image:
+                linear-gradient(oklch(100% 0 0 / 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, oklch(100% 0 0 / 0.03) 1px, transparent 1px);
+            background-size: 60px 60px;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        /* Hero Section */
+        .hero {
+            position: relative;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: flex-start;
+            padding: var(--space-xl);
+            max-width: 1400px;
             margin: 0 auto;
-            padding: 20px;
+            z-index: 1;
         }
 
-        header {
-            text-align: center;
-            padding: 60px 20px;
-            color: white;
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            background: var(--color-bg-elevated);
+            border: 1px solid var(--border-subtle);
+            border-radius: 100px;
+            font-family: var(--font-mono);
+            font-size: 0.75rem;
+            color: var(--color-primary);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: var(--space-lg);
+            animation: fadeSlideUp 0.8s var(--ease-out-expo) forwards;
+            opacity: 0;
         }
 
-        header h1 {
-            font-size: 3em;
-            margin-bottom: 20px;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        .hero-badge::before {
+            content: '';
+            width: 8px;
+            height: 8px;
+            background: var(--color-primary);
+            border-radius: 50%;
+            animation: pulse 2s ease-in-out infinite;
         }
 
-        header p {
-            font-size: 1.2em;
-            opacity: 0.9;
+        .hero h1 {
+            font-family: var(--font-display);
+            font-size: clamp(2.5rem, 8vw, 6rem);
+            font-weight: 700;
+            line-height: 1.05;
+            letter-spacing: -0.03em;
+            max-width: 900px;
+            margin-bottom: var(--space-md);
+            animation: fadeSlideUp 0.8s var(--ease-out-expo) 0.1s forwards;
+            opacity: 0;
         }
 
+        .hero h1 .highlight {
+            color: var(--color-primary);
+            position: relative;
+        }
+
+        .hero h1 .highlight::after {
+            content: '';
+            position: absolute;
+            bottom: 0.1em;
+            left: 0;
+            width: 100%;
+            height: 0.1em;
+            background: var(--color-primary);
+            opacity: 0.3;
+        }
+
+        .hero-subtitle {
+            font-size: clamp(1rem, 2vw, 1.25rem);
+            color: var(--text-muted);
+            max-width: 600px;
+            margin-bottom: var(--space-xl);
+            animation: fadeSlideUp 0.8s var(--ease-out-expo) 0.2s forwards;
+            opacity: 0;
+        }
+
+        .hero-stats {
+            display: flex;
+            gap: var(--space-xl);
+            animation: fadeSlideUp 0.8s var(--ease-out-expo) 0.3s forwards;
+            opacity: 0;
+        }
+
+        .stat {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .stat-value {
+            font-family: var(--font-display);
+            font-size: clamp(1.5rem, 4vw, 2.5rem);
+            font-weight: 600;
+            color: var(--color-text);
+        }
+
+        .stat-label {
+            font-size: 0.75rem;
+            color: var(--text-dim);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+
+        /* Scroll indicator */
+        .scroll-hint {
+            position: absolute;
+            bottom: var(--space-xl);
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--text-dim);
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            animation: fadeSlideUp 0.8s var(--ease-out-expo) 0.5s forwards, bounce 2s ease-in-out infinite;
+            opacity: 0;
+        }
+
+        .scroll-hint::after {
+            content: '';
+            width: 1px;
+            height: 40px;
+            background: linear-gradient(to bottom, var(--color-primary), transparent);
+        }
+
+        /* Navigation */
+        .nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            padding: var(--space-md) var(--space-xl);
+            background: oklch(12% 0.02 260 / 0.8);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border-subtle);
+            z-index: 100;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-logo {
+            font-family: var(--font-display);
+            font-weight: 700;
+            font-size: 1.25rem;
+            color: var(--color-text);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .nav-logo span {
+            color: var(--color-primary);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: var(--space-lg);
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 0.875rem;
+            font-weight: 500;
+            transition: color 0.3s;
+            position: relative;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--color-primary);
+            transition: width 0.3s var(--ease-out-expo);
+        }
+
+        .nav-links a:hover {
+            color: var(--color-text);
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        /* Section styling */
+        .section {
+            position: relative;
+            padding: var(--space-2xl) var(--space-xl);
+            max-width: 1400px;
+            margin: 0 auto;
+            z-index: 1;
+        }
+
+        .section-header {
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-sm);
+            margin-bottom: var(--space-2xl);
+        }
+
+        .section-number {
+            font-family: var(--font-mono);
+            font-size: 0.875rem;
+            color: var(--color-primary);
+        }
+
+        .section-title {
+            font-family: var(--font-display);
+            font-size: clamp(1.75rem, 4vw, 3rem);
+            font-weight: 600;
+            letter-spacing: -0.02em;
+        }
+
+        /* Tutorial Grid - Asymmetric Layout */
         .tutorial-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-            gap: 30px;
-            padding: 40px 0;
+            grid-template-columns: repeat(12, 1fr);
+            gap: var(--space-lg);
         }
 
         .tutorial-card {
-            background: white;
+            background: var(--color-bg-card);
+            border: 1px solid var(--border-subtle);
             border-radius: 16px;
-            padding: 30px;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
-            transition: transform 0.3s, box-shadow 0.3s;
-        }
-
-        .tutorial-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 15px 50px rgba(0,0,0,0.15);
-        }
-
-        .card-icon {
-            font-size: 3em;
-            margin-bottom: 20px;
-        }
-
-        .tutorial-card h2 {
-            color: #667eea;
-            margin-bottom: 15px;
-            font-size: 1.5em;
-        }
-
-        .tutorial-card p {
-            color: #666;
-            margin-bottom: 20px;
-        }
-
-        .code-block {
-            background: #1e1e1e;
-            border-radius: 8px;
-            padding: 20px;
-            margin: 15px 0;
-            overflow-x: auto;
-        }
-
-        .code-block pre {
-            color: #d4d4d4;
-            font-family: 'Consolas', 'Monaco', monospace;
-            font-size: 0.9em;
-            line-height: 1.5;
-        }
-
-        .code-block .comment {
-            color: #6a9955;
-        }
-
-        .code-block .command {
-            color: #569cd6;
-        }
-
-        .tag {
-            display: inline-block;
-            background: #667eea;
-            color: white;
-            padding: 4px 12px;
-            border-radius: 20px;
-            font-size: 0.85em;
-            margin-top: 10px;
-        }
-
-        footer {
-            text-align: center;
-            padding: 40px;
-            color: white;
-            opacity: 0.8;
-        }
-
-        footer a {
-            color: white;
-            text-decoration: underline;
-        }
-
-        @media (max-width: 768px) {
-            header h1 {
-                font-size: 2em;
-            }
-
-            .tutorial-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-
-        .progress-bar {
-            background: rgba(255,255,255,0.2);
-            border-radius: 10px;
-            height: 10px;
-            margin: 20px 0;
+            padding: var(--space-lg);
+            transition: all 0.4s var(--ease-out-expo);
+            position: relative;
             overflow: hidden;
         }
 
-        .progress-fill {
-            background: white;
-            height: 100%;
-            width: 0%;
-            border-radius: 10px;
-            transition: width 0.5s;
+        .tutorial-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--color-primary), transparent);
+            opacity: 0;
+            transition: opacity 0.4s;
+        }
+
+        .tutorial-card:hover {
+            transform: translateY(-4px);
+            border-color: var(--border-hover);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .tutorial-card:hover::before {
+            opacity: 0.5;
+        }
+
+        /* Card sizes for asymmetric grid */
+        .card-large {
+            grid-column: span 7;
+        }
+
+        .card-medium {
+            grid-column: span 5;
+        }
+
+        .card-small {
+            grid-column: span 4;
+        }
+
+        .card-full {
+            grid-column: span 12;
+        }
+
+        .card-header {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            margin-bottom: var(--space-md);
+        }
+
+        .card-icon {
+            width: 48px;
+            height: 48px;
+            background: var(--color-bg-elevated);
+            border: 1px solid var(--border-subtle);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+        }
+
+        .card-tag {
+            font-family: var(--font-mono);
+            font-size: 0.7rem;
+            padding: 0.25rem 0.5rem;
+            background: var(--color-bg-elevated);
+            border: 1px solid var(--border-subtle);
+            border-radius: 4px;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .card-title {
+            font-family: var(--font-display);
+            font-size: clamp(1.25rem, 2vw, 1.5rem);
+            font-weight: 600;
+            margin-bottom: var(--space-sm);
+            letter-spacing: -0.01em;
+        }
+
+        .card-desc {
+            color: var(--text-muted);
+            font-size: 0.9375rem;
+            margin-bottom: var(--space-md);
+        }
+
+        /* Code Block Styling */
+        .code-block {
+            background: var(--color-bg);
+            border: 1px solid var(--border-subtle);
+            border-radius: 12px;
+            padding: var(--space-md);
+            font-family: var(--font-mono);
+            font-size: 0.8125rem;
+            line-height: 1.7;
+            overflow-x: auto;
+            position: relative;
+        }
+
+        .code-block::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 32px;
+            background: var(--color-bg-elevated);
+            border-bottom: 1px solid var(--border-subtle);
+            border-radius: 12px 12px 0 0;
+        }
+
+        .code-header {
+            position: relative;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin: -var(--space-md) calc(-1 * var(--space-md)) var(--space-sm);
+            padding: 0 var(--space-sm);
+            height: 32px;
+        }
+
+        .code-dots {
+            display: flex;
+            gap: 6px;
+        }
+
+        .code-dots span {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: var(--text-dim);
+        }
+
+        .code-dots span:nth-child(1) { background: var(--color-warm); }
+        .code-dots span:nth-child(2) { background: var(--color-accent); }
+        .code-dots span:nth-child(3) { background: var(--color-primary); }
+
+        .code-content {
+            color: var(--text-muted);
+        }
+
+        .code-content .comment {
+            color: var(--text-dim);
+            font-style: italic;
+        }
+
+        .code-content .command {
+            color: var(--color-primary);
+            font-weight: 500;
+        }
+
+        .code-content .arg {
+            color: var(--color-accent);
+        }
+
+        .code-content .output {
+            color: var(--text-muted);
+            opacity: 0.7;
+        }
+
+        /* Feature List */
+        .feature-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-sm);
+        }
+
+        .feature-list li {
+            display: flex;
+            align-items: flex-start;
+            gap: var(--space-sm);
+            color: var(--text-muted);
+            font-size: 0.875rem;
+        }
+
+        .feature-list li::before {
+            content: '→';
+            color: var(--color-primary);
+            font-family: var(--font-mono);
+            font-weight: 500;
+        }
+
+        /* Interactive Demo Section */
+        .demo-section {
+            background: var(--color-bg-elevated);
+            border: 1px solid var(--border-subtle);
+            border-radius: 20px;
+            padding: var(--space-xl);
+            margin-top: var(--space-2xl);
+        }
+
+        .demo-tabs {
+            display: flex;
+            gap: var(--space-xs);
+            margin-bottom: var(--space-lg);
+            border-bottom: 1px solid var(--border-subtle);
+            padding-bottom: var(--space-sm);
+        }
+
+        .demo-tab {
+            padding: 0.5rem 1rem;
+            background: transparent;
+            border: none;
+            color: var(--text-muted);
+            font-family: var(--font-mono);
+            font-size: 0.875rem;
+            cursor: pointer;
+            border-radius: 6px;
+            transition: all 0.3s;
+        }
+
+        .demo-tab:hover {
+            color: var(--color-text);
+            background: var(--color-bg-card);
+        }
+
+        .demo-tab.active {
+            color: var(--color-primary);
+            background: var(--color-bg);
+        }
+
+        /* CTA Section */
+        .cta-section {
+            text-align: center;
+            padding: var(--space-2xl) var(--space-xl);
+            position: relative;
+        }
+
+        .cta-title {
+            font-family: var(--font-display);
+            font-size: clamp(1.5rem, 4vw, 2.5rem);
+            font-weight: 600;
+            margin-bottom: var(--space-md);
+        }
+
+        .cta-desc {
+            color: var(--text-muted);
+            max-width: 500px;
+            margin: 0 auto var(--space-lg);
         }
 
         .btn {
-            display: inline-block;
-            background: #667eea;
-            color: white;
-            padding: 12px 30px;
-            border-radius: 30px;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 1rem 2rem;
+            background: var(--color-primary);
+            color: var(--color-bg);
+            font-family: var(--font-display);
+            font-weight: 600;
+            font-size: 0.9375rem;
             text-decoration: none;
-            margin-top: 15px;
-            transition: background 0.3s;
+            border-radius: 100px;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s var(--ease-out-expo);
         }
 
         .btn:hover {
-            background: #5a67d8;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px oklch(70% 0.15 195 / 0.3);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--color-text);
+            border: 1px solid var(--border-subtle);
+        }
+
+        .btn-secondary:hover {
+            background: var(--color-bg-elevated);
+            border-color: var(--border-hover);
+        }
+
+        /* Footer */
+        footer {
+            padding: var(--space-xl);
+            border-top: 1px solid var(--border-subtle);
+            text-align: center;
+            color: var(--text-dim);
+            font-size: 0.875rem;
+        }
+
+        footer a {
+            color: var(--color-primary);
+            text-decoration: none;
+        }
+
+        /* Animations */
+        @keyframes fadeSlideUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateX(-50%) translateY(0); }
+            50% { transform: translateX(-50%) translateY(8px); }
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .card-large,
+            .card-medium,
+            .card-small {
+                grid-column: span 6;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .card-large,
+            .card-medium,
+            .card-small,
+            .card-full {
+                grid-column: span 12;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            .hero-stats {
+                flex-direction: column;
+                gap: var(--space-md);
+            }
+
+            .scroll-hint {
+                display: none;
+            }
+        }
+
+        /* Scroll-triggered animations */
+        .animate-on-scroll {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s var(--ease-out-expo), transform 0.8s var(--ease-out-expo);
+        }
+
+        .animate-on-scroll.visible {
+            opacity: 1;
+            transform: translateY(0);
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <header>
-            <h1>🐧 Linux 入门教程</h1>
-            <p>从零开始掌握 Linux 命令行，成为终端高手</p>
-            <div class="progress-bar">
-                <div class="progress-fill" id="progress"></div>
-            </div>
-        </header>
+    <nav class="nav">
+        <a href="#" class="nav-logo">
+            <span>$</span> Linux Art
+        </a>
+        <ul class="nav-links">
+            <li><a href="#basics">基础</a></li>
+            <li><a href="#system">系统</a></li>
+            <li><a href="#network">网络</a></li>
+            <li><a href="#tools">工具</a></li>
+        </ul>
+    </nav>
 
-        <div class="tutorial-grid">
-            <!-- 基础命令 -->
-            <div class="tutorial-card">
-                <div class="card-icon">📁</div>
-                <h2>文件与目录操作</h2>
-                <p>掌握 Linux 中最常用的文件和目录管理命令</p>
-                <div class="code-block">
-                    <pre><span class="comment"># 查看当前目录</span>
+    <header class="hero">
+        <div class="hero-badge">
+            <span></span>
+            Command Line Mastery
+        </div>
+        <h1>
+            掌握 <span class="highlight">Linux</span><br>
+            命令行艺术
+        </h1>
+        <p class="hero-subtitle">
+            从入门到精通的完整指南。无需记忆，只需理解。每一个命令背后都是 Unix 哲学的精髓。
+        </p>
+        <div class="hero-stats">
+            <div class="stat">
+                <span class="stat-value">50+</span>
+                <span class="stat-label">核心命令</span>
+            </div>
+            <div class="stat">
+                <span class="stat-value">6</span>
+                <span class="stat-label">主题模块</span>
+            </div>
+            <div class="stat">
+                <span class="stat-value">0</span>
+                <span class="stat-label">门槛</span>
+            </div>
+        </div>
+        <div class="scroll-hint">
+            <span>Scroll</span>
+        </div>
+    </header>
+
+    <main>
+        <section class="section" id="basics">
+            <div class="section-header animate-on-scroll">
+                <span class="section-number">Module 01</span>
+                <h2 class="section-title">文件与目录</h2>
+            </div>
+
+            <div class="tutorial-grid">
+                <!-- Basic Commands -->
+                <article class="tutorial-card card-large animate-on-scroll">
+                    <div class="card-header">
+                        <div class="card-icon">📁</div>
+                        <span class="card-tag">Essential</span>
+                    </div>
+                    <h3 class="card-title">文件系统导航</h3>
+                    <p class="card-desc">Linux 文件系统是一棵倒置的树。理解路径是掌握命令行的第一步。</p>
+                    <div class="code-block">
+                        <div class="code-header">
+                            <div class="code-dots">
+                                <span></span>
+                                <span></span>
+                                <span></span>
+                            </div>
+                        </div>
+                        <div class="code-content">
+<span class="comment"># 打印当前工作目录</span>
 <span class="command">pwd</span>
+<span class="output">/home/user/projects</span>
 
-<span class="comment"># 列出文件</span>
-<span class="command">ls -la</span>
+<span class="comment"># 列出文件详情 (-l 长格式, -a 显示隐藏文件)</span>
+<span class="command">ls</span> <span class="arg">-la</span>
+<span class="output">drwxr-xr-x  5 user group 4096 Jan 15 10:30 .</span>
+<span class="output">-rw-r--r--  1 user group  220 Jan 15 09:15 .bashrc</span>
 
-<span class="comment"># 切换目录</span>
-<span class="command">cd /home/user</span>
+<span class="comment"># 切换目录 (. 当前目录, .. 上级目录, ~ 家目录)</span>
+<span class="command">cd</span> <span class="arg">~/Documents</span>
+<span class="command">cd</span> <span class="arg">..</span>
+                        </div>
+                    </div>
+                </article>
 
-<span class="comment"># 创建目录</span>
-<span class="command">mkdir myfolder</span>
+                <!-- File Operations -->
+                <article class="tutorial-card card-medium animate-on-scroll">
+                    <div class="card-header">
+                        <div class="card-icon">✏️</div>
+                        <span class="card-tag">Basic</span>
+                    </div>
+                    <h3 class="card-title">文件操作</h3>
+                    <p class="card-desc">创建、复制、移动、删除——CRUD 的 shell 版本。</p>
+                    <div class="code-block">
+                        <div class="code-header">
+                            <div class="code-dots">
+                                <span></span>
+                                <span></span>
+                                <span></span>
+                            </div>
+                        </div>
+                        <div class="code-content">
+<span class="comment"># 创建空文件或更新时间戳</span>
+<span class="command">touch</span> <span class="arg">file.txt</span>
 
-<span class="comment"># 创建文件</span>
-<span class="command">touch file.txt</span></pre>
-                </div>
-                <span class="tag">基础</span>
+<span class="comment"># 创建目录 (-p 递归创建)</span>
+<span class="command">mkdir</span> <span class="arg">-p projects/web/app</span>
+
+<span class="comment"># 复制 (-r 递归复制目录)</span>
+<span class="command">cp</span> <span class="arg">-r source/ dest/</span>
+
+<span class="comment"># 移动或重命名</span>
+<span class="command">mv</span> <span class="arg">old.txt new.txt</span>
+
+<span class="comment"># 删除 (-r 递归, -f 强制)</span>
+<span class="command">rm</span> <span class="arg">-rf folder/</span>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Path Tips -->
+                <article class="tutorial-card card-small animate-on-scroll">
+                    <div class="card-header">
+                        <div class="card-icon">💡</div>
+                        <span class="card-tag">Tips</span>
+                    </div>
+                    <h3 class="card-title">路径技巧</h3>
+                    <p class="card-desc">Tab 自动补全是你的好朋友。</p>
+                    <ul class="feature-list">
+                        <li><strong>Tab</strong> — 自动补全路径/命令</li>
+                        <li><strong>Tab×2</strong> — 列出所有可能</li>
+                        <li><strong>Ctrl+C</strong> — 终止当前命令</li>
+                        <li><strong>Ctrl+L</strong> — 清屏</li>
+                        <li><strong>↑/↓</strong> — 历史命令</li>
+                    </ul>
+                </article>
+            </div>
+        </section>
+
+        <section class="section" id="system">
+            <div class="section-header animate-on-scroll">
+                <span class="section-number">Module 02</span>
+                <h2 class="section-title">权限与进程</h2>
             </div>
 
-            <!-- 权限管理 -->
-            <div class="tutorial-card">
-                <div class="card-icon">🔐</div>
-                <h2>文件权限管理</h2>
-                <p>理解和修改 Linux 文件权限系统</p>
-                <div class="code-block">
-                    <pre><span class="comment"># 查看文件权限</span>
-<span class="command">ls -l file.txt</span>
+            <div class="tutorial-grid">
+                <!-- Permissions -->
+                <article class="tutorial-card card-medium animate-on-scroll">
+                    <div class="card-header">
+                        <div class="card-icon">🔐</div>
+                        <span class="card-tag">Security</span>
+                    </div>
+                    <h3 class="card-title">权限管理</h3>
+                    <p class="card-desc">Unix 安全模型的核心：读(4)、写(2)、执行(1)。</p>
+                    <div class="code-block">
+                        <div class="code-header">
+                            <div class="code-dots">
+                                <span></span>
+                                <span></span>
+                                <span></span>
+                            </div>
+                        </div>
+                        <div class="code-content">
+<span class="comment"># 查看权限</span>
+<span class="command">ls</span> <span class="arg">-l</span>
+<span class="output">-rwxr-xr-x 1 user group script.sh</span>
 
-<span class="comment"># 修改权限 (r=4, w=2, x=1)</span>
-<span class="command">chmod 755 script.sh</span>
+<span class="comment"># 数字模式: 755 = rwxr-xr-x</span>
+<span class="command">chmod</span> <span class="arg">755 script.sh</span>
 
-<span class="comment"># 添加可执行权限</span>
-<span class="command">chmod +x script.sh</span>
+<span class="comment"># 符号模式</span>
+<span class="command">chmod</span> <span class="arg">u+x script.sh</span>
+<span class="command">chmod</span> <span class="arg">go-w file.txt</span>
 
 <span class="comment"># 修改所有者</span>
-<span class="command">chown user:group file.txt</span></pre>
-                </div>
-                <span class="tag">进阶</span>
-            </div>
+<span class="command">sudo chown</span> <span class="arg">user:group file</span>
+                        </div>
+                    </div>
+                </article>
 
-            <!-- 进程管理 -->
-            <div class="tutorial-card">
-                <div class="card-icon">⚙️</div>
-                <h2>进程管理</h2>
-                <p>查看和管理系统运行的进程</p>
-                <div class="code-block">
-                    <pre><span class="comment"># 查看运行中的进程</span>
-<span class="command">ps aux</span>
+                <!-- Process Management -->
+                <article class="tutorial-card card-large animate-on-scroll">
+                    <div class="card-header">
+                        <div class="card-icon">⚙️</div>
+                        <span class="card-tag">System</span>
+                    </div>
+                    <h3 class="card-title">进程控制</h3>
+                    <p class="card-desc">每个程序都是一个进程。学会查看、监控和终止它们。</p>
+                    <div class="code-block">
+                        <div class="code-header">
+                            <div class="code-dots">
+                                <span></span>
+                                <span></span>
+                                <span></span>
+                            </div>
+                        </div>
+                        <div class="code-content">
+<span class="comment"># 查看进程 (BSD风格)</span>
+<span class="command">ps</span> <span class="arg">aux</span>
+<span class="output">USER       PID %CPU %MEM    VSZ   RSS TTY      STAT START   TIME COMMAND</span>
+<span class="output">root         1  0.0  0.1 169364  5904 ?        Ss   Jan14   0:03 /sbin/init</span>
 
-<span class="comment"># 实时进程监控</span>
+<span class="comment"># 实时进程监控 (q退出)</span>
 <span class="command">top</span>
-<span class="command">htop</span>
+<span class="command">htop</span>  <span class="comment"># 更友好的界面</span>
 
 <span class="comment"># 查找进程</span>
-<span class="command">pgrep process_name</span>
+<span class="command">pgrep</span> <span class="arg">firefox</span>
+<span class="command">ps aux | grep</span> <span class="arg">nginx</span>
 
-<span class="comment"># 结束进程</span>
-<span class="command">kill PID</span>
-<span class="command">killall process_name</span></pre>
-                </div>
-                <span class="tag">系统</span>
+<span class="comment"># 终止进程</span>
+<span class="command">kill</span> <span class="arg">-9 PID</span>
+<span class="command">killall</span> <span class="arg">firefox</span>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Signals -->
+                <article class="tutorial-card card-small animate-on-scroll">
+                    <div class="card-header">
+                        <div class="card-icon">📡</div>
+                        <span class="card-tag">Advanced</span>
+                    </div>
+                    <h3 class="card-title">信号机制</h3>
+                    <p class="card-desc">进程间通信的基础。</p>
+                    <ul class="feature-list">
+                        <li><strong>SIGINT (2)</strong> — Ctrl+C 中断</li>
+                        <li><strong>SIGTERM (15)</strong> — 优雅终止</li>
+                        <li><strong>SIGKILL (9)</strong> — 强制杀死</li>
+                        <li><strong>SIGHUP (1)</strong> — 终端断开</li>
+                    </ul>
+                </article>
+            </div>
+        </section>
+
+        <section class="section" id="network">
+            <div class="section-header animate-on-scroll">
+                <span class="section-number">Module 03</span>
+                <h2 class="section-title">网络诊断</h2>
             </div>
 
-            <!-- 网络工具 -->
-            <div class="tutorial-card">
-                <div class="card-icon">🌐</div>
-                <h2>网络命令</h2>
-                <p>网络诊断和连接管理工具</p>
-                <div class="code-block">
-                    <pre><span class="comment"># 查看IP地址</span>
-<span class="command">ip addr</span>
-<span class="command">ifconfig</span>
+            <div class="tutorial-grid">
+                <article class="tutorial-card card-full animate-on-scroll">
+                    <div class="card-header">
+                        <div class="card-icon">🌐</div>
+                        <span class="card-tag">Network</span>
+                    </div>
+                    <h3 class="card-title">网络工具箱</h3>
+                    <p class="card-desc">网络问题的诊断始于理解连接。从 IP 地址到数据包，掌握网络的每一层。</p>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: var(--space-md); margin-top: var(--space-md);">
+                        <div class="code-block">
+                            <div class="code-header">
+                                <div class="code-dots">
+                                    <span></span>
+                                    <span></span>
+                                    <span></span>
+                                </div>
+                            </div>
+                            <div class="code-content">
+<span class="comment"># IP 地址和接口</span>
+<span class="command">ip</span> <span class="arg">addr</span>
+<span class="command">ip</span> <span class="arg">-br -c addr</span> <span class="comment"># 简洁彩色输出</span>
 
-<span class="comment"># 测试网络连通</span>
-<span class="command">ping google.com</span>
+<span class="comment"># 路由表</span>
+<span class="command">ip</span> <span class="arg">route</span>
+                            </div>
+                        </div>
+                        <div class="code-block">
+                            <div class="code-header">
+                                <div class="code-dots">
+                                    <span></span>
+                                    <span></span>
+                                    <span></span>
+                                </div>
+                            </div>
+                            <div class="code-content">
+<span class="comment"># 连通性测试</span>
+<span class="command">ping</span> <span class="arg">-c 4 google.com</span>
+<span class="command">traceroute</span> <span class="arg">google.com</span>
 
-<span class="comment"># 查看端口连接</span>
-<span class="command">netstat -tuln</span>
-<span class="command">ss -tuln</span>
+<span class="comment"># DNS 查询</span>
+<span class="command">dig</span> <span class="arg">google.com</span>
+<span class="command">nslookup</span> <span class="arg">google.com</span>
+                            </div>
+                        </div>
+                        <div class="code-block">
+                            <div class="code-header">
+                                <div class="code-dots">
+                                    <span></span>
+                                    <span></span>
+                                    <span></span>
+                                </div>
+                            </div>
+                            <div class="code-content">
+<span class="comment"># 端口和连接</span>
+<span class="command">ss</span> <span class="arg">-tuln</span> <span class="comment"># 查看监听端口</span>
+<span class="command">netstat</span> <span class="arg">-tuln</span>
 
-<span class="comment"># 下载文件</span>
-<span class="command">curl -O url</span>
-<span class="command">wget url</span></pre>
-                </div>
-                <span class="tag">网络</span>
+<span class="comment"># 下载工具</span>
+<span class="command">curl</span> <span class="arg">-O url</span>
+<span class="command">wget</span> <span class="arg">url</span>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+            </div>
+        </section>
+
+        <section class="section" id="tools">
+            <div class="section-header animate-on-scroll">
+                <span class="section-number">Module 04</span>
+                <h2 class="section-title">文本与工具</h2>
             </div>
 
-            <!-- 文本处理 -->
-            <div class="tutorial-card">
-                <div class="card-icon">📝</div>
-                <h2>文本处理</h2>
-                <p>强大的文本处理命令行工具</p>
-                <div class="code-block">
-                    <pre><span class="comment"># 搜索文本</span>
-<span class="command">grep "pattern" file.txt</span>
+            <div class="tutorial-grid">
+                <!-- Text Processing -->
+                <article class="tutorial-card card-large animate-on-scroll">
+                    <div class="card-header">
+                        <div class="card-icon">📝</div>
+                        <span class="card-tag">Power Tools</span>
+                    </div>
+                    <h3 class="card-title">文本处理三剑客</h3>
+                    <p class="card-desc">grep 搜索、sed 流编辑、awk 文本分析——Unix 哲学的完美体现。</p>
+                    <div class="code-block">
+                        <div class="code-header">
+                            <div class="code-dots">
+                                <span></span>
+                                <span></span>
+                                <span></span>
+                            </div>
+                        </div>
+                        <div class="code-content">
+<span class="comment"># grep: 文本搜索</span>
+<span class="command">grep</span> <span class="arg">"error" log.txt</span>           <span class="comment"># 基础搜索</span>
+<span class="command">grep</span> <span class="arg">-i "warning" file</span>        <span class="comment"># 忽略大小写</span>
+<span class="command">grep</span> <span class="arg">-r "pattern" /var/log</span>   <span class="comment"># 递归搜索</span>
+<span class="command">grep</span> <span class="arg">-E "error|warning" log</span>   <span class="comment"># 正则表达式</span>
 
-<span class="comment"># 流编辑器</span>
-<span class="command">sed 's/old/new/g' file.txt</span>
+<span class="comment"># sed: 流编辑器</span>
+<span class="command">sed</span> <span class="arg">'s/old/new/g' file.txt</span>    <span class="comment"># 全局替换</span>
+<span class="command">sed</span> <span class="arg">-i '1d' file</span>               <span class="comment"># 删除第一行</span>
+<span class="command">sed</span> <span class="arg">-n '5,10p' file</span>          <span class="comment"># 打印 5-10 行</span>
 
-<span class="comment"># 文本处理</span>
-<span class="command">awk '{print $1}' file.txt</span>
+<span class="comment"># awk: 文本分析</span>
+<span class="command">awk</span> <span class="arg">'{print $1}' file</span>         <span class="comment"># 打印第一列</span>
+<span class="command">awk</span> <span class="arg">-F: '{print $NF}' /etc/passwd</span>
+<span class="command">awk</span> <span class="arg">'NR>1 {sum+=$3} END {print sum}' data</span>
+                        </div>
+                    </div>
+                </article>
 
-<span class="comment"># 管道组合</span>
-<span class="command">cat file.txt | grep "error" | wc -l</span></pre>
-                </div>
-                <span class="tag">工具</span>
+                <!-- Package Managers -->
+                <article class="tutorial-card card-medium animate-on-scroll">
+                    <div class="card-header">
+                        <div class="card-icon">📦</div>
+                        <span class="card-tag">Package</span>
+                    </div>
+                    <h3 class="card-title">包管理器</h3>
+                    <p class="card-desc">不同发行版的软件管理。</p>
+                    <div class="code-block">
+                        <div class="code-header">
+                            <div class="code-dots">
+                                <span></span>
+                                <span></span>
+                                <span></span>
+                            </div>
+                        </div>
+                        <div class="code-content">
+<span class="comment"># Debian/Ubuntu</span>
+<span class="command">apt</span> <span class="arg">update</span>
+<span class="command">apt</span> <span class="arg">install nginx</span>
+<span class="command">apt</span> <span class="arg">remove nginx</span>
+
+<span class="comment"># CentOS/RHEL/Fedora</span>
+<span class="command">dnf</span> <span class="arg">install nginx</span>
+
+<span class="comment"># Arch Linux</span>
+<span class="command">pacman</span> <span class="arg">-S nginx</span>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Pipes -->
+                <article class="tutorial-card card-small animate-on-scroll">
+                    <div class="card-header">
+                        <div class="card-icon">🔗</div>
+                        <span class="card-tag">Unix</span>
+                    </div>
+                    <h3 class="card-title">管道艺术</h3>
+                    <p class="card-desc">小工具组合的强大力量。</p>
+                    <div class="code-block">
+                        <div class="code-header">
+                            <div class="code-dots">
+                                <span></span>
+                                <span></span>
+                                <span></span>
+                            </div>
+                        </div>
+                        <div class="code-content">
+<span class="command">cat</span> <span class="arg">log.txt |</span>
+<span class="command">grep</span> <span class="arg">"ERROR" |</span>
+<span class="command">wc</span> <span class="arg">-l</span>
+                        </div>
+                    </div>
+                </article>
             </div>
+        </section>
 
-            <!-- 包管理 -->
-            <div class="tutorial-card">
-                <div class="card-icon">📦</div>
-                <h2>包管理器</h2>
-                <p>不同发行版的软件包管理命令</p>
-                <div class="code-block">
-                    <pre><span class="comment"># Debian/Ubuntu (apt)</span>
-<span class="command">apt update</span>
-<span class="command">apt install package</span>
-<span class="command">apt remove package</span>
-
-<span class="comment"># CentOS/RHEL (yum/dnf)</span>
-<span class="command">dnf install package</span>
-<span class="command">yum install package</span>
-
-<span class="comment"># Arch (pacman)</span>
-<span class="command">pacman -S package</span></pre>
-                </div>
-                <span class="tag">系统管理</span>
+        <section class="cta-section">
+            <h2 class="cta-title animate-on-scroll">开始你的 Linux 之旅</h2>
+            <p class="cta-desc animate-on-scroll">最好的学习方式就是实践。打开终端，输入第一个命令。</p>
+            <div style="display: flex; gap: var(--space-md); justify-content: center; flex-wrap: wrap;" class="animate-on-scroll">
+                <a href="https://github.com/susurrune/linux-tutorial" class="btn">
+                    查看源码 →
+                </a>
+                <button class="btn btn-secondary" onclick="toggleTheme()">
+                    切换主题
+                </button>
             </div>
-        </div>
+        </section>
+    </main>
 
-        <div style="text-align: center; padding: 40px;">
-            <a href="#" class="btn" onclick="scrollToTop()">开始学习</a>
-        </div>
-
-        <footer>
-            <p>Made with ❤️ | <a href="https://github.com/susurrune">GitHub</a></p>
-            <p>Licensed under MIT License</p>
-        </footer>
-    </div>
+    <footer>
+        <p>Made with precision by <a href="https://github.com/susurrune">susurrune</a></p>
+        <p style="margin-top: 0.5rem; opacity: 0.7;">Licensed under MIT • Design powered by Web Design Engineer Skill</p>
+    </footer>
 
     <script>
-        // 进度条动画
-        window.onload = function() {
-            setTimeout(() => {
-                document.getElementById('progress').style.width = '30%';
-            }, 300);
+        // Scroll-triggered animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
         };
 
-        function scrollToTop() {
-            window.scrollTo({ top: 0, behavior: 'smooth' });
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.animate-on-scroll').forEach(el => {
+            observer.observe(el);
+        });
+
+        // Smooth scroll for navigation
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Theme toggle
+        let darkTheme = true;
+        function toggleTheme() {
+            const root = document.documentElement;
+            darkTheme = !darkTheme;
+
+            if (!darkTheme) {
+                // Light theme colors
+                root.style.setProperty('--color-bg', 'oklch(98% 0.01 260)');
+                root.style.setProperty('--color-bg-elevated', 'oklch(95% 0.02 260)');
+                root.style.setProperty('--color-bg-card', 'oklch(100% 0 0)');
+                root.style.setProperty('--color-text', 'oklch(20% 0.02 260)');
+                root.style.setProperty('--text-muted', 'oklch(45% 0.03 260)');
+                root.style.setProperty('--text-dim', 'oklch(60% 0.04 260)');
+                root.style.setProperty('--border-subtle', 'oklch(85% 0.02 260)');
+                root.style.setProperty('--border-hover', 'oklch(75% 0.03 260)');
+            } else {
+                // Dark theme (reset to default)
+                root.style.removeProperty('--color-bg');
+                root.style.removeProperty('--color-bg-elevated');
+                root.style.removeProperty('--color-bg-card');
+                root.style.removeProperty('--color-text');
+                root.style.removeProperty('--text-muted');
+                root.style.removeProperty('--text-dim');
+                root.style.removeProperty('--border-subtle');
+                root.style.removeProperty('--border-hover');
+            }
         }
 
-        // 代码块复制功能
+        // Copy code functionality
         document.querySelectorAll('.code-block').forEach(block => {
+            block.style.cursor = 'pointer';
             block.addEventListener('click', function() {
-                const code = this.querySelector('pre').innerText;
+                const code = this.querySelector('.code-content').innerText;
                 navigator.clipboard.writeText(code).then(() => {
-                    showToast('代码已复制到剪贴板！');
+                    showToast('代码已复制');
                 });
             });
-            block.style.cursor = 'pointer';
-            block.title = '点击复制';
         });
 
         function showToast(message) {
             const toast = document.createElement('div');
             toast.style.cssText = `
                 position: fixed;
-                bottom: 20px;
-                right: 20px;
-                background: #667eea;
-                color: white;
-                padding: 15px 25px;
-                border-radius: 8px;
-                box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+                bottom: 2rem;
+                left: 50%;
+                transform: translateX(-50%) translateY(100px);
+                background: var(--color-primary);
+                color: var(--color-bg);
+                padding: 0.75rem 1.5rem;
+                border-radius: 100px;
+                font-family: var(--font-mono);
+                font-size: 0.875rem;
+                font-weight: 500;
                 z-index: 1000;
-                animation: slideIn 0.3s ease;
+                opacity: 0;
+                transition: all 0.4s var(--ease-out-expo);
             `;
             toast.textContent = message;
             document.body.appendChild(toast);
-            setTimeout(() => toast.remove(), 3000);
+
+            requestAnimationFrame(() => {
+                toast.style.transform = 'translateX(-50%) translateY(0)';
+                toast.style.opacity = '1';
+            });
+
+            setTimeout(() => {
+                toast.style.transform = 'translateX(-50%) translateY(100px)';
+                toast.style.opacity = '0';
+                setTimeout(() => toast.remove(), 400);
+            }, 2000);
         }
     </script>
 </body>
