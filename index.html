@@ -4,8 +4,53 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Linux 命令行艺术 | The Art of Command Line</title>
+
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="交互式 Linux 命令行教程，从入门到精通。涵盖文件操作、权限管理、进程控制、网络诊断、文本处理等核心主题。适合初学者和进阶用户。">
+    <meta name="keywords" content="Linux, 命令行, 教程, CLI, Shell, Unix, 终端, Terminal, Linux命令">
+    <meta name="author" content="susurrune">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://susurrune.github.io/linux-tutorial/">
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="Linux 命令行艺术 | The Art of Command Line">
+    <meta property="og:description" content="交互式 Linux 命令行入门教程 - 从入门到精通">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://susurrune.github.io/linux-tutorial/">
+    <meta property="og:image" content="https://susurrune.github.io/linux-tutorial/og-image.png">
+    <meta property="og:locale" content="zh_CN">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Linux 命令行艺术">
+    <meta name="twitter:description" content="交互式 Linux 命令行入门教程">
+    <meta name="twitter:image" content="https://susurrune.github.io/linux-tutorial/og-image.png">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🐧</text></svg>">
+
+    <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <!-- Structured Data -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "TechArticle",
+        "headline": "Linux 命令行艺术 - 交互式入门教程",
+        "description": "交互式 Linux 命令行教程，从入门到精通。涵盖文件操作、权限管理、进程控制、网络诊断、文本处理等核心主题。",
+        "author": {
+            "@type": "Person",
+            "name": "susurrune",
+            "url": "https://github.com/susurrune"
+        },
+        "datePublished": "2026-05-09",
+        "dateModified": "2026-05-09",
+        "inLanguage": "zh-CN",
+        "keywords": ["Linux", "命令行", "CLI", "Shell", "Unix", "终端"]
+    }
+    </script>
     <style>
         :root {
             /* oklch Color System - Perceptually uniform */
@@ -20,7 +65,7 @@
 
             --color-text: oklch(95% 0.01 260);
             --text-muted: oklch(70% 0.02 260);
-            --text-dim: oklch(50% 0.03 260);
+            --text-dim: oklch(60% 0.02 260);
 
             --border-subtle: oklch(30% 0.04 260);
             --border-hover: oklch(40% 0.06 260);
@@ -840,6 +885,60 @@
             .code-content {
                 white-space: pre;
                 word-wrap: normal;
+                counter-reset: line;
+            }
+
+            /* 代码行号 */
+            .code-content .line {
+                display: block;
+                counter-increment: line;
+                padding-left: 2.5em;
+                position: relative;
+            }
+
+            .code-content .line::before {
+                content: counter(line);
+                position: absolute;
+                left: 0;
+                width: 2em;
+                color: var(--text-dim);
+                text-align: right;
+                font-size: 0.75em;
+                opacity: 0.6;
+            }
+
+            /* 代码块横向滚动优化 */
+            .code-block {
+                max-width: 100%;
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+                scrollbar-width: thin;
+                scrollbar-color: var(--border-hover) transparent;
+            }
+
+            .code-block::-webkit-scrollbar {
+                height: 6px;
+            }
+
+            .code-block::-webkit-scrollbar-track {
+                background: transparent;
+            }
+
+            .code-block::-webkit-scrollbar-thumb {
+                background: var(--border-hover);
+                border-radius: 3px;
+            }
+
+            /* 触摸友好的代码块 */
+            @media (hover: none) and (pointer: coarse) {
+                .code-block {
+                    cursor: grab;
+                    user-select: none;
+                }
+
+                .code-block:active {
+                    cursor: grabbing;
+                }
             }
 
             /* 特性列表优化 */
@@ -1041,6 +1140,18 @@
             }
         }
 
+        /* 滚动进度条 */
+        .scroll-progress {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 0%;
+            height: 2px;
+            background: linear-gradient(90deg, var(--color-primary), var(--color-accent));
+            z-index: 1001;
+            transition: width 0.1s linear;
+        }
+
         /* Scroll-triggered animations */
         .animate-on-scroll {
             opacity: 0;
@@ -1055,6 +1166,7 @@
     </style>
 </head>
 <body>
+    <div class="scroll-progress" id="scrollProgress"></div>
     <nav class="nav">
         <a href="#" class="nav-logo">
             <span>$</span> Linux Art
@@ -1487,6 +1599,17 @@
     </footer>
 
     <script>
+        // Scroll progress bar
+        const scrollProgress = document.getElementById('scrollProgress');
+        if (scrollProgress) {
+            window.addEventListener('scroll', () => {
+                const scrollTop = window.scrollY;
+                const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+                const scrollPercent = (scrollTop / docHeight) * 100;
+                scrollProgress.style.width = scrollPercent + '%';
+            });
+        }
+
         // Scroll-triggered animations
         const observerOptions = {
             threshold: 0.1,
@@ -1596,8 +1719,27 @@
                 const code = this.querySelector('.code-content').innerText;
                 navigator.clipboard.writeText(code).then(() => {
                     showToast('代码已复制');
+                    // Haptic feedback on mobile
+                    if (navigator.vibrate && window.matchMedia('(pointer: coarse)').matches) {
+                        navigator.vibrate(50);
+                    }
                 });
             });
+        });
+
+        // Keyboard shortcuts
+        document.addEventListener('keydown', (e) => {
+            // ESC to close mobile menu
+            if (e.key === 'Escape' && navLinks && navLinks.classList.contains('active')) {
+                menuBtn.classList.remove('active');
+                navLinks.classList.remove('active');
+                document.body.style.overflow = '';
+            }
+            // Ctrl/Cmd + K to focus search (if we add search later)
+            if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
+                e.preventDefault();
+                // Future: focus search input
+            }
         });
 
         function showToast(message) {
