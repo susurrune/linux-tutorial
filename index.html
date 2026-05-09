@@ -3,6 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#0d1117" media="(prefers-color-scheme: dark)">
+    <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
     <title>Linux 命令行完全指南 | The Complete Linux Command Line</title>
 
     <!-- SEO Meta Tags -->
@@ -28,6 +30,9 @@
 
     <!-- Favicon -->
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🐧</text></svg>">
+
+    <!-- PWA Manifest -->
+    <link rel="manifest" href="manifest.json">
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -261,6 +266,27 @@
             letter-spacing: 0.1em;
             animation: fadeSlideUp 0.8s var(--ease-out-expo) 0.5s forwards, bounce 2s ease-in-out infinite;
             opacity: 0;
+        }
+
+        /* Skip link for accessibility */
+        .skip-link {
+            position: absolute;
+            top: -100%;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--color-primary);
+            color: var(--color-bg);
+            padding: 0.75rem 1.5rem;
+            border-radius: 0 0 8px 8px;
+            font-weight: 500;
+            text-decoration: none;
+            z-index: 10000;
+            transition: top 0.3s;
+        }
+
+        .skip-link:focus {
+            top: 0;
+            outline: none;
         }
 
         /* Navigation */
@@ -1021,6 +1047,7 @@
             opacity: 0;
             transform: translateY(30px);
             transition: opacity 0.6s var(--ease-out-expo), transform 0.6s var(--ease-out-expo);
+            will-change: transform, opacity;
         }
 
         .animate-on-scroll.visible {
@@ -1311,6 +1338,64 @@
                 transition-duration: 0.01ms !important;
             }
         }
+
+        /* Print styles */
+        @media print {
+            .nav, .toc-sidebar, .back-to-top, .search-btn, .nav-menu-btn, .scroll-progress, .menu-overlay {
+                display: none !important;
+            }
+
+            .main-layout {
+                margin-left: 0;
+                max-width: 100%;
+            }
+
+            .content-area {
+                margin-left: 0;
+                padding: 20px;
+                max-width: 100%;
+            }
+
+            .command-card {
+                break-inside: avoid;
+                page-break-inside: avoid;
+                border: 1px solid #ccc;
+            }
+
+            .code-block {
+                background: #f5f5f5 !important;
+                border: 1px solid #ddd;
+                color: #000 !important;
+            }
+
+            body {
+                background: #fff !important;
+                color: #000 !important;
+            }
+
+            a {
+                text-decoration: underline;
+                color: #000 !important;
+            }
+
+            .hero {
+                min-height: auto;
+                padding: 40px 20px;
+            }
+
+            .hero-badge::before {
+                display: none;
+            }
+
+            .scroll-hint {
+                display: none;
+            }
+
+            footer {
+                margin-left: 0;
+                border-top: 1px solid #ccc;
+            }
+        }
     </style>
 </head>
 <body>
@@ -1344,24 +1429,28 @@
     </aside>
 
     <!-- Search -->
-    <div class="search-modal" id="searchModal">
-        <input type="text" class="search-box" id="searchBox" placeholder="搜索命令或概念...">
-        <div class="search-results" id="searchResults"></div>
+    <div class="search-modal" id="searchModal" role="dialog" aria-modal="true" aria-label="搜索命令" aria-hidden="true">
+        <input type="text" class="search-box" id="searchBox" placeholder="搜索命令或概念..." aria-label="搜索输入" autocomplete="off">
+        <div class="search-results" id="searchResults" role="region" aria-live="polite" aria-label="搜索结果"></div>
+        <div class="search-hint" aria-hidden="true">按 ESC 关闭</div>
     </div>
 
     <!-- Back to top -->
-    <button class="back-to-top" id="backToTop">↑</button>
+    <button class="back-to-top" id="backToTop" aria-label="返回顶部" title="返回顶部">↑</button>
+
+    <!-- Skip to content -->
+    <a href="#main-content" class="skip-link">跳转到主要内容</a>
 
     <!-- Navigation -->
-    <nav class="nav">
-        <a href="#" class="nav-logo"><span>$</span> Linux Guide</a>
+    <nav class="nav" role="navigation" aria-label="主导航">
+        <a href="#" class="nav-logo" aria-label="Linux Guide 首页"><span>$</span> Linux Guide</a>
         <div style="display: flex; align-items: center; gap: 12px;">
-            <button class="search-btn" id="searchBtnNav" aria-label="搜索"><svg class="icon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></button>
-            <button class="nav-menu-btn" id="menuBtn" aria-label="菜单">
+            <button class="search-btn" id="searchBtnNav" aria-label="打开搜索" title="搜索 (Ctrl+K)"><svg class="icon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></button>
+            <button class="nav-menu-btn" id="menuBtn" aria-label="打开菜单" aria-expanded="false" aria-controls="navLinks">
                 <span></span><span></span><span></span>
             </button>
         </div>
-        <ul class="nav-links" id="navLinks">
+        <ul class="nav-links" id="navLinks" role="menubar" aria-hidden="true">
             <li><a href="#intro"><svg class="icon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"/><path d="M12 15l-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 5.06-2.05 7.03-1.07 1.62-2.54 3.03-3.95 4.02z"/><path d="M9 12H4s.55-3.03 2.13-4.67C7.63 5.7 10.5 5.5 10.5 5.5"/><path d="M12 15v5s3.03-.55 4.67-2.13C18.3 15.37 18.5 12.5 18.5 12.5"/></svg> 入门指南</a></li>
             <li><a href="#basics"><svg class="icon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg> 文件操作</a></li>
             <li><a href="#system"><svg class="icon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg> 权限进程</a></li>
@@ -1394,7 +1483,7 @@
 
     <!-- Main Content -->
     <div class="main-layout">
-        <main class="content-area">
+        <main class="content-area" id="main-content" role="main">
 
             <!-- Module 0: Introduction -->
             <section class="section" id="intro">
@@ -3042,14 +3131,38 @@
     </footer>
 
     <script>
+        // Unified scroll handler for better performance
+        let ticking = false;
+        function handleScroll() {
+            if (!ticking) {
+                window.requestAnimationFrame(() => {
+                    const scrollTop = window.scrollY;
+                    const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+
+                    // Update progress bar
+                    if (scrollProgress) {
+                        const scrollPercent = (scrollTop / docHeight) * 100;
+                        scrollProgress.style.width = scrollPercent + '%';
+                    }
+
+                    // Update back-to-top visibility
+                    if (backToTop) {
+                        if (scrollTop > 500) {
+                            backToTop.classList.add('visible');
+                        } else {
+                            backToTop.classList.remove('visible');
+                        }
+                    }
+
+                    ticking = false;
+                });
+                ticking = true;
+            }
+        }
+
         // Scroll progress bar
         const scrollProgress = document.getElementById('scrollProgress');
-        window.addEventListener('scroll', () => {
-            const scrollTop = window.scrollY;
-            const docHeight = document.documentElement.scrollHeight - window.innerHeight;
-            const scrollPercent = (scrollTop / docHeight) * 100;
-            scrollProgress.style.width = scrollPercent + '%';
-        });
+        window.addEventListener('scroll', handleScroll, { passive: true });
 
         // Scroll animations
         const observer = new IntersectionObserver((entries) => {
@@ -3068,10 +3181,13 @@
         const menuOverlay = document.getElementById('menuOverlay');
 
         function toggleMenu() {
+            const isOpen = !navLinks.classList.contains('active');
             menuBtn.classList.toggle('active');
             navLinks.classList.toggle('active');
             menuOverlay?.classList.toggle('active');
-            document.body.style.overflow = navLinks.classList.contains('active') ? 'hidden' : '';
+            document.body.style.overflow = isOpen ? 'hidden' : '';
+            menuBtn.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+            navLinks.setAttribute('aria-hidden', isOpen ? 'false' : 'true');
         }
 
         function closeMenu() {
@@ -3079,6 +3195,8 @@
             navLinks.classList.remove('active');
             menuOverlay?.classList.remove('active');
             document.body.style.overflow = '';
+            menuBtn.setAttribute('aria-expanded', 'false');
+            navLinks.setAttribute('aria-hidden', 'true');
         }
 
         if (menuBtn && navLinks) {
@@ -3118,15 +3236,8 @@
 
         // Back to top
         const backToTop = document.getElementById('backToTop');
-        window.addEventListener('scroll', () => {
-            if (window.scrollY > 500) {
-                backToTop.classList.add('visible');
-            } else {
-                backToTop.classList.remove('visible');
-            }
-        });
 
-        backToTop.addEventListener('click', () => {
+        backToTop?.addEventListener('click', () => {
             window.scrollTo({ top: 0, behavior: 'smooth' });
         });
 
@@ -3160,6 +3271,7 @@
 
         function openSearch() {
             searchModal.classList.add('active');
+            searchModal.setAttribute('aria-hidden', 'false');
             searchBox.focus();
             // Close mobile menu if open
             if (typeof closeMenu === 'function') closeMenu();
@@ -3167,6 +3279,7 @@
 
         function closeSearch() {
             searchModal.classList.remove('active');
+            searchModal.setAttribute('aria-hidden', 'true');
             if (searchResults) searchResults.innerHTML = '';
         }
 
