@@ -3,18 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Linux 命令行艺术 | The Art of Command Line</title>
+    <title>Linux 命令行完全指南 | The Complete Linux Command Line</title>
 
     <!-- SEO Meta Tags -->
-    <meta name="description" content="交互式 Linux 命令行教程，从入门到精通。涵盖文件操作、权限管理、进程控制、网络诊断、文本处理等核心主题。适合初学者和进阶用户。">
-    <meta name="keywords" content="Linux, 命令行, 教程, CLI, Shell, Unix, 终端, Terminal, Linux命令">
+    <meta name="description" content="Linux 命令行完全指南——从入门到精通的深度教程。涵盖文件操作、权限管理、进程控制、网络诊断、Shell脚本、正则表达式等核心主题。适合初学者和进阶用户。">
+    <meta name="keywords" content="Linux, 命令行, 教程, CLI, Shell, Unix, 终端, Terminal, Linux命令, Bash, Zsh, 脚本编程">
     <meta name="author" content="susurrune">
     <meta name="robots" content="index, follow">
     <link rel="canonical" href="https://susurrune.github.io/linux-tutorial/">
 
     <!-- Open Graph -->
-    <meta property="og:title" content="Linux 命令行艺术 | The Art of Command Line">
-    <meta property="og:description" content="交互式 Linux 命令行入门教程 - 从入门到精通">
+    <meta property="og:title" content="Linux 命令行完全指南 | The Complete Linux Command Line">
+    <meta property="og:description" content="Linux 命令行深度教程 - 从入门到精通">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://susurrune.github.io/linux-tutorial/">
     <meta property="og:image" content="https://susurrune.github.io/linux-tutorial/og-image.png">
@@ -22,8 +22,8 @@
 
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Linux 命令行艺术">
-    <meta name="twitter:description" content="交互式 Linux 命令行入门教程">
+    <meta name="twitter:title" content="Linux 命令行完全指南">
+    <meta name="twitter:description" content="Linux 命令行深度教程">
     <meta name="twitter:image" content="https://susurrune.github.io/linux-tutorial/og-image.png">
 
     <!-- Favicon -->
@@ -32,14 +32,15 @@
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 
     <!-- Structured Data -->
     <script type="application/ld+json">
     {
         "@context": "https://schema.org",
         "@type": "TechArticle",
-        "headline": "Linux 命令行艺术 - 交互式入门教程",
-        "description": "交互式 Linux 命令行教程，从入门到精通。涵盖文件操作、权限管理、进程控制、网络诊断、文本处理等核心主题。",
+        "headline": "Linux 命令行完全指南",
+        "description": "Linux 命令行深度教程，涵盖文件操作、权限管理、进程控制、网络诊断、Shell脚本、正则表达式等核心主题。",
         "author": {
             "@type": "Person",
             "name": "susurrune",
@@ -48,20 +49,23 @@
         "datePublished": "2026-05-09",
         "dateModified": "2026-05-09",
         "inLanguage": "zh-CN",
-        "keywords": ["Linux", "命令行", "CLI", "Shell", "Unix", "终端"]
+        "keywords": ["Linux", "命令行", "CLI", "Shell", "Unix", "终端", "Bash", "脚本"]
     }
     </script>
+
     <style>
         :root {
-            /* oklch Color System - Perceptually uniform */
+            /* oklch Color System */
             --color-bg: oklch(12% 0.02 260);
             --color-bg-elevated: oklch(18% 0.03 260);
             --color-bg-card: oklch(22% 0.04 260);
+            --color-bg-code: oklch(15% 0.03 260);
 
             --color-primary: oklch(70% 0.15 195);
             --color-primary-dim: oklch(60% 0.12 195);
             --color-accent: oklch(75% 0.18 145);
             --color-warm: oklch(65% 0.15 45);
+            --color-purple: oklch(70% 0.15 300);
 
             --color-text: oklch(95% 0.01 260);
             --text-muted: oklch(70% 0.02 260);
@@ -87,6 +91,9 @@
             --space-lg: clamp(1.5rem, 3vw, 2.5rem);
             --space-xl: clamp(2.5rem, 5vw, 4rem);
             --space-2xl: clamp(4rem, 8vw, 8rem);
+
+            --content-max-width: 900px;
+            --sidebar-width: 280px;
         }
 
         * {
@@ -97,29 +104,44 @@
 
         html {
             scroll-behavior: smooth;
+            scroll-padding-top: 100px;
         }
 
         body {
             font-family: var(--font-body);
             background: var(--color-bg);
             color: var(--color-text);
-            line-height: 1.6;
+            line-height: 1.7;
             min-height: 100vh;
             overflow-x: hidden;
+            font-size: 15px;
         }
 
-        /* Subtle grid pattern overlay */
+        /* Grid pattern overlay */
         body::before {
             content: '';
             position: fixed;
             inset: 0;
             background-image:
-                linear-gradient(oklch(100% 0 0 / 0.03) 1px, transparent 1px),
-                linear-gradient(90deg, oklch(100% 0 0 / 0.03) 1px, transparent 1px);
-            background-size: 60px 60px;
+                linear-gradient(oklch(100% 0 0 / 0.02) 1px, transparent 1px),
+                linear-gradient(90deg, oklch(100% 0 0 / 0.02) 1px, transparent 1px);
+            background-size: 50px 50px;
             pointer-events: none;
             z-index: 0;
         }
+
+        /* Typography */
+        h1, h2, h3, h4 {
+            font-family: var(--font-display);
+            font-weight: 600;
+            letter-spacing: -0.02em;
+            line-height: 1.3;
+        }
+
+        h1 { font-size: clamp(2rem, 5vw, 3.5rem); }
+        h2 { font-size: clamp(1.5rem, 3vw, 2.25rem); }
+        h3 { font-size: clamp(1.125rem, 2vw, 1.5rem); }
+        h4 { font-size: clamp(1rem, 1.5vw, 1.125rem); }
 
         /* Hero Section */
         .hero {
@@ -128,9 +150,8 @@
             display: flex;
             flex-direction: column;
             justify-content: center;
-            align-items: flex-start;
             padding: var(--space-xl);
-            max-width: 1400px;
+            max-width: var(--content-max-width);
             margin: 0 auto;
             z-index: 1;
         }
@@ -163,12 +184,8 @@
         }
 
         .hero h1 {
-            font-family: var(--font-display);
-            font-size: clamp(2.5rem, 8vw, 6rem);
             font-weight: 700;
             line-height: 1.05;
-            letter-spacing: -0.03em;
-            max-width: 900px;
             margin-bottom: var(--space-md);
             animation: fadeSlideUp 0.8s var(--ease-out-expo) 0.1s forwards;
             opacity: 0;
@@ -179,19 +196,8 @@
             position: relative;
         }
 
-        .hero h1 .highlight::after {
-            content: '';
-            position: absolute;
-            bottom: 0.1em;
-            left: 0;
-            width: 100%;
-            height: 0.1em;
-            background: var(--color-primary);
-            opacity: 0.3;
-        }
-
         .hero-subtitle {
-            font-size: clamp(1rem, 2vw, 1.25rem);
+            font-size: clamp(1rem, 1.5vw, 1.25rem);
             color: var(--text-muted);
             max-width: 600px;
             margin-bottom: var(--space-xl);
@@ -213,7 +219,7 @@
 
         .stat-value {
             font-family: var(--font-display);
-            font-size: clamp(1.5rem, 4vw, 2.5rem);
+            font-size: clamp(1.5rem, 3vw, 2rem);
             font-weight: 600;
             color: var(--color-text);
         }
@@ -225,7 +231,6 @@
             letter-spacing: 0.1em;
         }
 
-        /* Scroll indicator */
         .scroll-hint {
             position: absolute;
             bottom: var(--space-xl);
@@ -243,13 +248,6 @@
             opacity: 0;
         }
 
-        .scroll-hint::after {
-            content: '';
-            width: 1px;
-            height: 40px;
-            background: linear-gradient(to bottom, var(--color-primary), transparent);
-        }
-
         /* Navigation */
         .nav {
             position: fixed;
@@ -257,7 +255,7 @@
             left: 0;
             right: 0;
             padding: var(--space-md) var(--space-xl);
-            background: oklch(12% 0.02 260 / 0.8);
+            background: oklch(12% 0.02 260 / 0.9);
             backdrop-filter: blur(20px);
             border-bottom: 1px solid var(--border-subtle);
             z-index: 100;
@@ -315,139 +313,115 @@
             width: 100%;
         }
 
-        /* Section styling */
-        .section {
-            position: relative;
-            padding: var(--space-2xl) var(--space-xl);
+        /* Main Layout with Sidebar */
+        .main-layout {
+            display: flex;
             max-width: 1400px;
             margin: 0 auto;
+            position: relative;
             z-index: 1;
+        }
+
+        .content-area {
+            flex: 1;
+            margin-left: var(--sidebar-width);
+            padding: var(--space-xl);
+            max-width: calc(100% - var(--sidebar-width));
+        }
+
+        /* Section Styling */
+        .section {
+            padding: var(--space-2xl) 0;
+            border-bottom: 1px solid var(--border-subtle);
+        }
+
+        .section:last-child {
+            border-bottom: none;
         }
 
         .section-header {
             display: flex;
             flex-direction: column;
             gap: var(--space-sm);
-            margin-bottom: var(--space-2xl);
+            margin-bottom: var(--space-xl);
+            padding-bottom: var(--space-lg);
+            border-bottom: 2px solid var(--border-subtle);
         }
 
         .section-number {
             font-family: var(--font-mono);
             font-size: 0.875rem;
             color: var(--color-primary);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
         }
 
         .section-title {
-            font-family: var(--font-display);
-            font-size: clamp(1.75rem, 4vw, 3rem);
+            font-size: clamp(1.75rem, 3vw, 2.5rem);
             font-weight: 600;
-            letter-spacing: -0.02em;
         }
 
-        /* Tutorial Grid - Asymmetric Layout */
-        .tutorial-grid {
-            display: grid;
-            grid-template-columns: repeat(12, 1fr);
-            gap: var(--space-lg);
+        .section-desc {
+            color: var(--text-muted);
+            font-size: 1.1rem;
+            max-width: 700px;
         }
 
-        .tutorial-card {
+        /* Command Card - Detailed */
+        .command-card {
             background: var(--color-bg-card);
             border: 1px solid var(--border-subtle);
             border-radius: 16px;
-            padding: var(--space-lg);
-            transition: all 0.4s var(--ease-out-expo);
-            position: relative;
+            margin-bottom: var(--space-lg);
             overflow: hidden;
+            transition: all 0.3s var(--ease-out-expo);
         }
 
-        .tutorial-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 1px;
-            background: linear-gradient(90deg, transparent, var(--color-primary), transparent);
-            opacity: 0;
-            transition: opacity 0.4s;
-        }
-
-        .tutorial-card:hover {
-            transform: translateY(-4px);
+        .command-card:hover {
             border-color: var(--border-hover);
-            box-shadow: var(--shadow-lg);
+            box-shadow: var(--shadow-md);
         }
 
-        .tutorial-card:hover::before {
-            opacity: 0.5;
-        }
-
-        /* Card sizes for asymmetric grid */
-        .card-large {
-            grid-column: span 7;
-        }
-
-        .card-medium {
-            grid-column: span 5;
-        }
-
-        .card-small {
-            grid-column: span 4;
-        }
-
-        .card-full {
-            grid-column: span 12;
-        }
-
-        .card-header {
-            display: flex;
-            align-items: flex-start;
-            justify-content: space-between;
-            margin-bottom: var(--space-md);
-        }
-
-        .card-icon {
-            width: 48px;
-            height: 48px;
+        .command-header {
+            padding: var(--space-md) var(--space-lg);
             background: var(--color-bg-elevated);
-            border: 1px solid var(--border-subtle);
-            border-radius: 12px;
+            border-bottom: 1px solid var(--border-subtle);
             display: flex;
             align-items: center;
-            justify-content: center;
-            font-size: 1.5rem;
+            gap: var(--space-md);
         }
 
-        .card-tag {
+        .command-name {
             font-family: var(--font-mono);
-            font-size: 0.7rem;
-            padding: 0.25rem 0.5rem;
-            background: var(--color-bg-elevated);
-            border: 1px solid var(--border-subtle);
-            border-radius: 4px;
-            color: var(--text-muted);
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-        }
-
-        .card-title {
-            font-family: var(--font-display);
-            font-size: clamp(1.25rem, 2vw, 1.5rem);
+            font-size: 1.5rem;
             font-weight: 600;
-            margin-bottom: var(--space-sm);
-            letter-spacing: -0.01em;
+            color: var(--color-primary);
         }
 
-        .card-desc {
+        .command-signature {
+            font-family: var(--font-mono);
+            font-size: 0.875rem;
             color: var(--text-muted);
-            font-size: 0.9375rem;
-            margin-bottom: var(--space-md);
+            padding: 0.25rem 0.75rem;
+            background: var(--color-bg);
+            border-radius: 4px;
+            border: 1px solid var(--border-subtle);
         }
 
-        /* Code Block Styling */
+        .command-body {
+            padding: var(--space-lg);
+        }
+
+        .command-desc {
+            color: var(--color-text);
+            font-size: 1rem;
+            margin-bottom: var(--space-md);
+            line-height: 1.7;
+        }
+
+        /* Code Block */
         .code-block {
-            background: var(--color-bg);
+            background: var(--color-bg-code);
             border: 1px solid var(--border-subtle);
             border-radius: 12px;
             padding: var(--space-md);
@@ -456,28 +430,16 @@
             line-height: 1.7;
             overflow-x: auto;
             position: relative;
-        }
-
-        .code-block::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 32px;
-            background: var(--color-bg-elevated);
-            border-bottom: 1px solid var(--border-subtle);
-            border-radius: 12px 12px 0 0;
+            margin: var(--space-md) 0;
         }
 
         .code-header {
-            position: relative;
             display: flex;
             align-items: center;
             gap: 0.5rem;
-            margin: -var(--space-md) calc(-1 * var(--space-md)) var(--space-sm);
-            padding: 0 var(--space-sm);
-            height: 32px;
+            margin-bottom: var(--space-sm);
+            padding-bottom: var(--space-sm);
+            border-bottom: 1px solid var(--border-subtle);
         }
 
         .code-dots {
@@ -489,7 +451,6 @@
             width: 10px;
             height: 10px;
             border-radius: 50%;
-            background: var(--text-dim);
         }
 
         .code-dots span:nth-child(1) { background: var(--color-warm); }
@@ -500,694 +461,166 @@
             color: var(--text-muted);
         }
 
-        .code-content .comment {
-            color: var(--text-dim);
-            font-style: italic;
-        }
+        .code-content .comment { color: var(--text-dim); font-style: italic; }
+        .code-content .command { color: var(--color-primary); font-weight: 500; }
+        .code-content .arg { color: var(--color-accent); }
+        .code-content .option { color: var(--color-warm); }
+        .code-content .output { color: var(--text-muted); opacity: 0.8; }
+        .code-content .path { color: var(--color-purple); }
 
-        .code-content .command {
-            color: var(--color-primary);
-            font-weight: 500;
-        }
-
-        .code-content .arg {
-            color: var(--color-accent);
-        }
-
-        .code-content .output {
-            color: var(--text-muted);
-            opacity: 0.7;
-        }
-
-        /* Feature List */
-        .feature-list {
-            list-style: none;
-            display: flex;
-            flex-direction: column;
-            gap: var(--space-sm);
-        }
-
-        .feature-list li {
-            display: flex;
-            align-items: flex-start;
-            gap: var(--space-sm);
-            color: var(--text-muted);
+        /* Parameter Table */
+        .param-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: var(--space-md) 0;
             font-size: 0.875rem;
         }
 
-        .feature-list li::before {
-            content: '→';
-            color: var(--color-primary);
-            font-family: var(--font-mono);
-            font-weight: 500;
-        }
-
-        /* Interactive Demo Section */
-        .demo-section {
-            background: var(--color-bg-elevated);
-            border: 1px solid var(--border-subtle);
-            border-radius: 20px;
-            padding: var(--space-xl);
-            margin-top: var(--space-2xl);
-        }
-
-        .demo-tabs {
-            display: flex;
-            gap: var(--space-xs);
-            margin-bottom: var(--space-lg);
+        .param-table th,
+        .param-table td {
+            padding: 0.75rem 1rem;
+            text-align: left;
             border-bottom: 1px solid var(--border-subtle);
-            padding-bottom: var(--space-sm);
         }
 
-        .demo-tab {
-            padding: 0.5rem 1rem;
-            background: transparent;
-            border: none;
-            color: var(--text-muted);
-            font-family: var(--font-mono);
-            font-size: 0.875rem;
-            cursor: pointer;
-            border-radius: 6px;
-            transition: all 0.3s;
-        }
-
-        .demo-tab:hover {
+        .param-table th {
+            background: var(--color-bg-elevated);
             color: var(--color-text);
+            font-weight: 600;
+            font-family: var(--font-display);
+        }
+
+        .param-table td {
+            color: var(--text-muted);
+        }
+
+        .param-table tr:hover td {
+            background: var(--color-bg-elevated);
+        }
+
+        .param-table code {
+            font-family: var(--font-mono);
+            color: var(--color-primary);
+            background: var(--color-bg);
+            padding: 0.125rem 0.375rem;
+            border-radius: 4px;
+        }
+
+        /* Info Boxes */
+        .info-box {
+            padding: var(--space-md);
+            border-radius: 8px;
+            margin: var(--space-md) 0;
+            border-left: 4px solid;
+        }
+
+        .info-box.tip {
+            background: oklch(70% 0.15 195 / 0.1);
+            border-color: var(--color-primary);
+        }
+
+        .info-box.warning {
+            background: oklch(65% 0.15 45 / 0.1);
+            border-color: var(--color-warm);
+        }
+
+        .info-box.note {
+            background: oklch(70% 0.15 300 / 0.1);
+            border-color: var(--color-purple);
+        }
+
+        .info-box-title {
+            font-weight: 600;
+            font-family: var(--font-display);
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .info-box.tip .info-box-title { color: var(--color-primary); }
+        .info-box.warning .info-box-title { color: var(--color-warm); }
+        .info-box.note .info-box-title { color: var(--color-purple); }
+
+        /* Example Block */
+        .example-block {
+            background: var(--color-bg);
+            border: 1px solid var(--border-subtle);
+            border-radius: 8px;
+            padding: var(--space-md);
+            margin: var(--space-md) 0;
+        }
+
+        .example-title {
+            font-family: var(--font-display);
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: var(--color-accent);
+            margin-bottom: var(--space-sm);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        /* FAQ Accordion */
+        .accordion {
+            border: 1px solid var(--border-subtle);
+            border-radius: 8px;
+            margin: var(--space-md) 0;
+            overflow: hidden;
+        }
+
+        .accordion-header {
+            padding: var(--space-md);
+            background: var(--color-bg-elevated);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            transition: background 0.2s;
+        }
+
+        .accordion-header:hover {
             background: var(--color-bg-card);
         }
 
-        .demo-tab.active {
-            color: var(--color-primary);
-            background: var(--color-bg);
-        }
-
-        /* CTA Section */
-        .cta-section {
-            text-align: center;
-            padding: var(--space-2xl) var(--space-xl);
-            position: relative;
-        }
-
-        .cta-title {
-            font-family: var(--font-display);
-            font-size: clamp(1.5rem, 4vw, 2.5rem);
-            font-weight: 600;
-            margin-bottom: var(--space-md);
-        }
-
-        .cta-desc {
-            color: var(--text-muted);
-            max-width: 500px;
-            margin: 0 auto var(--space-lg);
-        }
-
-        .btn {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            padding: 1rem 2rem;
-            background: var(--color-primary);
-            color: var(--color-bg);
-            font-family: var(--font-display);
-            font-weight: 600;
+        .accordion-header h4 {
             font-size: 0.9375rem;
-            text-decoration: none;
-            border-radius: 100px;
-            border: none;
-            cursor: pointer;
-            transition: all 0.3s var(--ease-out-expo);
+            font-weight: 500;
         }
 
-        .btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 24px oklch(70% 0.15 195 / 0.3);
+        .accordion-icon {
+            transition: transform 0.3s;
         }
 
-        .btn-secondary {
-            background: transparent;
-            color: var(--color-text);
-            border: 1px solid var(--border-subtle);
+        .accordion.active .accordion-icon {
+            transform: rotate(180deg);
         }
 
-        .btn-secondary:hover {
-            background: var(--color-bg-elevated);
-            border-color: var(--border-hover);
+        .accordion-content {
+            padding: 0 var(--space-md);
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s, padding 0.3s;
         }
 
-        /* Footer */
-        footer {
-            padding: var(--space-xl);
-            border-top: 1px solid var(--border-subtle);
-            text-align: center;
-            color: var(--text-dim);
-            font-size: 0.875rem;
+        .accordion.active .accordion-content {
+            padding: var(--space-md);
+            max-height: 500px;
         }
 
-        footer a {
-            color: var(--color-primary);
-            text-decoration: none;
-        }
-
-        /* Animations */
-        @keyframes fadeSlideUp {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        @keyframes pulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.5; }
-        }
-
-        @keyframes bounce {
-            0%, 100% { transform: translateX(-50%) translateY(0); }
-            50% { transform: translateX(-50%) translateY(8px); }
-        }
-
-        /* Responsive - Tablet */
-        @media (max-width: 1024px) {
-            .card-large,
-            .card-medium,
-            .card-small {
-                grid-column: span 6;
-            }
-        }
-
-        /* Responsive - Mobile */
-        @media (max-width: 768px) {
-            /* 基础间距调整 */
-            :root {
-                --space-xs: 0.375rem;
-                --space-sm: 0.5rem;
-                --space-md: 0.75rem;
-                --space-lg: 1rem;
-                --space-xl: 1.5rem;
-                --space-2xl: 2rem;
-            }
-
-            /* Hero区域优化 */
-            .hero {
-                padding: 100px 16px 60px;
-                min-height: auto;
-            }
-
-            .hero h1 {
-                font-size: clamp(1.75rem, 8vw, 2.5rem);
-                line-height: 1.1;
-            }
-
-            .hero-badge {
-                font-size: 0.7rem;
-                padding: 0.4rem 0.75rem;
-            }
-
-            .hero-subtitle {
-                font-size: 1rem;
-                max-width: 100%;
-            }
-
-            .hero-stats {
-                flex-direction: row;
-                flex-wrap: wrap;
-                gap: var(--space-md);
-                margin-top: var(--space-lg);
-            }
-
-            .stat {
-                flex: 1;
-                min-width: 80px;
-            }
-
-            .stat-value {
-                font-size: 1.5rem;
-            }
-
-            .stat-label {
-                font-size: 0.65rem;
-            }
-
-            /* 导航栏移动端汉堡菜单 */
-            .nav {
-                padding: 12px 16px;
-            }
-
-            .nav-links {
-                display: none;
-                position: fixed;
-                top: 60px;
-                left: 0;
-                right: 0;
-                bottom: 0;
-                background: var(--color-bg);
-                backdrop-filter: blur(20px);
-                -webkit-backdrop-filter: blur(20px);
-                flex-direction: column;
-                padding: 20px;
-                gap: 0;
-                z-index: 99;
-                border-top: 1px solid var(--border-hover);
-            }
-
-            .nav-links.active {
-                display: flex;
-            }
-
-            .nav-links li {
-                border-bottom: 1px solid var(--border-subtle);
-            }
-
-            .nav-links a {
-                display: block;
-                padding: 16px 0;
-                font-size: 1.125rem;
-                font-weight: 500;
-                color: var(--color-text);
-            }
-
-            .nav-links a::after {
-                display: none;
-            }
-
-            /* 汉堡菜单按钮 */
-            .nav-menu-btn {
-                display: flex;
-                flex-direction: column;
-                gap: 5px;
-                padding: 8px;
-                background: transparent;
-                border: none;
-                cursor: pointer;
-                z-index: 101;
-            }
-
-            .nav-menu-btn span {
-                display: block;
-                width: 24px;
-                height: 2px;
-                background: var(--color-text);
-                transition: all 0.3s;
-                border-radius: 1px;
-            }
-
-            .nav-menu-btn.active span:nth-child(1) {
-                transform: rotate(45deg) translate(5px, 5px);
-            }
-
-            .nav-menu-btn.active span:nth-child(2) {
-                opacity: 0;
-            }
-
-            .nav-menu-btn.active span:nth-child(3) {
-                transform: rotate(-45deg) translate(5px, -5px);
-            }
-
-            /* 章节标题优化 */
-            .section {
-                padding: 40px 16px;
-            }
-
-            .section-header {
-                margin-bottom: 24px;
-            }
-
-            .section-number {
-                font-size: 0.75rem;
-            }
-
-            .section-title {
-                font-size: 1.5rem;
-            }
-
-            /* 卡片布局优化 */
-            .tutorial-grid {
-                gap: 16px;
-            }
-
-            .card-large,
-            .card-medium,
-            .card-small,
-            .card-full {
-                grid-column: span 12;
-                padding: 20px;
-                border-radius: 12px;
-            }
-
-            .card-header {
-                margin-bottom: 12px;
-            }
-
-            .card-icon {
-                width: 40px;
-                height: 40px;
-                font-size: 1.25rem;
-            }
-
-            .card-title {
-                font-size: 1.125rem;
-                margin-bottom: 8px;
-            }
-
-            .card-desc {
-                font-size: 0.875rem;
-                margin-bottom: 16px;
-            }
-
-            /* 代码块移动端优化 */
-            .code-block {
-                padding: 12px;
-                font-size: 0.75rem;
-                border-radius: 8px;
-                -webkit-overflow-scrolling: touch;
-            }
-
-            .code-block::before {
-                height: 28px;
-                border-radius: 8px 8px 0 0;
-            }
-
-            .code-header {
-                height: 28px;
-                margin: -12px -12px 8px;
-                padding: 0 12px;
-            }
-
-            .code-dots {
-                gap: 5px;
-            }
-
-            .code-dots span {
-                width: 8px;
-                height: 8px;
-            }
-
-            .code-content {
-                white-space: pre;
-                word-wrap: normal;
-                counter-reset: line;
-            }
-
-            /* 代码行号 */
-            .code-content .line {
-                display: block;
-                counter-increment: line;
-                padding-left: 2.5em;
-                position: relative;
-            }
-
-            .code-content .line::before {
-                content: counter(line);
-                position: absolute;
-                left: 0;
-                width: 2em;
-                color: var(--text-dim);
-                text-align: right;
-                font-size: 0.75em;
-                opacity: 0.6;
-            }
-
-            /* 代码块横向滚动优化 */
-            .code-block {
-                max-width: 100%;
-                overflow-x: auto;
-                -webkit-overflow-scrolling: touch;
-                scrollbar-width: thin;
-                scrollbar-color: var(--border-hover) transparent;
-            }
-
-            .code-block::-webkit-scrollbar {
-                height: 6px;
-            }
-
-            .code-block::-webkit-scrollbar-track {
-                background: transparent;
-            }
-
-            .code-block::-webkit-scrollbar-thumb {
-                background: var(--border-hover);
-                border-radius: 3px;
-            }
-
-            /* 触摸友好的代码块 */
-            @media (hover: none) and (pointer: coarse) {
-                .code-block {
-                    cursor: grab;
-                    user-select: none;
-                }
-
-                .code-block:active {
-                    cursor: grabbing;
-                }
-            }
-
-            /* 特性列表优化 */
-            .feature-list {
-                gap: 10px;
-            }
-
-            .feature-list li {
-                font-size: 0.8125rem;
-                gap: 8px;
-            }
-
-            /* Demo区域 */
-            .demo-section {
-                padding: 20px;
-                border-radius: 12px;
-            }
-
-            .demo-tabs {
-                gap: 8px;
-                padding-bottom: 12px;
-            }
-
-            .demo-tab {
-                font-size: 0.75rem;
-                padding: 6px 12px;
-            }
-
-            /* CTA区域 */
-            .cta-section {
-                padding: 40px 16px;
-            }
-
-            .cta-title {
-                font-size: 1.375rem;
-            }
-
-            .cta-desc {
-                font-size: 0.875rem;
-                padding: 0 20px;
-            }
-
-            .btn {
-                padding: 12px 24px;
-                font-size: 0.875rem;
-            }
-
-            /* Footer */
-            footer {
-                padding: 30px 16px;
-                font-size: 0.75rem;
-            }
-
-            /* 隐藏滚动提示 */
-            .scroll-hint {
-                display: none;
-            }
-
-            /* 触摸优化 */
-            .tutorial-card {
-                -webkit-tap-highlight-color: transparent;
-            }
-
-            .tutorial-card:active {
-                transform: scale(0.98);
-            }
-
-            /* 代码块横向滚动提示 */
-            .code-block {
-                position: relative;
-            }
-
-            .code-block::after {
-                content: '↔';
-                position: absolute;
-                right: 8px;
-                top: 50%;
-                transform: translateY(-50%);
-                color: var(--text-dim);
-                font-size: 1rem;
-                opacity: 0.5;
-                pointer-events: none;
-                display: block;
-            }
-
-            /* 动画性能优化 */
-            .animate-on-scroll {
-                transition: opacity 0.5s, transform 0.5s;
-            }
-        }
-
-        /* 超小屏幕优化 */
-        @media (max-width: 375px) {
-            .hero h1 {
-                font-size: 1.5rem;
-            }
-
-            .hero-stats {
-                gap: 12px;
-            }
-
-            .stat-value {
-                font-size: 1.25rem;
-            }
-
-            .card-title {
-                font-size: 1rem;
-            }
-
-            .code-block {
-                font-size: 0.7rem;
-            }
-        }
-
-        /* 平板横屏优化 */
-        @media (min-width: 769px) and (max-width: 1024px) {
-            .hero {
-                padding: 100px 30px 60px;
-            }
-
-            .card-large {
-                grid-column: span 12;
-            }
-
-            .card-medium,
-            .card-small {
-                grid-column: span 6;
-            }
-        }
-
-        /* 触摸设备优化 */
-        @media (hover: none) and (pointer: coarse) {
-            .tutorial-card:hover {
-                transform: none;
-            }
-
-            .tutorial-card:active {
-                transform: scale(0.98);
-                transition: transform 0.1s;
-            }
-
-            .btn:hover {
-                transform: none;
-            }
-
-            .btn:active {
-                transform: scale(0.95);
-            }
-
-            .nav-links a:hover::after {
-                width: 0;
-            }
-        }
-
-        /* 减少动画（用户偏好） */
-        @media (prefers-reduced-motion: reduce) {
-            *,
-            *::before,
-            *::after {
-                animation-duration: 0.01ms !important;
-                animation-iteration-count: 1 !important;
-                transition-duration: 0.01ms !important;
-                scroll-behavior: auto !important;
-            }
-
-            .animate-on-scroll {
-                opacity: 1;
-                transform: none;
-            }
-        }
-
-        /* 安全区域适配（刘海屏） */
-        @supports (padding: max(0px)) {
-            .nav {
-                padding-left: max(16px, env(safe-area-inset-left));
-                padding-right: max(16px, env(safe-area-inset-right));
-                padding-top: max(12px, env(safe-area-inset-top));
-            }
-
-            .hero {
-                padding-left: max(16px, env(safe-area-inset-left));
-                padding-right: max(16px, env(safe-area-inset-right));
-            }
-
-            .section {
-                padding-left: max(16px, env(safe-area-inset-left));
-                padding-right: max(16px, env(safe-area-inset-right));
-            }
-        }
-
-        /* 隐藏菜单按钮在桌面端 */
-        .nav-menu-btn {
-            display: none;
-        }
-
-        @media (max-width: 768px) {
-            .nav-menu-btn {
-                display: flex;
-            }
-        }
-
-        /* 滚动进度条 */
-        .scroll-progress {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 0%;
-            height: 2px;
-            background: linear-gradient(90deg, var(--color-primary), var(--color-accent));
-            z-index: 1001;
-            transition: width 0.1s linear;
-        }
-
-        /* Scroll-triggered animations */
-        .animate-on-scroll {
-            opacity: 0;
-            transform: translateY(30px);
-            transition: opacity 0.8s var(--ease-out-expo), transform 0.8s var(--ease-out-expo);
-        }
-
-        .animate-on-scroll.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        /* 侧边栏目录导航 */
+        /* Sidebar */
         .toc-sidebar {
             position: fixed;
             left: 0;
             top: 70px;
-            width: 240px;
+            width: var(--sidebar-width);
             height: calc(100vh - 70px);
             background: var(--color-bg);
             border-right: 1px solid var(--border-subtle);
             padding: 20px;
             overflow-y: auto;
             z-index: 90;
-            transform: translateX(-100%);
-            transition: transform 0.3s var(--ease-out-expo);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-        }
-
-        .toc-sidebar.active {
-            transform: translateX(0);
         }
 
         .toc-title {
@@ -1247,23 +680,274 @@
 
         .toc-link.active::before {
             background: var(--color-primary);
-            transform: translateY(-50%) scale(1.2);
         }
 
         .toc-section {
             font-weight: 600;
             color: var(--color-text);
-            margin-top: 12px;
+            margin-top: 16px;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
         }
 
         .toc-section::before {
-            width: 8px;
-            height: 8px;
-            border-radius: 2px;
-            transform: translateY(-50%) rotate(45deg);
+            display: none;
         }
 
-        /* 返回顶部按钮 */
+        .toc-subsection {
+            padding-left: 20px;
+        }
+
+        /* Tabs */
+        .tabs {
+            margin: var(--space-md) 0;
+        }
+
+        .tab-header {
+            display: flex;
+            gap: var(--space-xs);
+            border-bottom: 1px solid var(--border-subtle);
+            margin-bottom: var(--space-md);
+        }
+
+        .tab-btn {
+            padding: 0.5rem 1rem;
+            background: transparent;
+            border: none;
+            color: var(--text-muted);
+            font-family: var(--font-mono);
+            font-size: 0.875rem;
+            cursor: pointer;
+            border-bottom: 2px solid transparent;
+            transition: all 0.2s;
+        }
+
+        .tab-btn:hover {
+            color: var(--color-text);
+        }
+
+        .tab-btn.active {
+            color: var(--color-primary);
+            border-bottom-color: var(--color-primary);
+        }
+
+        .tab-panel {
+            display: none;
+        }
+
+        .tab-panel.active {
+            display: block;
+        }
+
+        /* Quick Reference Grid */
+        .ref-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: var(--space-md);
+            margin: var(--space-lg) 0;
+        }
+
+        .ref-card {
+            background: var(--color-bg-card);
+            border: 1px solid var(--border-subtle);
+            border-radius: 12px;
+            padding: var(--space-md);
+        }
+
+        .ref-card h4 {
+            font-size: 0.9375rem;
+            margin-bottom: var(--space-sm);
+            color: var(--color-primary);
+        }
+
+        .ref-list {
+            list-style: none;
+            font-size: 0.8125rem;
+        }
+
+        .ref-list li {
+            padding: 0.375rem 0;
+            border-bottom: 1px solid var(--border-subtle);
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .ref-list li:last-child {
+            border-bottom: none;
+        }
+
+        .ref-list code {
+            font-family: var(--font-mono);
+            color: var(--color-accent);
+        }
+
+        .ref-list span {
+            color: var(--text-dim);
+        }
+
+        /* Practice Section */
+        .practice-card {
+            background: linear-gradient(135deg, var(--color-bg-card), var(--color-bg-elevated));
+            border: 1px solid var(--border-subtle);
+            border-radius: 16px;
+            padding: var(--space-lg);
+            margin: var(--space-lg) 0;
+        }
+
+        .practice-header {
+            display: flex;
+            align-items: center;
+            gap: var(--space-sm);
+            margin-bottom: var(--space-md);
+        }
+
+        .practice-icon {
+            width: 40px;
+            height: 40px;
+            background: var(--color-primary);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+        }
+
+        .practice-title {
+            font-size: 1.125rem;
+            font-weight: 600;
+        }
+
+        .practice-desc {
+            color: var(--text-muted);
+            margin-bottom: var(--space-md);
+        }
+
+        .practice-steps {
+            list-style: none;
+            counter-reset: step;
+        }
+
+        .practice-steps li {
+            padding: var(--space-sm) 0;
+            padding-left: 2rem;
+            position: relative;
+            counter-increment: step;
+        }
+
+        .practice-steps li::before {
+            content: counter(step);
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 24px;
+            height: 24px;
+            background: var(--color-bg-elevated);
+            border: 1px solid var(--border-subtle);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: var(--color-primary);
+        }
+
+        /* CTA Section */
+        .cta-section {
+            text-align: center;
+            padding: var(--space-2xl) var(--space-xl);
+            margin-top: var(--space-2xl);
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 1rem 2rem;
+            background: var(--color-primary);
+            color: var(--color-bg);
+            font-family: var(--font-display);
+            font-weight: 600;
+            font-size: 0.9375rem;
+            text-decoration: none;
+            border-radius: 100px;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s var(--ease-out-expo);
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px oklch(70% 0.15 195 / 0.3);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--color-text);
+            border: 1px solid var(--border-subtle);
+        }
+
+        .btn-secondary:hover {
+            background: var(--color-bg-elevated);
+        }
+
+        /* Footer */
+        footer {
+            padding: var(--space-xl);
+            border-top: 1px solid var(--border-subtle);
+            text-align: center;
+            color: var(--text-dim);
+            font-size: 0.875rem;
+            margin-left: var(--sidebar-width);
+        }
+
+        footer a {
+            color: var(--color-primary);
+            text-decoration: none;
+        }
+
+        /* Animations */
+        @keyframes fadeSlideUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateX(-50%) translateY(0); }
+            50% { transform: translateX(-50%) translateY(8px); }
+        }
+
+        /* Scroll animations */
+        .animate-on-scroll {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.6s var(--ease-out-expo), transform 0.6s var(--ease-out-expo);
+        }
+
+        .animate-on-scroll.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Scroll progress */
+        .scroll-progress {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 0%;
+            height: 2px;
+            background: linear-gradient(90deg, var(--color-primary), var(--color-accent));
+            z-index: 1001;
+        }
+
+        /* Back to top */
         .back-to-top {
             position: fixed;
             right: 20px;
@@ -1284,7 +968,6 @@
             visibility: hidden;
             transform: translateY(20px);
             transition: all 0.3s var(--ease-out-expo);
-            box-shadow: var(--shadow-md);
         }
 
         .back-to-top.visible {
@@ -1296,19 +979,9 @@
         .back-to-top:hover {
             background: var(--color-primary);
             color: var(--color-bg);
-            border-color: var(--color-primary);
         }
 
-        /* 搜索框 */
-        .search-container {
-            position: fixed;
-            top: 70px;
-            right: 20px;
-            z-index: 96;
-            display: flex;
-            align-items: center;
-        }
-
+        /* Search */
         .search-btn {
             width: 40px;
             height: 40px;
@@ -1321,14 +994,11 @@
             align-items: center;
             justify-content: center;
             transition: all 0.3s;
-            box-shadow: var(--shadow-sm);
         }
 
         .search-btn:hover {
             background: var(--color-primary);
             color: var(--color-bg);
-            border-color: var(--color-primary);
-            transform: scale(1.05);
         }
 
         .search-modal {
@@ -1357,20 +1027,14 @@
             border: 1px solid var(--border-hover);
             border-radius: 12px;
             padding: 16px 20px;
-            font-family: var(--font-body);
             font-size: 1.125rem;
             color: var(--color-text);
             outline: none;
-            box-shadow: var(--shadow-md);
         }
 
         .search-box:focus {
             border-color: var(--color-primary);
-            box-shadow: 0 0 0 3px oklch(70% 0.15 195 / 0.3), var(--shadow-md);
-        }
-
-        .search-box::placeholder {
-            color: var(--text-dim);
+            box-shadow: 0 0 0 3px oklch(70% 0.15 195 / 0.3);
         }
 
         .search-results {
@@ -1382,7 +1046,6 @@
             border-radius: 12px;
             max-height: 400px;
             overflow-y: auto;
-            box-shadow: var(--shadow-lg);
         }
 
         .search-result-item {
@@ -1392,178 +1055,97 @@
             transition: background 0.2s;
         }
 
-        .search-result-item:last-child {
-            border-bottom: none;
-        }
-
         .search-result-item:hover {
             background: var(--color-bg-card);
         }
 
-        .search-result-title {
-            font-weight: 600;
-            color: var(--color-text);
-            font-size: 0.9375rem;
-            margin-bottom: 4px;
-        }
-
-        .search-result-desc {
-            color: var(--text-muted);
-            font-size: 0.8125rem;
-        }
-
-        .search-result-match {
-            color: var(--color-primary);
-            background: oklch(70% 0.15 195 / 0.2);
-            padding: 0 2px;
-            border-radius: 2px;
-        }
-
-        .search-hint {
-            position: absolute;
-            bottom: -24px;
-            left: 50%;
-            transform: translateX(-50%);
-            color: var(--text-dim);
-            font-size: 0.75rem;
-            white-space: nowrap;
-        }
-
-        /* 章节指示器 */
-        .section-indicator {
-            position: fixed;
-            right: 20px;
-            top: 50%;
-            transform: translateY(-50%);
-            z-index: 90;
-            display: flex;
+        /* Mobile Menu */
+        .nav-menu-btn {
+            display: none;
             flex-direction: column;
-            gap: 8px;
-        }
-
-        .section-dot {
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            background: var(--border-subtle);
+            gap: 5px;
+            padding: 8px;
+            background: transparent;
+            border: none;
             cursor: pointer;
-            transition: all 0.3s;
-            position: relative;
         }
 
-        .section-dot:hover,
-        .section-dot.active {
-            background: var(--color-primary);
-            transform: scale(1.3);
-        }
-
-        .section-dot::after {
-            content: attr(data-title);
-            position: absolute;
-            right: 20px;
-            top: 50%;
-            transform: translateY(-50%);
-            background: var(--color-bg-elevated);
-            color: var(--color-text);
-            padding: 6px 12px;
-            border-radius: 6px;
-            font-size: 0.75rem;
-            white-space: nowrap;
-            opacity: 0;
-            visibility: hidden;
-            transition: all 0.2s;
-            border: 1px solid var(--border-subtle);
-        }
-
-        .section-dot:hover::after {
-            opacity: 1;
-            visibility: visible;
-        }
-
-        /* 面包屑导航 */
-        .breadcrumb {
-            position: fixed;
-            top: 70px;
-            left: 50%;
-            transform: translateX(-50%);
-            z-index: 89;
-            background: var(--color-bg-elevated);
-            border: 1px solid var(--border-subtle);
-            border-radius: 100px;
-            padding: 8px 16px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            font-size: 0.8125rem;
-            opacity: 0;
-            visibility: hidden;
+        .nav-menu-btn span {
+            width: 24px;
+            height: 2px;
+            background: var(--color-text);
             transition: all 0.3s;
         }
 
-        .breadcrumb.visible {
-            opacity: 1;
-            visibility: visible;
-        }
-
-        .breadcrumb-item {
-            color: var(--text-muted);
-        }
-
-        .breadcrumb-item.active {
-            color: var(--color-primary);
-            font-weight: 500;
-        }
-
-        .breadcrumb-separator {
-            color: var(--text-dim);
-        }
-
-        /* 响应式调整 */
+        /* Responsive */
         @media (max-width: 1024px) {
             .toc-sidebar {
-                width: 280px;
+                transform: translateX(-100%);
+                transition: transform 0.3s;
             }
 
-            .section-indicator {
-                display: none;
+            .toc-sidebar.active {
+                transform: translateX(0);
             }
 
-            .breadcrumb {
-                display: none;
+            .content-area {
+                margin-left: 0;
+                max-width: 100%;
+            }
+
+            footer {
+                margin-left: 0;
             }
         }
 
         @media (max-width: 768px) {
-            .search-container {
-                right: 16px;
-                top: 16px;
-            }
-
-            .search-btn {
-                width: 36px;
-                height: 36px;
-                background: var(--color-bg-card);
-                border: 1px solid var(--border-hover);
-            }
-
-            .search-btn:hover,
-            .search-btn:active {
-                background: var(--color-primary);
-                color: var(--color-bg);
-            }
-
-            .toc-sidebar {
-                width: 85%;
-                max-width: 300px;
+            .nav-links {
+                display: none;
+                position: fixed;
+                top: 60px;
+                left: 0;
+                right: 0;
+                bottom: 0;
                 background: var(--color-bg);
-                box-shadow: 4px 0 24px rgba(0, 0, 0, 0.3);
+                flex-direction: column;
+                padding: 20px;
             }
 
-            .back-to-top {
-                right: 16px;
-                bottom: 16px;
-                width: 44px;
-                height: 44px;
+            .nav-links.active {
+                display: flex;
+            }
+
+            .nav-menu-btn {
+                display: flex;
+            }
+
+            .hero {
+                padding: 100px 16px 60px;
+            }
+
+            .content-area {
+                padding: 16px;
+            }
+
+            .command-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .param-table {
+                font-size: 0.75rem;
+            }
+
+            .param-table th,
+            .param-table td {
+                padding: 0.5rem;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation-duration: 0.01ms !important;
+                transition-duration: 0.01ms !important;
             }
         }
     </style>
@@ -1571,468 +1153,1717 @@
 <body>
     <div class="scroll-progress" id="scrollProgress"></div>
 
-    <!-- 侧边栏目录 -->
+    <!-- Sidebar -->
     <aside class="toc-sidebar" id="tocSidebar">
         <div class="toc-title">目录导航</div>
-        <ul class="toc-list" id="tocList">
-            <li class="toc-item">
-                <a href="#basics" class="toc-link toc-section" data-section="basics">📁 文件与目录</a>
-                <ul style="list-style: none; margin-left: 12px;">
-                    <li><a href="#basics-nav" class="toc-link" data-section="basics">文件系统导航</a></li>
-                    <li><a href="#basics-ops" class="toc-link" data-section="basics">文件操作</a></li>
-                    <li><a href="#basics-tips" class="toc-link" data-section="basics">路径技巧</a></li>
-                </ul>
-            </li>
-            <li class="toc-item">
-                <a href="#system" class="toc-link toc-section" data-section="system">🔐 权限与进程</a>
-                <ul style="list-style: none; margin-left: 12px;">
-                    <li><a href="#system-perm" class="toc-link" data-section="system">权限管理</a></li>
-                    <li><a href="#system-proc" class="toc-link" data-section="system">进程控制</a></li>
-                    <li><a href="#system-signal" class="toc-link" data-section="system">信号机制</a></li>
-                </ul>
-            </li>
-            <li class="toc-item">
-                <a href="#network" class="toc-link toc-section" data-section="network">🌐 网络诊断</a>
-                <ul style="list-style: none; margin-left: 12px;">
-                    <li><a href="#network-tools" class="toc-link" data-section="network">网络工具箱</a></li>
-                </ul>
-            </li>
-            <li class="toc-item">
-                <a href="#tools" class="toc-link toc-section" data-section="tools">📝 文本与工具</a>
-                <ul style="list-style: none; margin-left: 12px;">
-                    <li><a href="#tools-text" class="toc-link" data-section="tools">文本处理</a></li>
-                    <li><a href="#tools-pkg" class="toc-link" data-section="tools">包管理器</a></li>
-                    <li><a href="#tools-pipe" class="toc-link" data-section="tools">管道艺术</a></li>
-                </ul>
-            </li>
+        <ul class="toc-list">
+            <li class="toc-item"><a href="#intro" class="toc-link toc-section">🚀 入门指南</a></li>
+            <li class="toc-item"><a href="#basics" class="toc-link toc-section">📁 文件与目录</a></li>
+            <li class="toc-item toc-subsection"><a href="#cmd-pwd" class="toc-link">pwd / ls / cd</a></li>
+            <li class="toc-item toc-subsection"><a href="#cmd-touch" class="toc-link">touch / mkdir</a></li>
+            <li class="toc-item toc-subsection"><a href="#cmd-cp" class="toc-link">cp / mv / rm</a></li>
+            <li class="toc-item toc-subsection"><a href="#cmd-find" class="toc-link">find / locate</a></li>
+            <li class="toc-item"><a href="#system" class="toc-link toc-section">🔐 权限与进程</a></li>
+            <li class="toc-item toc-subsection"><a href="#cmd-chmod" class="toc-link">chmod / chown</a></li>
+            <li class="toc-item toc-subsection"><a href="#cmd-ps" class="toc-link">ps / top / htop</a></li>
+            <li class="toc-item toc-subsection"><a href="#cmd-kill" class="toc-link">kill / 信号</a></li>
+            <li class="toc-item"><a href="#network" class="toc-link toc-section">🌐 网络诊断</a></li>
+            <li class="toc-item toc-subsection"><a href="#cmd-ip" class="toc-link">ip / ping</a></li>
+            <li class="toc-item toc-subsection"><a href="#cmd-curl" class="toc-link">curl / wget</a></li>
+            <li class="toc-item"><a href="#text" class="toc-link toc-section">📝 文本处理</a></li>
+            <li class="toc-item toc-subsection"><a href="#cmd-grep" class="toc-link">grep / sed</a></li>
+            <li class="toc-item toc-subsection"><a href="#cmd-awk" class="toc-link">awk 高级</a></li>
+            <li class="toc-item"><a href="#shell" class="toc-link toc-section">💻 Shell 编程</a></li>
+            <li class="toc-item"><a href="#regex" class="toc-link toc-section">🔍 正则表达式</a></li>
+            <li class="toc-item"><a href="#reference" class="toc-link toc-section">📚 速查手册</a></li>
+            <li class="toc-item"><a href="#practice" class="toc-link toc-section">🎯 实战练习</a></li>
         </ul>
     </aside>
 
-    <!-- 搜索按钮 -->
-    <div class="search-container">
-        <button class="search-btn" id="searchBtn" aria-label="搜索">
-            🔍
-        </button>
-    </div>
-
-    <!-- 搜索弹窗 -->
+    <!-- Search -->
     <div class="search-modal" id="searchModal">
-        <input type="text" class="search-box" id="searchBox" placeholder="搜索命令..." autocomplete="off">
+        <input type="text" class="search-box" id="searchBox" placeholder="搜索命令或概念...">
         <div class="search-results" id="searchResults"></div>
-        <div class="search-hint">按 ESC 关闭</div>
     </div>
 
-    <!-- 章节指示器 -->
-    <div class="section-indicator" id="sectionIndicator">
-        <div class="section-dot active" data-section="hero" data-title="首页"></div>
-        <div class="section-dot" data-section="basics" data-title="文件与目录"></div>
-        <div class="section-dot" data-section="system" data-title="权限与进程"></div>
-        <div class="section-dot" data-section="network" data-title="网络诊断"></div>
-        <div class="section-dot" data-section="tools" data-title="文本与工具"></div>
-    </div>
+    <!-- Back to top -->
+    <button class="back-to-top" id="backToTop">↑</button>
 
-    <!-- 面包屑导航 -->
-    <div class="breadcrumb" id="breadcrumb">
-        <span class="breadcrumb-item">首页</span>
-        <span class="breadcrumb-separator">/</span>
-        <span class="breadcrumb-item active" id="breadcrumbCurrent">文件与目录</span>
-    </div>
-
-    <!-- 返回顶部按钮 -->
-    <button class="back-to-top" id="backToTop" aria-label="返回顶部">
-        ↑
-    </button>
-
+    <!-- Navigation -->
     <nav class="nav">
-        <a href="#" class="nav-logo">
-            <span>$</span> Linux Art
-        </a>
-        <button class="nav-menu-btn" id="menuBtn" aria-label="菜单">
-            <span></span>
-            <span></span>
-            <span></span>
+        <a href="#" class="nav-logo"><span>$</span> Linux Guide</a>
+        <button class="nav-menu-btn" id="menuBtn">
+            <span></span><span></span><span></span>
         </button>
         <ul class="nav-links" id="navLinks">
-            <li><a href="#basics">基础</a></li>
+            <li><a href="#intro">入门</a></li>
+            <li><a href="#basics">文件</a></li>
             <li><a href="#system">系统</a></li>
             <li><a href="#network">网络</a></li>
-            <li><a href="#tools">工具</a></li>
+            <li><a href="#text">文本</a></li>
+            <li><a href="#shell">Shell</a></li>
+            <li><button class="search-btn" id="searchBtn">🔍</button></li>
         </ul>
     </nav>
 
-    <header class="hero">
-        <div class="hero-badge">
-            <span></span>
-            Command Line Mastery
-        </div>
-        <h1>
-            掌握 <span class="highlight">Linux</span><br>
-            命令行艺术
-        </h1>
+    <!-- Hero -->
+    <header class="hero" id="hero">
+        <div class="hero-badge"><span></span>Complete Command Line Guide</div>
+        <h1>掌握 <span class="highlight">Linux</span><br>命令行完全指南</h1>
         <p class="hero-subtitle">
-            从入门到精通的完整指南。无需记忆，只需理解。每一个命令背后都是 Unix 哲学的精髓。
+            从入门到精通的深度教程。无需记忆，只需理解。每一个命令背后都是 Unix 哲学的精髓。
         </p>
         <div class="hero-stats">
-            <div class="stat">
-                <span class="stat-value">50+</span>
-                <span class="stat-label">核心命令</span>
-            </div>
-            <div class="stat">
-                <span class="stat-value">6</span>
-                <span class="stat-label">主题模块</span>
-            </div>
-            <div class="stat">
-                <span class="stat-value">0</span>
-                <span class="stat-label">门槛</span>
-            </div>
+            <div class="stat"><span class="stat-value">80+</span><span class="stat-label">核心命令</span></div>
+            <div class="stat"><span class="stat-value">8</span><span class="stat-label">主题模块</span></div>
+            <div class="stat"><span class="stat-value">50+</span><span class="stat-label">实战示例</span></div>
         </div>
-        <div class="scroll-hint">
-            <span>Scroll</span>
-        </div>
+        <div class="scroll-hint"><span>Scroll</span></div>
     </header>
 
-    <main>
-        <section class="section" id="basics">
-            <div class="section-header animate-on-scroll" id="basics-header">
-                <span class="section-number">Module 01</span>
-                <h2 class="section-title">文件与目录</h2>
-            </div>
+    <!-- Main Content -->
+    <div class="main-layout">
+        <main class="content-area">
 
-            <div class="tutorial-grid">
-                <!-- Basic Commands -->
-                <article class="tutorial-card card-large animate-on-scroll" id="basics-nav">
-                    <div class="card-header">
-                        <div class="card-icon">📁</div>
-                        <span class="card-tag">Essential</span>
-                    </div>
-                    <h3 class="card-title">文件系统导航</h3>
-                    <p class="card-desc">Linux 文件系统是一棵倒置的树。理解路径是掌握命令行的第一步。</p>
-                    <div class="code-block">
-                        <div class="code-header">
-                            <div class="code-dots">
-                                <span></span>
-                                <span></span>
-                                <span></span>
-                            </div>
+            <!-- Module 0: Introduction -->
+            <section class="section" id="intro">
+                <div class="section-header animate-on-scroll">
+                    <span class="section-number">Module 00</span>
+                    <h2 class="section-title">入门指南</h2>
+                    <p class="section-desc">在开始之前，让我们了解 Linux 命令行的基本概念和工作原理。</p>
+                </div>
+
+                <div class="animate-on-scroll">
+                    <h3>什么是 Shell？</h3>
+                    <p>Shell 是用户与 Linux 内核之间的接口。它解释用户输入的命令并将其传递给内核执行，然后将结果返回给用户。常见的 Shell 包括：</p>
+
+                    <div class="ref-grid">
+                        <div class="ref-card">
+                            <h4>Bash</h4>
+                            <ul class="ref-list">
+                                <li><code>bash</code> <span>Bourne Again Shell，最常用</span></li>
+                                <li><code>sh</code> <span>原始 Bourne Shell</span></li>
+                            </ul>
                         </div>
+                        <div class="ref-card">
+                            <h4>现代 Shell</h4>
+                            <ul class="ref-list">
+                                <li><code>zsh</code> <span>Z Shell，功能丰富</span></li>
+                                <li><code>fish</code> <span>Friendly Interactive Shell</span></li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="info-box tip">
+                        <div class="info-box-title">💡 提示</div>
+                        <p>查看当前使用的 Shell：<code class="command">echo $SHELL</code></p>
+                    </div>
+
+                    <h3>命令的基本结构</h3>
+                    <div class="code-block">
+                        <div class="code-header"><div class="code-dots"><span></span><span></span><span></span></div></div>
                         <div class="code-content">
-<span class="comment"># 打印当前工作目录</span>
+<span class="command">command</span> <span class="option">[-options]</span> <span class="arg">[arguments]</span>
+
+<span class="comment"># 示例：使用 ls 命令</span>
+<span class="command">ls</span> <span class="option">-la</span> <span class="path">/home/user</span>
+<span class="output">   ↑      ↑           ↑</span>
+<span class="output"> 命令   选项        参数</span>
+                        </div>
+                    </div>
+
+                    <h3>文件系统结构</h3>
+                    <p>Linux 采用层级目录结构，根目录 <code>/</code> 是所有文件和目录的起点：</p>
+
+                    <div class="code-block">
+                        <div class="code-header"><div class="code-dots"><span></span><span></span><span></span></div></div>
+                        <div class="code-content">
+<span class="path">/</span>              <span class="comment"># 根目录</span>
+<span class="path">├── /bin</span>       <span class="comment"># 基本命令二进制文件</span>
+<span class="path">├── /boot</span>      <span class="comment"># 启动加载器文件</span>
+<span class="path">├── /dev</span>       <span class="comment"># 设备文件</span>
+<span class="path">├── /etc</span>       <span class="comment"># 配置文件</span>
+<span class="path">├── /home</span>      <span class="comment"># 用户主目录</span>
+<span class="path">├── /lib</span>       <span class="comment"># 共享库</span>
+<span class="path">├── /mnt</span>       <span class="comment"># 挂载点</span>
+<span class="path">├── /opt</span>       <span class="comment"># 可选软件包</span>
+<span class="path">├── /proc</span>      <span class="comment"># 进程信息</span>
+<span class="path">├── /tmp</span>       <span class="comment"># 临时文件</span>
+<span class="path">├── /usr</span>       <span class="comment"># 用户程序</span>
+<span class="path">└── /var</span>       <span class="comment"># 可变数据</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Module 1: File and Directory -->
+            <section class="section" id="basics">
+                <div class="section-header animate-on-scroll">
+                    <span class="section-number">Module 01</span>
+                    <h2 class="section-title">文件与目录操作</h2>
+                    <p class="section-desc">文件和目录是 Linux 系统的基础。掌握这些核心命令是命令行使用的起点。</p>
+                </div>
+
+                <!-- pwd command -->
+                <div class="command-card animate-on-scroll" id="cmd-pwd">
+                    <div class="command-header">
+                        <span class="command-name">pwd</span>
+                        <span class="command-signature">print working directory</span>
+                    </div>
+                    <div class="command-body">
+                        <p class="command-desc">显示当前工作目录的完整路径（绝对路径）。这是确认你当前所在位置的最基本命令。</p>
+
+                        <div class="code-block">
+                            <div class="code-header"><div class="code-dots"><span></span><span></span><span></span></div></div>
+                            <div class="code-content">
+<span class="comment"># 基本用法</span>
 <span class="command">pwd</span>
-<span class="output">/home/user/projects</span>
+<span class="output">/home/username/projects</span>
 
-<span class="comment"># 列出文件详情 (-l 长格式, -a 显示隐藏文件)</span>
-<span class="command">ls</span> <span class="arg">-la</span>
-<span class="output">drwxr-xr-x  5 user group 4096 Jan 15 10:30 .</span>
+<span class="comment"># 显示逻辑路径（解析所有符号链接）</span>
+<span class="command">pwd</span> <span class="option">-L</span>
+<span class="output">/home/username/link-to-projects</span>
+
+<span class="comment"># 显示物理路径（不解析符号链接）</span>
+<span class="command">pwd</span> <span class="option">-P</span>
+<span class="output">/home/username/projects</span>
+                            </div>
+                        </div>
+
+                        <div class="info-box note">
+                            <div class="info-box-title">📝 注意</div>
+                            <p>在脚本中使用 <code>pwd</code> 获取当前目录时，建议使用 <code>$(pwd)</code> 或环境变量 <code>$PWD</code>。</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ls command -->
+                <div class="command-card animate-on-scroll" id="cmd-ls">
+                    <div class="command-header">
+                        <span class="command-name">ls</span>
+                        <span class="command-signature">list directory contents</span>
+                    </div>
+                    <div class="command-body">
+                        <p class="command-desc">列出目录内容。这是使用频率最高的命令之一，掌握其各种选项可以大大提高效率。</p>
+
+                        <table class="param-table">
+                            <tr><th>选项</th><th>全称</th><th>说明</th></tr>
+                            <tr><td><code>-l</code></td><td>long</td><td>长格式列出，显示权限、所有者、大小、时间</td></tr>
+                            <tr><td><code>-a</code></td><td>all</td><td>显示所有文件，包括以点开头的隐藏文件</td></tr>
+                            <tr><td><code>-h</code></td><td>human</td><td>人类可读的文件大小（KB, MB, GB）</td></tr>
+                            <tr><td><code>-t</code></td><td>time</td><td>按修改时间排序（最新的在前）</td></tr>
+                            <tr><td><code>-r</code></td><td>reverse</td><td>反向排序</td></tr>
+                            <tr><td><code>-S</code></td><td>size</td><td>按文件大小排序（最大的在前）</td></tr>
+                            <tr><td><code>-R</code></td><td>recursive</td><td>递归列出子目录</td></tr>
+                            <tr><td><code>-d</code></td><td>directory</td><td>列出目录本身而非其内容</td></tr>
+                            <tr><td><code>--color</code></td><td></td><td>启用彩色输出</td></tr>
+                        </table>
+
+                        <div class="code-block">
+                            <div class="code-header"><div class="code-dots"><span></span><span></span><span></span></div></div>
+                            <div class="code-content">
+<span class="comment"># 最常用的组合：长格式、显示隐藏文件、人类可读</span>
+<span class="command">ls</span> <span class="option">-lah</span>
+<span class="output">drwxr-xr-x  5 user group 4.0K Jan 15 10:30 .</span>
+<span class="output">drwxr-xr-x 12 user group 4.0K Jan 14 09:00 ..</span>
 <span class="output">-rw-r--r--  1 user group  220 Jan 15 09:15 .bashrc</span>
+<span class="output">drwxr-xr-x  3 user group 4.0K Jan 15 10:30 Documents</span>
 
-<span class="comment"># 切换目录 (. 当前目录, .. 上级目录, ~ 家目录)</span>
-<span class="command">cd</span> <span class="arg">~/Documents</span>
-<span class="command">cd</span> <span class="arg">..</span>
-                        </div>
-                    </div>
-                </article>
+<span class="comment"># 按时间排序（最新文件在最后）</span>
+<span class="command">ls</span> <span class="option">-ltr</span>
 
-                <!-- File Operations -->
-                <article class="tutorial-card card-medium animate-on-scroll">
-                    <div class="card-header">
-                        <div class="card-icon">✏️</div>
-                        <span class="card-tag">Basic</span>
-                    </div>
-                    <h3 class="card-title">文件操作</h3>
-                    <p class="card-desc">创建、复制、移动、删除——CRUD 的 shell 版本。</p>
-                    <div class="code-block">
-                        <div class="code-header">
-                            <div class="code-dots">
-                                <span></span>
-                                <span></span>
-                                <span></span>
+<span class="comment"># 只显示目录</span>
+<span class="command">ls</span> <span class="option">-d</span> <span class="arg">*/</span>
                             </div>
                         </div>
-                        <div class="code-content">
-<span class="comment"># 创建空文件或更新时间戳</span>
-<span class="command">touch</span> <span class="arg">file.txt</span>
 
-<span class="comment"># 创建目录 (-p 递归创建)</span>
-<span class="command">mkdir</span> <span class="arg">-p projects/web/app</span>
-
-<span class="comment"># 复制 (-r 递归复制目录)</span>
-<span class="command">cp</span> <span class="arg">-r source/ dest/</span>
-
-<span class="comment"># 移动或重命名</span>
-<span class="command">mv</span> <span class="arg">old.txt new.txt</span>
-
-<span class="comment"># 删除 (-r 递归, -f 强制)</span>
-<span class="command">rm</span> <span class="arg">-rf folder/</span>
+                        <div class="example-block">
+                            <div class="example-title">🎯 实用示例：查找最近修改的文件</div>
+                            <div class="code-block">
+                                <div class="code-content">
+<span class="command">ls</span> <span class="option">-lt</span> <span class="path">/var/log</span> <span class="option">|</span> <span class="command">head</span> <span class="option">-10</span>
+                                </div>
+                            </div>
+                            <p style="color: var(--text-muted); font-size: 0.875rem; margin-top: 0.5rem;">显示 /var/log 目录中最近修改的 10 个文件</p>
                         </div>
                     </div>
-                </article>
+                </div>
 
-                <!-- Path Tips -->
-                <article class="tutorial-card card-small animate-on-scroll">
-                    <div class="card-header">
-                        <div class="card-icon">💡</div>
-                        <span class="card-tag">Tips</span>
+                <!-- cd command -->
+                <div class="command-card animate-on-scroll" id="cmd-cd">
+                    <div class="command-header">
+                        <span class="command-name">cd</span>
+                        <span class="command-signature">change directory</span>
                     </div>
-                    <h3 class="card-title">路径技巧</h3>
-                    <p class="card-desc">Tab 自动补全是你的好朋友。</p>
-                    <ul class="feature-list">
-                        <li><strong>Tab</strong> — 自动补全路径/命令</li>
-                        <li><strong>Tab×2</strong> — 列出所有可能</li>
-                        <li><strong>Ctrl+C</strong> — 终止当前命令</li>
-                        <li><strong>Ctrl+L</strong> — 清屏</li>
-                        <li><strong>↑/↓</strong> — 历史命令</li>
-                    </ul>
-                </article>
-            </div>
-        </section>
+                    <div class="command-body">
+                        <p class="command-desc">切换当前工作目录。这是导航文件系统的核心命令。</p>
 
-        <section class="section" id="system">
-            <div class="section-header animate-on-scroll">
-                <span class="section-number">Module 02</span>
-                <h2 class="section-title">权限与进程</h2>
-            </div>
+                        <div class="code-block">
+                            <div class="code-header"><div class="code-dots"><span></span><span></span><span></span></div></div>
+                            <div class="code-content">
+<span class="comment"># 切换到指定目录（绝对路径）</span>
+<span class="command">cd</span> <span class="path">/home/user/Documents</span>
 
-            <div class="tutorial-grid">
-                <!-- Permissions -->
-                <article class="tutorial-card card-medium animate-on-scroll" id="system-perm">
-                    <p class="card-desc">Unix 安全模型的核心：读(4)、写(2)、执行(1)。</p>
-                    <div class="code-block">
-                        <div class="code-header">
-                            <div class="code-dots">
-                                <span></span>
-                                <span></span>
-                                <span></span>
+<span class="comment"># 切换到用户主目录</span>
+<span class="command">cd</span> <span class="path">~</span>
+<span class="command">cd</span>                    <span class="comment"># 不带参数也回到主目录</span>
+
+<span class="comment"># 切换到上级目录</span>
+<span class="command">cd</span> <span class="path">..</span>
+
+<span class="comment"># 切换到刚才所在的目录（快速来回切换）</span>
+<span class="command">cd</span> <span class="path">-</span>
+
+<span class="comment"># 使用环境变量</span>
+<span class="command">cd</span> <span class="arg">\$HOME/projects</span>
                             </div>
                         </div>
-                        <div class="code-content">
-<span class="comment"># 查看权限</span>
-<span class="command">ls</span> <span class="arg">-l</span>
-<span class="output">-rwxr-xr-x 1 user group script.sh</span>
 
-<span class="comment"># 数字模式: 755 = rwxr-xr-x</span>
-<span class="command">chmod</span> <span class="arg">755 script.sh</span>
-
-<span class="comment"># 符号模式</span>
-<span class="command">chmod</span> <span class="arg">u+x script.sh</span>
-<span class="command">chmod</span> <span class="arg">go-w file.txt</span>
-
-<span class="comment"># 修改所有者</span>
-<span class="command">sudo chown</span> <span class="arg">user:group file</span>
+                        <div class="info-box tip">
+                            <div class="info-box-title">💡 Tab 自动补全</div>
+                            <p>输入目录名的前几个字母，按 <kbd>Tab</kbd> 键自动补全。按两次 <kbd>Tab</kbd> 显示所有匹配项。</p>
                         </div>
                     </div>
-                </article>
+                </div>
 
-                <!-- Process Management -->
-                <article class="tutorial-card card-large animate-on-scroll" id="system-proc">
-                    <p class="card-desc">每个程序都是一个进程。学会查看、监控和终止它们。</p>
-                    <div class="code-block">
-                        <div class="code-header">
-                            <div class="code-dots">
-                                <span></span>
-                                <span></span>
-                                <span></span>
+                <!-- touch command -->
+                <div class="command-card animate-on-scroll" id="cmd-touch">
+                    <div class="command-header">
+                        <span class="command-name">touch</span>
+                        <span class="command-signature">create file / update timestamp</span>
+                    </div>
+                    <div class="command-body">
+                        <p class="command-desc">创建空文件或更新现有文件的时间戳。如果不存在则创建，如果存在则更新时间。</p>
+
+                        <table class="param-table">
+                            <tr><th>选项</th><th>说明</th></tr>
+                            <tr><td><code>-a</code></td><td>只更新访问时间（atime）</td></tr>
+                            <tr><td><code>-m</code></td><td>只更新修改时间（mtime）</td></tr>
+                            <tr><td><code>-t</code></td><td>使用指定时间而非当前时间</td></tr>
+                            <tr><td><code>-c</code></td><td>不创建不存在的文件</td></tr>
+                        </table>
+
+                        <div class="code-block">
+                            <div class="code-header"><div class="code-dots"><span></span><span></span><span></span></div></div>
+                            <div class="code-content">
+<span class="comment"># 创建单个空文件</span>
+<span class="command">touch</span> <span class="arg">newfile.txt</span>
+
+<span class="comment"># 创建多个文件</span>
+<span class="command">touch</span> <span class="arg">file1.txt file2.txt file3.txt</span>
+
+<span class="comment"># 批量创建文件</span>
+<span class="command">touch</span> <span class="arg">file{1..10}.txt</span>    <span class="comment"># 创建 file1.txt 到 file10.txt</span>
+
+<span class="comment"># 更新文件时间为特定日期</span>
+<span class="command">touch</span> <span class="option">-t</span> <span class="arg">202401151200</span> <span class="arg">file.txt</span>
                             </div>
                         </div>
-                        <div class="code-content">
-<span class="comment"># 查看进程 (BSD风格)</span>
+                    </div>
+                </div>
+
+                <!-- mkdir command -->
+                <div class="command-card animate-on-scroll" id="cmd-mkdir">
+                    <div class="command-header">
+                        <span class="command-name">mkdir</span>
+                        <span class="command-signature">make directories</span>
+                    </div>
+                    <div class="command-body">
+                        <p class="command-desc">创建目录。使用 <code>-p</code> 选项可以创建多级嵌套目录。</p>
+
+                        <div class="code-block">
+                            <div class="code-header"><div class="code-dots"><span></span><span></span><span></span></div></div>
+                            <div class="code-content">
+<span class="comment"># 创建单个目录</span>
+<span class="command">mkdir</span> <span class="arg">newdir</span>
+
+<span class="comment"># 递归创建多级目录（如果不存在则创建父目录）</span>
+<span class="command">mkdir</span> <span class="option">-p</span> <span class="path">projects/web/app/src</span>
+
+<span class="comment"># 创建多个同级目录</span>
+<span class="command">mkdir</span> <span class="arg">dir1 dir2 dir3</span>
+
+<span class="comment"># 创建目录并显示详细信息</span>
+<span class="command">mkdir</span> <span class="option">-pv</span> <span class="path">a/b/c</span>
+<span class="output">mkdir: 已创建目录 'a'</span>
+<span class="output">mkdir: 已创建目录 'a/b'</span>
+<span class="output">mkdir: 已创建目录 'a/b/c'</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- cp command -->
+                <div class="command-card animate-on-scroll" id="cmd-cp">
+                    <div class="command-header">
+                        <span class="command-name">cp</span>
+                        <span class="command-signature">copy files and directories</span>
+                    </div>
+                    <div class="command-body">
+                        <p class="command-desc">复制文件或目录。这是文件管理中最常用的操作之一。</p>
+
+                        <table class="param-table">
+                            <tr><th>选项</th><th>说明</th></tr>
+                            <tr><td><code>-r</code></td><td>递归复制（用于目录）</td></tr>
+                            <tr><td><code>-a</code></td><td>归档模式，保留所有属性（同 -dR --preserve=all）</td></tr>
+                            <tr><td><code>-v</code></td><td>详细模式，显示复制过程</td></tr>
+                            <tr><td><code>-i</code></td><td>覆盖前询问确认</td></tr>
+                            <tr><td><code>-u</code></td><td>仅在源文件比目标新或目标不存在时复制</td></tr>
+                            <tr><td><code>-n</code></td><td>不覆盖已有文件</td></tr>
+                            <tr><td><code>--preserve</code></td><td>保留指定属性（模式、所有权、时间戳）</td></tr>
+                        </table>
+
+                        <div class="code-block">
+                            <div class="code-header"><div class="code-dots"><span></span><span></span><span></span></div></div>
+                            <div class="code-content">
+<span class="comment"># 复制单个文件</span>
+<span class="command">cp</span> <span class="arg">source.txt</span> <span class="arg">dest.txt</span>
+
+<span class="comment"># 复制到目录</span>
+<span class="command">cp</span> <span class="arg">file.txt</span> <span class="path">/home/user/Documents/</span>
+
+<span class="comment"># 复制整个目录（必须加 -r）</span>
+<span class="command">cp</span> <span class="option">-r</span> <span class="path">source_dir/</span> <span class="path">dest_dir/</span>
+
+<span class="comment"># 归档复制（保留链接、权限、时间戳等）</span>
+<span class="command">cp</span> <span class="option">-a</span> <span class="path">source/</span> <span class="path">backup/</span>
+
+<span class="comment"># 安全复制（覆盖前询问）</span>
+<span class="command">cp</span> <span class="option">-i</span> <span class="arg">file.txt</span> <span class="path">/important/</span>
+
+<span class="comment"># 复制多个文件到目录</span>
+<span class="command">cp</span> <span class="arg">file1.txt file2.txt file3.txt</span> <span class="path">dest_dir/</span>
+                            </div>
+                        </div>
+
+                        <div class="info-box warning">
+                            <div class="info-box-title">⚠️ 警告</div>
+                            <p>复制目录时不要忘记 <code>-r</code> 选项，否则会报错。<code>cp -r</code> 会跟随符号链接，如果需要保留链接使用 <code>-a</code>。</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- mv command -->
+                <div class="command-card animate-on-scroll" id="cmd-mv">
+                    <div class="command-header">
+                        <span class="command-name">mv</span>
+                        <span class="command-signature">move / rename files</span>
+                    </div>
+                    <div class="command-body">
+                        <p class="command-desc">移动或重命名文件和目录。mv 实际上是"重命名"操作，无论是否在同一文件系统。</p>
+
+                        <div class="code-block">
+                            <div class="code-header"><div class="code-dots"><span></span><span></span><span></span></div></div>
+                            <div class="code-content">
+<span class="comment"># 重命名文件</span>
+<span class="command">mv</span> <span class="arg">old_name.txt</span> <span class="arg">new_name.txt</span>
+
+<span class="comment"># 移动文件到目录</span>
+<span class="command">mv</span> <span class="arg">file.txt</span> <span class="path">Documents/</span>
+
+<span class="comment"># 移动多个文件</span>
+<span class="command">mv</span> <span class="arg">file1.txt file2.txt</span> <span class="path">dest_dir/</span>
+
+<span class="comment"># 移动并覆盖（强制）</span>
+<span class="command">mv</span> <span class="option">-f</span> <span class="arg">source</span> <span class="arg">dest</span>
+
+<span class="comment"># 交互式移动（覆盖前询问）</span>
+<span class="command">mv</span> <span class="option">-i</span> <span class="arg">source</span> <span class="arg">dest</span>
+
+<span class="comment"># 不覆盖已有文件</span>
+<span class="command">mv</span> <span class="option">-n</span> <span class="arg">source</span> <span class="arg">dest</span>
+                            </div>
+                        </div>
+
+                        <div class="info-box tip">
+                            <div class="info-box-title">💡 技巧</div>
+                            <p>使用 <code>mv</code> 重命名时如果目标已存在，会被覆盖。使用 <code>mv -i</code> 或 <code>mv -n</code> 来避免意外覆盖。</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- rm command -->
+                <div class="command-card animate-on-scroll" id="cmd-rm">
+                    <div class="command-header">
+                        <span class="command-name">rm</span>
+                        <span class="command-signature">remove files or directories</span>
+                    </div>
+                    <div class="command-body">
+                        <p class="command-desc"><strong style="color: var(--color-warm);">永久删除</strong>文件或目录。删除的文件不会进入回收站，无法恢复，使用时务必小心！</p>
+
+                        <table class="param-table">
+                            <tr><th>选项</th><th>说明</th></tr>
+                            <tr><td><code>-r</code> / <code>-R</code></td><td>递归删除（用于目录）</td></tr>
+                            <tr><td><code>-f</code></td><td>强制删除，不提示，忽略不存在的文件</td></tr>
+                            <tr><td><code>-i</code></td><td>删除前逐一询问确认</td></tr>
+                            <tr><td><code>-v</code></td><td>显示详细删除过程</td></tr>
+                            <tr><td><code>--preserve-root</code></td><td>防止误删根目录（默认启用）</td></tr>
+                        </table>
+
+                        <div class="code-block">
+                            <div class="code-header"><div class="code-dots"><span></span><span></span><span></span></div></div>
+                            <div class="code-content">
+<span class="comment"># 删除单个文件</span>
+<span class="command">rm</span> <span class="arg">file.txt</span>
+
+<span class="comment"># 删除多个文件</span>
+<span class="command">rm</span> <span class="arg">file1.txt file2.txt</span>
+
+<span class="comment"># 删除空目录</span>
+<span class="command">rmdir</span> <span class="arg">empty_dir/</span>
+<span class="command">rm</span> <span class="option">-d</span> <span class="arg">empty_dir/</span>
+
+<span class="comment"># 删除非空目录（危险操作！）</span>
+<span class="command">rm</span> <span class="option">-r</span> <span class="path">directory/</span>
+
+<span class="comment"># 强制递归删除（极度危险！）</span>
+<span class="command">rm</span> <span class="option">-rf</span> <span class="path">directory/</span>
+                            </div>
+                        </div>
+
+                        <div class="info-box warning">
+                            <div class="info-box-title">⚠️ 警告：rm -rf</div>
+                            <p><code>rm -rf /</code> 会删除整个系统！现代系统有 <code>--preserve-root</code> 保护，但仍需极度小心。使用 <code>rm -rf</code> 前务必确认路径正确。</p>
+                        </div>
+
+                        <div class="accordion">
+                            <div class="accordion-header">
+                                <h4>🛡️ 安全的删除习惯</h4>
+                                <span class="accordion-icon">▼</span>
+                            </div>
+                            <div class="accordion-content">
+                                <ol style="padding-left: 1.5rem; color: var(--text-muted);">
+                                    <li>删除前先用 <code>ls</code> 确认要删除的内容：<code>ls target*</code> 然后 <code>rm target*</code></li>
+                                    <li>使用绝对路径：<code>rm /home/user/file.txt</code></li>
+                                    <li>使用 <code>-i</code> 选项交互式删除：<code>rm -ri directory/</code></li>
+                                    <li>使用 <code>trash-cli</code> 等工具代替 rm，提供回收站功能</li>
+                                    <li>删除前备份重要数据</li>
+                                </ol>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- find command -->
+                <div class="command-card animate-on-scroll" id="cmd-find">
+                    <div class="command-header">
+                        <span class="command-name">find</span>
+                        <span class="command-signature">search for files</span>
+                    </div>
+                    <div class="command-body">
+                        <p class="command-desc">在目录层次结构中搜索文件。这是 Linux 中最强大的文件搜索工具，支持复杂的条件组合。</p>
+
+                        <table class="param-table">
+                            <tr><th>表达式</th><th>说明</th></tr>
+                            <tr><td><code>-name</code></td><td>按名称搜索（区分大小写）</td></tr>
+                            <tr><td><code>-iname</code></td><td>按名称搜索（不区分大小写）</td></tr>
+                            <tr><td><code>-type</code></td><td>按类型搜索：f(文件), d(目录), l(链接)</td></tr>
+                            <tr><td><code>-size</code></td><td>按大小搜索：+10M, -1k, 100c</td></tr>
+                            <tr><td><code>-mtime</code></td><td>按修改时间搜索：-7(7天内), +30(30天前)</td></tr>
+                            <tr><td><code>-exec</code></td><td>对找到的文件执行命令</td></tr>
+                            <tr><td><code>-delete</code></td><td>删除找到的文件</td></tr>
+                            <tr><td><code>-maxdepth</code></td><td>限制搜索深度</td></tr>
+                        </table>
+
+                        <div class="code-block">
+                            <div class="code-header"><div class="code-dots"><span></span><span></span><span></span></div></div>
+                            <div class="code-content">
+<span class="comment"># 按名称查找</span>
+<span class="command">find</span> <span class="path">.</span> <span class="option">-name</span> <span class="arg">"*.txt"</span>
+
+<span class="comment"># 查找并忽略大小写</span>
+<span class="command">find</span> <span class="path">.</span> <span class="option">-iname</span> <span class="arg">"*config*"</span>
+
+<span class="comment"># 查找目录</span>
+<span class="command">find</span> <span class="path">.</span> <span class="option">-type</span> <span class="arg">d</span> <span class="option">-name</span> <span class="arg">"node_modules"</span>
+
+<span class="comment"># 查找大于 100MB 的文件</span>
+<span class="command">find</span> <span class="path">.</span> <span class="option">-size</span> <span class="arg">+100M</span>
+
+<span class="comment"># 查找 7 天内修改的文件</span>
+<span class="command">find</span> <span class="path">.</span> <span class="option">-mtime</span> <span class="arg">-7</span>
+
+<span class="comment"># 查找并执行命令（删除旧日志）</span>
+<span class="command">find</span> <span class="path">/var/log</span> <span class="option">-name</span> <span class="arg">"*.log"</span> <span class="option">-mtime</span> <span class="arg">+30</span> <span class="option">-exec</span> <span class="command">rm</span> <span class="arg">{} \;</span>
+
+<span class="comment"># 查找空文件并删除</span>
+<span class="command">find</span> <span class="path">.</span> <span class="option">-type</span> <span class="arg">f</span> <span class="option">-empty</span> <span class="option">-delete</span>
+                            </div>
+                        </div>
+
+                        <div class="example-block">
+                            <div class="example-title">🎯 实用示例：批量重命名</div>
+                            <div class="code-block">
+                                <div class="code-content">
+<span class="comment"># 将所有 .txt 文件转换为 .bak</span>
+<span class="command">find</span> <span class="path">.</span> <span class="option">-name</span> <span class="arg">"*.txt"</span> <span class="option">-exec</span> <span class="command">mv</span> <span class="arg">{}</span> <span class="arg">{}.bak</span> <span class="arg">\;</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- locate command -->
+                <div class="command-card animate-on-scroll" id="cmd-locate">
+                    <div class="command-header">
+                        <span class="command-name">locate</span>
+                        <span class="command-signature">find files by name</span>
+                    </div>
+                    <div class="command-body">
+                        <p class="command-desc">通过预建的数据库快速查找文件。比 find 更快，但数据库需要定期更新。</p>
+
+                        <div class="code-block">
+                            <div class="code-header"><div class="code-dots"><span></span><span></span><span></span></div></div>
+                            <div class="code-content">
+<span class="comment"># 基本搜索（模糊匹配）</span>
+<span class="command">locate</span> <span class="arg">filename</span>
+
+<span class="comment"># 更新数据库（需要 root）</span>
+<span class="command">sudo</span> <span class="command">updatedb</span>
+
+<span class="comment"># 查找时忽略大小写</span>
+<span class="command">locate</span> <span class="option">-i</span> <span class="arg">filename</span>
+
+<span class="comment"># 只显示存在的文件（避免显示已删除但数据库未更新的文件）</span>
+<span class="command">locate</span> <span class="option">-e</span> <span class="arg">filename</span>
+                            </div>
+                        </div>
+
+                        <div class="info-box note">
+                            <div class="info-box-title">📝 locate vs find</div>
+                            <p><code>locate</code> 搜索数据库，速度快但可能不包含最新文件；<code>find</code> 实时搜索文件系统，准确但更慢。</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Practice -->
+                <div class="practice-card animate-on-scroll">
+                    <div class="practice-header">
+                        <div class="practice-icon">🎯</div>
+                        <h3 class="practice-title">实战练习：文件管理</h3>
+                    </div>
+                    <p class="practice-desc">完成以下任务，巩固文件操作命令：</p>
+                    <ol class="practice-steps">
+                        <li>在主目录下创建 <code>linux-practice</code> 目录</li>
+                        <li>在该目录下创建三个子目录：<code>docs</code>、<code>images</code>、<code>scripts</code></li>
+                        <li>在 docs 目录下创建 5 个空文本文件：<code>file1.txt</code> 到 <code>file5.txt</code></li>
+                        <li>将所有 .txt 文件复制到 scripts 目录</li>
+                        <li>查找并删除所有 file3 开头的文件</li>
+                        <li>显示当前目录的完整路径</li>
+                    </ol>
+
+                    <div class="accordion">
+                        <div class="accordion-header">
+                            <h4>📖 参考答案</h4>
+                            <span class="accordion-icon">▼</span>
+                        </div>
+                        <div class="accordion-content">
+                            <div class="code-block">
+                                <div class="code-content">
+<span class="command">mkdir</span> <span class="path">~/linux-practice</span> <span class="option">&&</span> <span class="command">cd</span> <span class="path">~/linux-practice</span>
+<span class="command">mkdir</span> <span class="arg">docs images scripts</span>
+<span class="command">touch</span> <span class="path">docs/file{1..5}.txt</span>
+<span class="command">cp</span> <span class="path">docs/*.txt</span> <span class="path">scripts/</span>
+<span class="command">find</span> <span class="path">.</span> <span class="option">-name</span> <span class="arg">"file3*"</span> <span class="option">-delete</span>
+<span class="command">pwd</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Module 2: Permissions and Processes -->
+            <section class="section" id="system">
+                <div class="section-header animate-on-scroll">
+                    <span class="section-number">Module 02</span>
+                    <h2 class="section-title">权限与进程管理</h2>
+                    <p class="section-desc">理解 Unix 权限模型和进程控制是系统管理的基础。</p>
+                </div>
+
+                <!-- chmod command -->
+                <div class="command-card animate-on-scroll" id="cmd-chmod">
+                    <div class="command-header">
+                        <span class="command-name">chmod</span>
+                        <span class="command-signature">change file mode bits</span>
+                    </div>
+                    <div class="command-body">
+                        <p class="command-desc">修改文件或目录的权限。Unix 权限系统由三组权限（所有者、组、其他）和三种访问类型（读、写、执行）组成。</p>
+
+                        <h4>权限数字表示</h4>
+                        <table class="param-table">
+                            <tr><th>权限</th><th>数值</th><th>说明</th></tr>
+                            <tr><td><code>r</code> (read)</td><td>4</td><td>读取文件内容或列出目录</td></tr>
+                            <tr><td><code>w</code> (write)</td><td>2</td><td>修改文件内容或创建/删除目录项</td></tr>
+                            <tr><td><code>x</code> (execute)</td><td>1</td><td>执行文件或进入目录</td></tr>
+                        </table>
+
+                        <h4>常用权限组合</h4>
+                        <div class="ref-grid">
+                            <div class="ref-card">
+                                <h4>文件权限</h4>
+                                <ul class="ref-list">
+                                    <li><code>644</code> <span>rw-r--r-- 普通文件</span></li>
+                                    <li><code>755</code> <span>rwxr-xr-x 可执行文件</span></li>
+                                    <li><code>600</code> <span>rw------- 私密文件</span></li>
+                                    <li><code>777</code> <span>rwxrwxrwx 完全开放（慎用）</span></li>
+                                </ul>
+                            </div>
+                            <div class="ref-card">
+                                <h4>目录权限</h4>
+                                <ul class="ref-list">
+                                    <li><code>755</code> <span>rwxr-xr-x 标准目录</span></li>
+                                    <li><code>700</code> <span>rwx------ 私有目录</span></li>
+                                    <li><code>777</code> <span>rwxrwxrwx 共享目录</span></li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="code-block">
+                            <div class="code-header"><div class="code-dots"><span></span><span></span><span></span></div></div>
+                            <div class="code-content">
+<span class="comment"># 数字模式设置权限</span>
+<span class="command">chmod</span> <span class="arg">755</span> <span class="arg">script.sh</span>
+<span class="command">chmod</span> <span class="arg">644</span> <span class="arg">file.txt</span>
+
+<span class="comment"># 符号模式：添加权限</span>
+<span class="command">chmod</span> <span class="arg">u+x</span> <span class="arg">script.sh</span>      <span class="comment"># 给所有者添加执行权限</span>
+<span class="command">chmod</span> <span class="arg">go-w</span> <span class="arg">file.txt</span>       <span class="comment"># 移除组和其他人的写权限</span>
+<span class="command">chmod</span> <span class="arg">a+r</span> <span class="arg">document</span>       <span class="comment"># 给所有人添加读权限</span>
+
+<span class="comment"># 递归修改目录权限</span>
+<span class="command">chmod</span> <span class="option">-R</span> <span class="arg">755</span> <span class="path">project/</span>
+
+<span class="comment"># 参考模式（将 file1 的权限复制给 file2）</span>
+<span class="command">chmod</span> <span class="option">--reference</span>=<span class="arg">file1</span> <span class="arg">file2</span>
+                            </div>
+                        </div>
+
+                        <div class="info-box note">
+                            <div class="info-box-title">📝 权限符号说明</div>
+                            <p><code>u</code>=用户(user), <code>g</code>=组(group), <code>o</code>=其他(other), <code>a</code>=所有(all)</p>
+                            <p><code>+</code>=添加, <code>-</code>=移除, <code>=</code>=设置</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- chown command -->
+                <div class="command-card animate-on-scroll" id="cmd-chown">
+                    <div class="command-header">
+                        <span class="command-name">chown</span>
+                        <span class="command-signature">change file owner</span>
+                    </div>
+                    <div class="command-body">
+                        <p class="command-desc">修改文件或目录的所有者和所属组。通常需要 root 权限。</p>
+
+                        <div class="code-block">
+                            <div class="code-header"><div class="code-dots"><span></span><span></span><span></span></div></div>
+                            <div class="code-content">
+<span class="comment"># 修改所有者（需要 sudo）</span>
+<span class="command">sudo</span> <span class="command">chown</span> <span class="arg">newuser</span> <span class="arg">file.txt</span>
+
+<span class="comment"># 同时修改所有者和组</span>
+<span class="command">sudo</span> <span class="command">chown</span> <span class="arg">newuser:newgroup</span> <span class="arg">file.txt</span>
+<span class="command">sudo</span> <span class="command">chown</span> <span class="arg">newuser.newgroup</span> <span class="arg">file.txt</span>
+
+<span class="comment"># 只修改组</span>
+<span class="command">sudo</span> <span class="command">chown</span> <span class="arg">:newgroup</span> <span class="arg">file.txt</span>
+<span class="command">sudo</span> <span class="command">chgrp</span> <span class="arg">newgroup</span> <span class="arg">file.txt</span>    <span class="comment"># 等效命令</span>
+
+<span class="comment"># 递归修改目录所有权</span>
+<span class="command">sudo</span> <span class="command">chown</span> <span class="option">-R</span> <span class="arg">user:group</span> <span class="path">/var/www</span>
+                            </div>
+                        </div>
+
+                        <div class="example-block">
+                            <div class="example-title">🎯 常见场景：Web 服务器权限</div>
+                            <div class="code-block">
+                                <div class="code-content">
+<span class="comment"># 将网站目录所有权给 web 服务器用户</span>
+<span class="command">sudo</span> <span class="command">chown</span> <span class="option">-R</span> <span class="arg">www-data:www-data</span> <span class="path">/var/www/html</span>
+<span class="command">sudo</span> <span class="command">chmod</span> <span class="option">-R</span> <span class="arg">755</span> <span class="path">/var/www/html</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ps command -->
+                <div class="command-card animate-on-scroll" id="cmd-ps">
+                    <div class="command-header">
+                        <span class="command-name">ps</span>
+                        <span class="command-signature">process status</span>
+                    </div>
+                    <div class="command-body">
+                        <p class="command-desc">显示当前进程状态。ps 可以显示系统上运行的进程的快照。</p>
+
+                        <div class="code-block">
+                            <div class="code-header"><div class="code-dots"><span></span><span></span><span></span></div></div>
+                            <div class="code-content">
+<span class="comment"># 显示当前用户的进程</span>
+<span class="command">ps</span>
+
+<span class="comment"># 显示所有进程的详细信息（BSD 风格）</span>
 <span class="command">ps</span> <span class="arg">aux</span>
 <span class="output">USER       PID %CPU %MEM    VSZ   RSS TTY      STAT START   TIME COMMAND</span>
 <span class="output">root         1  0.0  0.1 169364  5904 ?        Ss   Jan14   0:03 /sbin/init</span>
 
-<span class="comment"># 实时进程监控 (q退出)</span>
+<span class="comment"># 标准语法</span>
+<span class="command">ps</span> <span class="option">-ef</span>        <span class="comment"># 显示所有进程的完整格式</span>
+<span class="command">ps</span> <span class="option">-ejH</span>      <span class="comment"># 显示进程树</span>
+
+<span class="comment"># 查找特定进程</span>
+<span class="command">ps</span> <span class="arg">aux</span> <span class="option">|</span> <span class="command">grep</span> <span class="arg">nginx</span>
+                            </div>
+                        </div>
+
+                        <table class="param-table">
+                            <tr><th>字段</th><th>说明</th></tr>
+                            <tr><td><code>PID</code></td><td>进程ID</td></tr>
+                            <tr><td><code>PPID</code></td><td>父进程ID</td></tr>
+                            <tr><td><code>%CPU</code></td><td>CPU 使用率</td></tr>
+                            <tr><td><code>%MEM</code></td><td>内存使用率</td></tr>
+                            <tr><td><code>STAT</code></td><td>进程状态（R运行, S睡眠, Z僵尸等）</td></tr>
+                            <tr><td><code>VSZ</code></td><td>虚拟内存大小</td></tr>
+                            <tr><td><code>RSS</code></td><td>常驻内存大小</td></tr>
+                            <tr><td><code>TTY</code></td><td>控制终端</td></tr>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- top/htop command -->
+                <div class="command-card animate-on-scroll" id="cmd-top">
+                    <div class="command-header">
+                        <span class="command-name">top / htop</span>
+                        <span class="command-signature">process viewer</span>
+                    </div>
+                    <div class="command-body">
+                        <p class="command-desc">实时显示系统进程和资源使用情况。htop 是 top 的增强版，提供更友好的交互界面。</p>
+
+                        <div class="tabs">
+                            <div class="tab-header">
+                                <button class="tab-btn active">top 常用操作</button>
+                                <button class="tab-btn">htop 特性</button>
+                            </div>
+                            <div class="tab-panel active">
+                                <div class="code-block">
+                                    <div class="code-content">
+<span class="comment"># 启动 top</span>
 <span class="command">top</span>
-<span class="command">htop</span>  <span class="comment"># 更友好的界面</span>
 
-<span class="comment"># 查找进程</span>
-<span class="command">pgrep</span> <span class="arg">firefox</span>
-<span class="command">ps aux | grep</span> <span class="arg">nginx</span>
+<span class="comment"># top 交互命令</span>
+<span class="output">q          退出</span>
+<span class="output">k          杀死进程（输入 PID）</span>
+<span class="output">r          修改进程优先级（renice）</span>
+<span class="output">Space      刷新显示</span>
+<span class="output">h          帮助</span>
+<span class="output">M          按内存排序</span>
+<span class="output">P          按 CPU 排序</span>
+<span class="output">T          按时间排序</span>
+<span class="output">u          按用户过滤</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="tab-panel">
+                                <div class="code-block">
+                                    <div class="code-content">
+<span class="command">htop</span>        <span class="comment"># 启动 htop</span>
 
-<span class="comment"># 终止进程</span>
-<span class="command">kill</span> <span class="arg">-9 PID</span>
+<span class="output">F1/h       帮助</span>
+<span class="output">F2/S       设置</span>
+<span class="output">F3//       搜索进程</span>
+<span class="output">F4//       过滤进程</span>
+<span class="output">F5/t       树形视图</span>
+<span class="output">F6//       选择排序列</span>
+<span class="output">F7/[       减小 nice 值</span>
+<span class="output">F8/]       增加 nice 值</span>
+<span class="output">F9/k       杀死进程</span>
+<span class="output">F10/q      退出</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="info-box tip">
+                            <div class="info-box-title">💡 安装 htop</div>
+                            <p>大多数发行版需要单独安装：<code>sudo apt install htop</code> 或 <code>sudo dnf install htop</code></p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- kill command -->
+                <div class="command-card animate-on-scroll" id="cmd-kill">
+                    <div class="command-header">
+                        <span class="command-name">kill / killall</span>
+                        <span class="command-signature">terminate processes</span>
+                    </div>
+                    <div class="command-body">
+                        <p class="command-desc">向进程发送信号以控制其行为。默认发送 TERM 信号请求进程终止。</p>
+
+                        <h4>常用信号</h4>
+                        <table class="param-table">
+                            <tr><th>信号</th><th>数值</th><th>说明</th></tr>
+                            <tr><td><code>SIGHUP</code></td><td>1</td><td>终端断开，常用于重新加载配置</td></tr>
+                            <tr><td><code>SIGINT</code></td><td>2</td><td>中断（Ctrl+C）</td></tr>
+                            <tr><td><code>SIGQUIT</code></td><td>3</td><td>退出（Ctrl+\）</td></tr>
+                            <tr><td><code>SIGKILL</code></td><td>9</td><td>强制终止，无法被捕获</td></tr>
+                            <tr><td><code>SIGTERM</code></td><td>15</td><td>默认信号，优雅终止</td></tr>
+                            <tr><td><code>SIGCONT</code></td><td>18</td><td>继续暂停的进程</td></tr>
+                            <tr><td><code>SIGSTOP</code></td><td>19</td><td>暂停进程（Ctrl+Z）</td></tr>
+                        </table>
+
+                        <div class="code-block">
+                            <div class="code-header"><div class="code-dots"><span></span><span></span><span></span></div></div>
+                            <div class="code-content">
+<span class="comment"># 默认终止信号（优雅终止）</span>
+<span class="command">kill</span> <span class="arg">PID</span>
+<span class="command">kill</span> <span class="option">-15</span> <span class="arg">PID</span>
+<span class="command">kill</span> <span class="option">-TERM</span> <span class="arg">PID</span>
+
+<span class="comment"># 强制终止（无法被捕获，最后手段）</span>
+<span class="command">kill</span> <span class="option">-9</span> <span class="arg">PID</span>
+<span class="command">kill</span> <span class="option">-KILL</span> <span class="arg">PID</span>
+
+<span class="comment"># 按名称终止所有匹配进程</span>
 <span class="command">killall</span> <span class="arg">firefox</span>
+<span class="command">killall</span> <span class="option">-9</span> <span class="arg">process_name</span>
+
+<span class="comment"># 重新加载配置（不终止进程）</span>
+<span class="command">kill</span> <span class="option">-HUP</span> <span class="arg">nginx_pid</span>
+
+<span class="comment"># 查看所有可用信号</span>
+<span class="command">kill</span> <span class="option">-l</span>
+                            </div>
+                        </div>
+
+                        <div class="info-box warning">
+                            <div class="info-box-title">⚠️ SIGKILL vs SIGTERM</div>
+                            <p>优先使用 <code>SIGTERM</code>（默认），给进程清理资源的机会。<code>SIGKILL</code> 是最后手段，进程无法捕获或忽略它，可能导致数据丢失。</p>
                         </div>
                     </div>
-                </article>
+                </div>
 
-                <!-- Signals -->
-                <article class="tutorial-card card-small animate-on-scroll" id="system-signal">
-                    <p class="card-desc">进程间通信的基础。</p>
-                    <ul class="feature-list">
-                        <li><strong>SIGINT (2)</strong> — Ctrl+C 中断</li>
-                        <li><strong>SIGTERM (15)</strong> — 优雅终止</li>
-                        <li><strong>SIGKILL (9)</strong> — 强制杀死</li>
-                        <li><strong>SIGHUP (1)</strong> — 终端断开</li>
-                    </ul>
-                </article>
-            </div>
-        </section>
+                <!-- Practice -->
+                <div class="practice-card animate-on-scroll">
+                    <div class="practice-header">
+                        <div class="practice-icon">🎯</div>
+                        <h3 class="practice-title">实战练习：权限与进程</h3>
+                    </div>
+                    <ol class="practice-steps">
+                        <li>创建一个脚本文件 <code>hello.sh</code>，内容为 <code>#!/bin/bash; echo "Hello"</code></li>
+                        <li>查看该文件的默认权限</li>
+                        <li>添加执行权限并运行脚本</li>
+                        <li>修改权限为只有自己能读写，其他人无权限</li>
+                        <li>查看当前运行的所有进程</li>
+                        <li>找到占用 CPU 最多的进程</li>
+                    </ol>
+                </div>
+            </section>
 
-        <section class="section" id="network">
-            <div class="section-header animate-on-scroll">
-                <span class="section-number">Module 03</span>
-                <h2 class="section-title">网络诊断</h2>
-            </div>
+            <!-- Module 3: Network -->
+            <section class="section" id="network">
+                <div class="section-header animate-on-scroll">
+                    <span class="section-number">Module 03</span>
+                    <h2 class="section-title">网络诊断</h2>
+                    <p class="section-desc">掌握网络诊断工具是系统管理员和开发者的必备技能。</p>
+                </div>
 
-            <div class="tutorial-grid">
-                <article class="tutorial-card card-full animate-on-scroll" id="network-tools">
-                    <p class="card-desc">网络问题的诊断始于理解连接。从 IP 地址到数据包，掌握网络的每一层。</p>
-                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: var(--space-md); margin-top: var(--space-md);">
+                <!-- ip command -->
+                <div class="command-card animate-on-scroll" id="cmd-ip">
+                    <div class="command-header">
+                        <span class="command-name">ip</span>
+                        <span class="command-signature">network configuration</span>
+                    </div>
+                    <div class="command-body">
+                        <p class="command-desc">现代 Linux 网络配置工具，替代了 ifconfig。用于查看和配置网络接口、路由、策略路由等。</p>
+
                         <div class="code-block">
-                            <div class="code-header">
-                                <div class="code-dots">
-                                    <span></span>
-                                    <span></span>
-                                    <span></span>
-                                </div>
-                            </div>
+                            <div class="code-header"><div class="code-dots"><span></span><span></span><span></span></div></div>
                             <div class="code-content">
-<span class="comment"># IP 地址和接口</span>
+<span class="comment"># 显示所有网络接口</span>
 <span class="command">ip</span> <span class="arg">addr</span>
-<span class="command">ip</span> <span class="arg">-br -c addr</span> <span class="comment"># 简洁彩色输出</span>
+<span class="command">ip</span> <span class="arg">a</span>           <span class="comment"># 简写</span>
 
-<span class="comment"># 路由表</span>
+<span class="comment"># 简洁彩色输出</span>
+<span class="command">ip</span> <span class="option">-br</span> <span class="option">-c</span> <span class="arg">addr</span>
+<span class="output">lo               UNKNOWN         127.0.0.1/8 ::1/128</span>
+<span class="output">eth0             UP              192.168.1.100/24</span>
+
+<span class="comment"># 显示特定接口</span>
+<span class="command">ip</span> <span class="arg">addr</span> <span class="arg">show</span> <span class="arg">eth0</span>
+
+<span class="comment"># 显示路由表</span>
 <span class="command">ip</span> <span class="arg">route</span>
+<span class="command">ip</span> <span class="arg">r</span>
+
+<span class="comment"># 显示链路层信息</span>
+<span class="command">ip</span> <span class="arg">link</span> <span class="arg">show</span>
                             </div>
                         </div>
+                    </div>
+                </div>
+
+                <!-- ping command -->
+                <div class="command-card animate-on-scroll" id="cmd-ping">
+                    <div class="command-header">
+                        <span class="command-name">ping</span>
+                        <span class="command-signature">ICMP echo request</span>
+                    </div>
+                    <div class="command-body">
+                        <p class="command-desc">测试与目标主机的网络连通性。发送 ICMP echo 请求并等待回应。</p>
+
                         <div class="code-block">
-                            <div class="code-header">
-                                <div class="code-dots">
-                                    <span></span>
-                                    <span></span>
-                                    <span></span>
+                            <div class="code-header"><div class="code-dots"><span></span><span></span><span></span></div></div>
+                            <div class="code-content">
+<span class="comment"># 基本用法（按 Ctrl+C 停止）</span>
+<span class="command">ping</span> <span class="arg">google.com</span>
+
+<span class="comment"># 指定次数</span>
+<span class="command">ping</span> <span class="option">-c</span> <span class="arg">4</span> <span class="arg">google.com</span>
+
+<span class="comment"># 指定间隔（秒）</span>
+<span class="command">ping</span> <span class="option">-i</span> <span class="arg">2</span> <span class="arg">google.com</span>
+
+<span class="comment"># 指定超时</span>
+<span class="command">ping</span> <span class="option">-W</span> <span class="arg">3</span> <span class="arg">host</span>
+
+<span class="comment"># 洪水模式（root 权限，测试网络压力）</span>
+<span class="command">sudo</span> <span class="command">ping</span> <span class="option">-f</span> <span class="arg">localhost</span>
+                            </div>
+                        </div>
+
+                        <div class="example-block">
+                            <div class="example-title">🎯 解读 ping 输出</div>
+                            <div class="code-block">
+                                <div class="code-content">
+<span class="output">64 bytes from 142.250.80.46: icmp_seq=1 ttl=117 time=15.3 ms</span>
+<span class="output">   ↑                      ↑           ↑          ↑        ↑</span>
+<span class="output"> 数据包大小              目标 IP    序列号     生存时间  响应时间</span>
                                 </div>
                             </div>
-                            <div class="code-content">
-<span class="comment"># 连通性测试</span>
-<span class="command">ping</span> <span class="arg">-c 4 google.com</span>
-<span class="command">traceroute</span> <span class="arg">google.com</span>
-
-<span class="comment"># DNS 查询</span>
-<span class="command">dig</span> <span class="arg">google.com</span>
-<span class="command">nslookup</span> <span class="arg">google.com</span>
-                            </div>
                         </div>
-                        <div class="code-block">
-                            <div class="code-header">
-                                <div class="code-dots">
-                                    <span></span>
-                                    <span></span>
-                                    <span></span>
+                    </div>
+                </div>
+
+                <!-- curl/wget command -->
+                <div class="command-card animate-on-scroll" id="cmd-curl">
+                    <div class="command-header">
+                        <span class="command-name">curl / wget</span>
+                        <span class="command-signature">transfer data from URLs</span>
+                    </div>
+                    <div class="command-body">
+                        <p class="command-desc">命令行下的网络数据传输工具。curl 功能更丰富，wget 更适合递归下载。</p>
+
+                        <div class="tabs">
+                            <div class="tab-header">
+                                <button class="tab-btn active">curl 示例</button>
+                                <button class="tab-btn">wget 示例</button>
+                            </div>
+                            <div class="tab-panel active">
+                                <div class="code-block">
+                                    <div class="code-content">
+<span class="comment"># 获取网页内容</span>
+<span class="command">curl</span> <span class="arg">https://api.github.com</span>
+
+<span class="comment"># 保存到文件</span>
+<span class="command">curl</span> <span class="option">-o</span> <span class="arg">output.html</span> <span class="arg">https://example.com</span>
+<span class="command">curl</span> <span class="option">-O</span> <span class="arg">https://example.com/file.zip</span>  <span class="comment"># 保留原文件名</span>
+
+<span class="comment"># 跟随重定向</span>
+<span class="command">curl</span> <span class="option">-L</span> <span class="arg">https://bit.ly/xxx</span>
+
+<span class="comment"># POST 请求</span>
+<span class="command">curl</span> <span class="option">-X</span> <span class="arg">POST</span> <span class="option">-d</span> <span class="arg">'key=value'</span> <span class="arg">https://api.example.com</span>
+
+<span class="comment"># 添加 Header</span>
+<span class="command">curl</span> <span class="option">-H</span> <span class="arg">'Authorization: Bearer token'</span> <span class="arg">https://api.example.com</span>
+
+<span class="comment"># 下载并显示进度</span>
+<span class="command">curl</span> <span class="option">-#</span> <span class="option">-o</span> <span class="arg">large.zip</span> <span class="arg">https://example.com/large.zip</span>
+                                    </div>
                                 </div>
                             </div>
+                            <div class="tab-panel">
+                                <div class="code-block">
+                                    <div class="code-content">
+<span class="comment"># 下载文件</span>
+<span class="command">wget</span> <span class="arg">https://example.com/file.zip</span>
+
+<span class="comment"># 指定输出文件名</span>
+<span class="command">wget</span> <span class="option">-O</span> <span class="arg">newname.zip</span> <span class="arg">https://example.com/file.zip</span>
+
+<span class="comment"># 后台下载</span>
+<span class="command">wget</span> <span class="option">-b</span> <span class="arg">https://example.com/large.iso</span>
+
+<span class="comment"># 断点续传</span>
+<span class="command">wget</span> <span class="option">-c</span> <span class="arg">https://example.com/large.iso</span>
+
+<span class="comment"># 递归下载网站</span>
+<span class="command">wget</span> <span class="option">-r</span> <span class="option">-l</span> <span class="arg">2</span> <span class="arg">https://example.com</span>
+
+<span class="comment"># 限制下载速度</span>
+<span class="command">wget</span> <span class="option">--limit-rate</span>=<span class="arg">200k</span> <span class="arg">https://example.com/file</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="info-box note">
+                            <div class="info-box-title">📝 curl vs wget</div>
+                            <p><strong>curl</strong>：功能全面，支持更多协议，适合 API 调用和复杂请求。<br>
+                            <strong>wget</strong>：擅长递归下载和断点续传，适合镜像网站和大文件下载。</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Practice -->
+                <div class="practice-card animate-on-scroll">
+                    <div class="practice-header">
+                        <div class="practice-icon">🎯</div>
+                        <h3 class="practice-title">实战练习：网络诊断</h3>
+                    </div>
+                    <ol class="practice-steps">
+                        <li>查看本机的 IP 地址和网络接口</li>
+                        <li>测试与网关的连通性</li>
+                        <li>测试与 8.8.8.8 (Google DNS) 的连通性</li>
+                        <li>使用 curl 获取 https://api.github.com 的响应</li>
+                        <li>下载一个文件到当前目录</li>
+                    </ol>
+                </div>
+            </section>
+
+            <!-- Module 4: Text Processing -->
+            <section class="section" id="text">
+                <div class="section-header animate-on-scroll">
+                    <span class="section-number">Module 04</span>
+                    <h2 class="section-title">文本处理</h2>
+                    <p class="section-desc">Linux 文本处理三剑客：grep、sed、awk。掌握它们，你就能处理任何文本数据。</p>
+                </div>
+
+                <!-- grep command -->
+                <div class="command-card animate-on-scroll" id="cmd-grep">
+                    <div class="command-header">
+                        <span class="command-name">grep</span>
+                        <span class="command-signature">global regular expression print</span>
+                    </div>
+                    <div class="command-body">
+                        <p class="command-desc">搜索文本中的匹配行。支持基本和扩展正则表达式，是文本过滤的首选工具。</p>
+
+                        <table class="param-table">
+                            <tr><th>选项</th><th>说明</th></tr>
+                            <tr><td><code>-i</code></td><td>忽略大小写</td></tr>
+                            <tr><td><code>-v</code></td><td>反向匹配（显示不匹配的行）</td></tr>
+                            <tr><td><code>-n</code></td><td>显示行号</td></tr>
+                            <tr><td><code>-c</code></td><td>计数匹配行</td></tr>
+                            <tr><td><code>-l</code></td><td>只显示包含匹配的文件名</td></tr>
+                            <tr><td><code>-r</code></td><td>递归搜索</td></tr>
+                            <tr><td><code>-E</code></td><td>使用扩展正则表达式（同 egrep）</td></tr>
+                            <tr><td><code>-F</code></td><td>固定字符串搜索（同 fgrep）</td></tr>
+                            <tr><td><code>-w</code></td><td>匹配整个单词</td></tr>
+                            <tr><td><code>-o</code></td><td>只输出匹配的部分</td></tr>
+                            <tr><td><code>-A n</code></td><td>显示匹配行及后 n 行</td></tr>
+                            <tr><td><code>-B n</code></td><td>显示匹配行及前 n 行</td></tr>
+                            <tr><td><code>-C n</code></td><td>显示匹配行及前后各 n 行</td></tr>
+                        </table>
+
+                        <div class="code-block">
+                            <div class="code-header"><div class="code-dots"><span></span><span></span><span></span></div></div>
                             <div class="code-content">
-<span class="comment"># 端口和连接</span>
-<span class="command">ss</span> <span class="arg">-tuln</span> <span class="comment"># 查看监听端口</span>
-<span class="command">netstat</span> <span class="arg">-tuln</span>
+<span class="comment"># 基本搜索</span>
+<span class="command">grep</span> <span class="arg">"error"</span> <span class="arg">log.txt</span>
 
-<span class="comment"># 下载工具</span>
-<span class="command">curl</span> <span class="arg">-O url</span>
-<span class="command">wget</span> <span class="arg">url</span>
+<span class="comment"># 忽略大小写</span>
+<span class="command">grep</span> <span class="option">-i</span> <span class="arg">"warning"</span> <span class="arg">file.log</span>
+
+<span class="comment"># 显示行号</span>
+<span class="command">grep</span> <span class="option">-n</span> <span class="arg">"pattern"</span> <span class="arg">file.txt</span>
+
+<span class="comment"># 递归搜索</span>
+<span class="command">grep</span> <span class="option">-r</span> <span class="arg">"function"</span> <span class="path">src/</span>
+
+<span class="comment"># 扩展正则表达式</span>
+<span class="command">grep</span> <span class="option">-E</span> <span class="arg">"error|warning|fatal"</span> <span class="arg">log.txt</span>
+
+<span class="comment"># 排除匹配行</span>
+<span class="command">grep</span> <span class="option">-v</span> <span class="arg">"^#"</span> <span class="arg">config.txt</span>  <span class="comment"># 排除注释行</span>
+
+<span class="comment"># 显示上下文</span>
+<span class="command">grep</span> <span class="option">-C</span> <span class="arg">3</span> <span class="arg">"Exception"</span> <span class="arg">app.log</span>
+
+<span class="comment"># 只输出匹配部分</span>
+<span class="command">grep</span> <span class="option">-o</span> <span class="arg">"[0-9]\+\.[0-9]\+\.[0-9]\+"</span> <span class="arg">version.txt</span>
+                            </div>
+                        </div>
+
+                        <div class="example-block">
+                            <div class="example-title">🎯 实用示例：日志分析</div>
+                            <div class="code-block">
+                                <div class="code-content">
+<span class="comment"># 统计 ERROR 出现次数</span>
+<span class="command">grep</span> <span class="option">-c</span> <span class="arg">"ERROR"</span> <span class="arg">app.log</span>
+
+<span class="comment"># 查找不包含特定字符串的文件</span>
+<span class="command">grep</span> <span class="option">-L</span> <span class="arg">"TODO"</span> <span class="arg">*.py</span>
+
+<span class="comment"># 复杂条件搜索</span>
+<span class="command">grep</span> <span class="option">-E</span> <span class="arg">"(ERROR|FATAL)"</span> <span class="arg">log.txt</span> <span class="option">|</span> <span class="command">grep</span> <span class="option">-v</span> <span class="arg">"DEBUG"</span>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </article>
-            </div>
-        </section>
+                </div>
 
-        <section class="section" id="tools">
-            <div class="section-header animate-on-scroll">
-                <span class="section-number">Module 04</span>
-                <h2 class="section-title">文本与工具</h2>
-            </div>
+                <!-- sed command -->
+                <div class="command-card animate-on-scroll" id="cmd-sed">
+                    <div class="command-header">
+                        <span class="command-name">sed</span>
+                        <span class="command-signature">stream editor</span>
+                    </div>
+                    <div class="command-body">
+                        <p class="command-desc">流编辑器，用于对文本进行过滤和转换。常用于替换、删除、插入等操作。</p>
 
-            <div class="tutorial-grid">
-                <!-- Text Processing -->
-                <article class="tutorial-card card-large animate-on-scroll" id="tools-text">
-                    <p class="card-desc">grep 搜索、sed 流编辑、awk 文本分析——Unix 哲学的完美体现。</p>
+                        <div class="code-block">
+                            <div class="code-header"><div class="code-dots"><span></span><span></span><span></span></div></div>
+                            <div class="code-content">
+<span class="comment"># 基本替换：s/old/new/flags</span>
+<span class="command">sed</span> <span class="arg">'s/foo/bar/'</span> <span class="arg">file.txt</span>       <span class="comment"># 每行第一个匹配</span>
+<span class="command">sed</span> <span class="arg">'s/foo/bar/g'</span> <span class="arg">file.txt</span>      <span class="comment"># 全局替换</span>
+<span class="command">sed</span> <span class="arg">'s/foo/bar/2'</span> <span class="arg">file.txt</span>      <span class="comment"># 替换第2个匹配</span>
+<span class="command">sed</span> <span class="arg">'s/foo/bar/2g'</span> <span class="arg">file.txt</span>     <span class="comment"># 从第2个开始替换</span>
+
+<span class="comment"># 直接修改文件（-i）</span>
+<span class="command">sed</span> <span class="option">-i</span> <span class="arg">'s/foo/bar/g'</span> <span class="arg">file.txt</span>
+<span class="command">sed</span> <span class="option">-i</span><span class="arg">.bak</span> <span class="arg">'s/foo/bar/g'</span> <span class="arg">file.txt</span>  <span class="comment"># 创建备份</span>
+
+<span class="comment"># 删除行</span>
+<span class="command">sed</span> <span class="arg">'1d'</span> <span class="arg">file.txt</span>               <span class="comment"># 删除第1行</span>
+<span class="command">sed</span> <span class="arg">'1,5d'</span> <span class="arg">file.txt</span>             <span class="comment"># 删除1-5行</span>
+<span class="command">sed</span> <span class="arg">'/^#/d'</span> <span class="arg">file.txt</span>            <span class="comment"># 删除以#开头的行</span>
+
+<span class="comment"># 打印特定行</span>
+<span class="command">sed</span> <span class="option">-n</span> <span class="arg">'5,10p'</span> <span class="arg">file.txt</span>         <span class="comment"># 只打印5-10行</span>
+<span class="command">sed</span> <span class="option">-n</span> <span class="arg">'10p'</span> <span class="arg">file.txt</span>           <span class="comment"># 只打印第10行</span>
+
+<span class="comment"># 在指定行后添加内容</span>
+<span class="command">sed</span> <span class="arg">'5a\This is new line'</span> <span class="arg">file.txt</span>
+
+<span class="comment"># 多重命令</span>
+<span class="command">sed</span> <span class="arg">-e</span> <span class="arg">'s/foo/bar/'</span> <span class="arg">-e</span> <span class="arg">'s/baz/qux/'</span> <span class="arg">file.txt</span>
+                            </div>
+                        </div>
+
+                        <div class="info-box tip">
+                            <div class="info-box-title">💡 sed 定界符</div>
+                            <p>可以使用任意字符作为定界符，当模式包含/时很有用：<code>sed 's#/usr/local#/opt#g'</code></p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- awk command -->
+                <div class="command-card animate-on-scroll" id="cmd-awk">
+                    <div class="command-header">
+                        <span class="command-name">awk</span>
+                        <span class="command-signature">pattern scanning and processing</span>
+                    </div>
+                    <div class="command-body">
+                        <p class="command-desc">强大的文本分析工具，支持编程逻辑。适合处理结构化数据和生成报告。</p>
+
+                        <div class="code-block">
+                            <div class="code-header"><div class="code-dots"><span></span><span></span><span></span></div></div>
+                            <div class="code-content">
+<span class="comment"># 打印特定列（默认空格分隔）</span>
+<span class="command">awk</span> <span class="arg">'{print $1}'</span> <span class="arg">file.txt</span>         <span class="comment"># 第1列</span>
+<span class="command">awk</span> <span class="arg">'{print $NF}'</span> <span class="arg">file.txt</span>        <span class="comment"># 最后一列</span>
+<span class="command">awk</span> <span class="arg">'{print $2, $4}'</span> <span class="arg">file.txt</span>      <span class="comment"># 第2和第4列</span>
+
+<span class="comment"># 指定分隔符</span>
+<span class="command">awk</span> <span class="option">-F:</span> <span class="arg">'{print $1}'</span> <span class="arg">/etc/passwd</span>
+<span class="command">awk</span> <span class="option">-F,</span> <span class="arg">'{print $2}'</span> <span class="arg">data.csv</span>
+
+<span class="comment"># 条件过滤</span>
+<span class="command">awk</span> <span class="arg">'$3 > 100 {print $0}'</span> <span class="arg">data.txt</span>
+<span class="command">awk</span> <span class="arg">'/pattern/ {print}'</span> <span class="arg">file.txt</span>
+
+<span class="comment"># 计算总和</span>
+<span class="command">awk</span> <span class="arg">'{sum += $3} END {print sum}'</span> <span class="arg">data.txt</span>
+<span class="command">awk</span> <span class="arg">'{sum += $3} END {print "Total:", sum}'</span> <span class="arg">data.txt</span>
+
+<span class="comment"># 计算平均值</span>
+<span class="command">awk</span> <span class="arg">'{sum += $3; count++} END {print sum/count}'</span> <span class="arg">data.txt</span>
+
+<span class="comment"># 统计行数</span>
+<span class="command">awk</span> <span class="arg">'END {print NR}'</span> <span class="arg">file.txt</span>
+
+<span class="comment"># 复杂报告</span>
+<span class="command">awk</span> <span class="option">-F:</span> <span class="arg">'{print "User:", $1, "\tShell:", $NF}'</span> <span class="arg">/etc/passwd</span>
+                            </div>
+                        </div>
+
+                        <div class="example-block">
+                            <div class="example-title">🎯 实用示例：进程内存统计</div>
+                            <div class="code-block">
+                                <div class="code-content">
+<span class="command">ps</span> <span class="arg">aux</span> <span class="option">|</span> <span class="command">awk</span> <span class="arg">'{sum += $6} END {printf "Total RSS: %.2f MB\n", sum/1024}'</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <table class="param-table">
+                            <tr><th>内置变量</th><th>说明</th></tr>
+                            <tr><td><code>$0</code></td><td>整行</td></tr>
+                            <tr><td><code>$1-$n</code></td><td>第n个字段</td></tr>
+                            <tr><td><code>NF</code></td><td>字段数</td></tr>
+                            <tr><td><code>NR</code></td><td>行号</td></tr>
+                            <tr><td><code>FS</code></td><td>字段分隔符</td></tr>
+                            <tr><td><code>OFS</code></td><td>输出字段分隔符</td></tr>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Module 5: Shell Scripting -->
+            <section class="section" id="shell">
+                <div class="section-header animate-on-scroll">
+                    <span class="section-number">Module 05</span>
+                    <h2 class="section-title">Shell 编程</h2>
+                    <p class="section-desc">将命令组合成脚本，实现自动化。Shell 脚本是系统管理和DevOps的核心技能。</p>
+                </div>
+
+                <div class="command-card animate-on-scroll">
+                    <div class="command-header">
+                        <span class="command-name">脚本基础</span>
+                        <span class="command-signature">Script Fundamentals</span>
+                    </div>
+                    <div class="command-body">
+                        <h4>脚本结构</h4>
+                        <div class="code-block">
+                            <div class="code-header"><div class="code-dots"><span></span><span></span><span></span></div></div>
+                            <div class="code-content">
+<span class="command">#!/bin/bash</span>
+<span class="comment"># 这是注释</span>
+<span class="comment"># Script: backup.sh</span>
+<span class="comment"># Description: Backup script</span>
+
+<span class="comment"># 设置严格模式</span>
+<span class="command">set</span> <span class="option">-euo</span> <span class="arg">pipefail</span>
+
+<span class="comment"># 变量定义（等号两边不能有空格）</span>
+<span class="arg">SOURCE_DIR</span>=<span class="path">"/home/user/data"</span>
+<span class="arg">BACKUP_DIR</span>=<span class="path">"/backup"</span>
+<span class="arg">DATE</span>=<span class="command">$(date +%Y%m%d)</span>
+
+<span class="comment"># 条件判断</span>
+<span class="command">if</span> [ <span class="option">-d</span> <span class="arg">"$SOURCE_DIR"</span> ]; <span class="command">then</span>
+    <span class="command">echo</span> <span class="arg">"Source exists"</span>
+<span class="command">else</span>
+    <span class="command">echo</span> <span class="arg">"Source not found!"</span>
+    <span class="command">exit</span> <span class="arg">1</span>
+<span class="command">fi</span>
+
+<span class="comment"># 循环</span>
+<span class="command">for</span> <span class="arg">file</span> <span class="command">in</span> <span class="path">/var/log/*.log</span>; <span class="command">do</span>
+    <span class="command">echo</span> <span class="arg">"Processing: $file"</span>
+<span class="command">done</span>
+
+<span class="comment"># 函数定义</span>
+<span class="command">backup_file</span>() {
+    <span class="arg">local</span> <span class="arg">src</span>=<span class="arg">"$1"</span>
+    <span class="arg">local</span> <span class="arg">dest</span>=<span class="arg">"$2"</span>
+    <span class="command">cp</span> <span class="option">-v</span> <span class="arg">"$src"</span> <span class="arg">"$dest"</span>
+}
+                            </div>
+                        </div>
+
+                        <h4>常用条件测试</h4>
+                        <table class="param-table">
+                            <tr><th>测试</th><th>说明</th></tr>
+                            <tr><td><code>-e file</code></td><td>文件存在</td></tr>
+                            <tr><td><code>-f file</code></td><td>是普通文件</td></tr>
+                            <tr><td><code>-d file</code></td><td>是目录</td></tr>
+                            <tr><td><code>-r file</code></td><td>可读</td></tr>
+                            <tr><td><code>-w file</code></td><td>可写</td></tr>
+                            <tr><td><code>-x file</code></td><td>可执行</td></tr>
+                            <tr><td><code>-s file</code></td><td>非空</td></tr>
+                            <tr><td><code>-z string</code></td><td>字符串为空</td></tr>
+                            <tr><td><code>-n string</code></td><td>字符串非空</td></tr>
+                            <tr><td><code>str1 = str2</code></td><td>字符串相等</td></tr>
+                            <tr><td><code>num1 -eq num2</code></td><td>数字相等</td></tr>
+                            <tr><td><code>num1 -gt num2</code></td><td>大于</td></tr>
+                        </table>
+
+                        <h4>特殊变量</h4>
+                        <div class="ref-grid">
+                            <div class="ref-card">
+                                <h4>位置参数</h4>
+                                <ul class="ref-list">
+                                    <li><code>$0</code> <span>脚本名</span></li>
+                                    <li><code>$1-$9</code> <span>第1-9个参数</span></li>
+                                    <li><code>$#</code> <span>参数个数</span></li>
+                                    <li><code>$@</code> <span>所有参数</span></li>
+                                    <li><code>$*</code> <span>所有参数（一个字符串）</span></li>
+                                </ul>
+                            </div>
+                            <div class="ref-card">
+                                <h4>其他特殊变量</h4>
+                                <ul class="ref-list">
+                                    <li><code>$?</code> <span>上一个命令退出码</span></li>
+                                    <li><code>$$</code> <span>当前进程ID</span></li>
+                                    <li><code>$!</code> <span>后台进程ID</span></li>
+                                    <li><code>$_</code> <span>最后一个参数</span></li>
+                                    <li><code>$PWD</code> <span>当前目录</span></li>
+                                    <li><code>$HOME</code> <span>用户主目录</span></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Module 6: Regular Expressions -->
+            <section class="section" id="regex">
+                <div class="section-header animate-on-scroll">
+                    <span class="section-number">Module 06</span>
+                    <h2 class="section-title">正则表达式</h2>
+                    <p class="section-desc">正则表达式是文本处理的瑞士军刀，掌握它能让你的命令行能力倍增。</p>
+                </div>
+
+                <div class="ref-grid">
+                    <div class="ref-card">
+                        <h4>基本元字符</h4>
+                        <ul class="ref-list">
+                            <li><code>.</code> <span>任意单个字符</span></li>
+                            <li><code>*</code> <span>前一字符0次或多次</span></li>
+                            <li><code>+</code> <span>前一字符1次或多次</span></li>
+                            <li><code>?</code> <span>前一字符0次或1次</span></li>
+                            <li><code>^</code> <span>行首</span></li>
+                            <li><code>$</code> <span>行尾</span></li>
+                            <li><code>[]</code> <span>字符集</span></li>
+                            <li><code>[^]</code> <span>否定字符集</span></li>
+                        </ul>
+                    </div>
+                    <div class="ref-card">
+                        <h4>字符类</h4>
+                        <ul class="ref-list">
+                            <li><code>\d</code> <span>数字 [0-9]</span></li>
+                            <li><code>\w</code> <span>单词字符 [a-zA-Z0-9_]</span></li>
+                            <li><code>\s</code> <span>空白字符</span></li>
+                            <li><code>\D</code> <span>非数字</span></li>
+                            <li><code>\W</code> <span>非单词字符</span></li>
+                            <li><code>\S</code> <span>非空白字符</span></li>
+                        </ul>
+                    </div>
+                    <div class="ref-card">
+                        <h4>量词</h4>
+                        <ul class="ref-list">
+                            <li><code>{n}</code> <span>恰好n次</span></li>
+                            <li><code>{n,}</code> <span>至少n次</span></li>
+                            <li><code>{n,m}</code> <span>n到m次</span></li>
+                            <li><code>*?</code> <span>非贪婪*</span></li>
+                            <li><code>+?</code> <span>非贪婪+</span></li>
+                        </ul>
+                    </div>
+                    <div class="ref-card">
+                        <h4>分组与引用</h4>
+                        <ul class="ref-list">
+                            <li><code>()</code> <span>捕获组</span></li>
+                            <li><code>(?:)</code> <span>非捕获组</span></li>
+                            <li><code>|</code> <span>或</span></li>
+                            <li><code>\1</code> <span>引用第1组</span></li>
+                            <li><code>\2</code> <span>引用第2组</span></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="command-card animate-on-scroll">
+                    <div class="command-header">
+                        <span class="command-name">实战示例</span>
+                        <span class="command-signature">Practical Examples</span>
+                    </div>
+                    <div class="command-body">
+                        <div class="code-block">
+                            <div class="code-header"><div class="code-dots"><span></span><span></span><span></span></div></div>
+                            <div class="code-content">
+<span class="comment"># 匹配邮箱地址</span>
+<span class="arg">[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}</span>
+
+<span class="comment"># 匹配 IP 地址</span>
+<span class="arg">\b(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\b</span>
+
+<span class="comment"># 匹配 URL</span>
+<span class="arg">https?://[^\s]+</span>
+
+<span class="comment"># 提取引号内容</span>
+<span class="arg">"([^"]*)"</span>
+
+<span class="comment"># 匹配日期 (YYYY-MM-DD)</span>
+<span class="arg">\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01])</span>
+                            </div>
+                        </div>
+
+                        <div class="example-block">
+                            <div class="example-title">🎯 grep 中使用正则</div>
+                            <div class="code-block">
+                                <div class="code-content">
+<span class="comment"># 基本正则（BRE）</span>
+<span class="command">grep</span> <span class="arg">"[0-9]\+"</span> <span class="arg">file.txt</span>
+
+<span class="comment"># 扩展正则（ERE）</span>
+<span class="command">grep</span> <span class="option">-E</span> <span class="arg">"[0-9]+"</span> <span class="arg">file.txt</span>
+
+<span class="comment"># Perl 正则（功能最强）</span>
+<span class="command">grep</span> <span class="option">-P</span> <span class="arg">"\d+"</span> <span class="arg">file.txt</span>
+
+<span class="comment"># 匹配整行</span>
+<span class="command">grep</span> <span class="option">-x</span> <span class="arg">"[0-9]\{3\}"</span> <span class="arg">file.txt</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Module 7: Quick Reference -->
+            <section class="section" id="reference">
+                <div class="section-header animate-on-scroll">
+                    <span class="section-number">Module 07</span>
+                    <h2 class="section-title">速查手册</h2>
+                    <p class="section-desc">常用命令和快捷键的快速参考。</p>
+                </div>
+
+                <div class="ref-grid">
+                    <div class="ref-card">
+                        <h4>文件操作</h4>
+                        <ul class="ref-list">
+                            <li><code>pwd</code> <span>显示当前路径</span></li>
+                            <li><code>ls -la</code> <span>列出所有文件</span></li>
+                            <li><code>cd -</code> <span>返回上一目录</span></li>
+                            <li><code>cp -r</code> <span>复制目录</span></li>
+                            <li><code>mv</code> <span>移动/重命名</span></li>
+                            <li><code>rm -rf</code> <span>强制删除目录</span></li>
+                            <li><code>touch</code> <span>创建空文件</span></li>
+                            <li><code>mkdir -p</code> <span>创建多级目录</span></li>
+                            <li><code>find . -name</code> <span>查找文件</span></li>
+                        </ul>
+                    </div>
+                    <div class="ref-card">
+                        <h4>权限管理</h4>
+                        <ul class="ref-list">
+                            <li><code>chmod 755</code> <span>设置权限</span></li>
+                            <li><code>chmod +x</code> <span>添加执行权限</span></li>
+                            <li><code>chown user:group</code> <span>更改所有者</span></li>
+                            <li><code>chgrp</code> <span>更改组</span></li>
+                            <li><code>umask</code> <span>显示/设置默认权限</span></li>
+                        </ul>
+                    </div>
+                    <div class="ref-card">
+                        <h4>进程管理</h4>
+                        <ul class="ref-list">
+                            <li><code>ps aux</code> <span>查看所有进程</span></li>
+                            <li><code>top / htop</code> <span>实时进程监控</span></li>
+                            <li><code>kill PID</code> <span>终止进程</span></li>
+                            <li><code>kill -9 PID</code> <span>强制终止</span></li>
+                            <li><code>pgrep</code> <span>按名查找进程</span></li>
+                            <li><code>pkill</code> <span>按名终止进程</span></li>
+                            <li><code>jobs</code> <span>查看后台任务</span></li>
+                            <li><code>bg / fg</code> <span>前后台切换</span></li>
+                        </ul>
+                    </div>
+                    <div class="ref-card">
+                        <h4>网络命令</h4>
+                        <ul class="ref-list">
+                            <li><code>ip addr</code> <span>查看 IP</span></li>
+                            <li><code>ping -c 4</code> <span>测试连通性</span></li>
+                            <li><code>ss -tuln</code> <span>查看监听端口</span></li>
+                            <li><code>netstat</code> <span>网络统计</span></li>
+                            <li><code>curl</code> <span>HTTP 请求</span></li>
+                            <li><code>wget</code> <span>下载文件</span></li>
+                            <li><code>dig</code> <span>DNS 查询</span></li>
+                            <li><code>nc</code> <span>Netcat 工具</span></li>
+                        </ul>
+                    </div>
+                    <div class="ref-card">
+                        <h4>文本处理</h4>
+                        <ul class="ref-list">
+                            <li><code>cat</code> <span>显示文件</span></li>
+                            <li><code>less / more</code> <span>分页查看</span></li>
+                            <li><code>head -n 10</code> <span>显示前10行</span></li>
+                            <li><code>tail -n 10</code> <span>显示后10行</span></li>
+                            <li><code>tail -f</code> <span>实时追踪</span></li>
+                            <li><code>grep -r</code> <span>递归搜索</span></li>
+                            <li><code>sed 's//g'</code> <span>替换</span></li>
+                            <li><code>awk '{print $1}'</code> <span>提取字段</span></li>
+                            <li><code>wc</code> <span>统计字数</span></li>
+                            <li><code>sort / uniq</code> <span>排序去重</span></li>
+                        </ul>
+                    </div>
+                    <div class="ref-card">
+                        <h4>系统信息</h4>
+                        <ul class="ref-list">
+                            <li><code>uname -a</code> <span>系统信息</span></li>
+                            <li><code>df -h</code> <span>磁盘使用</span></li>
+                            <li><code>du -sh</code> <span>目录大小</span></li>
+                            <li><code>free -h</code> <span>内存使用</span></li>
+                            <li><code>uptime</code> <span>运行时间</span></li>
+                            <li><code>whoami</code> <span>当前用户</span></li>
+                            <li><code>id</code> <span>用户信息</span></li>
+                            <li><code>which</code> <span>命令路径</span></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="command-card animate-on-scroll">
+                    <div class="command-header">
+                        <span class="command-name">终端快捷键</span>
+                        <span class="command-signature">Terminal Shortcuts</span>
+                    </div>
+                    <div class="command-body">
+                        <div class="ref-grid">
+                            <div class="ref-card">
+                                <h4>光标移动</h4>
+                                <ul class="ref-list">
+                                    <li><code>Ctrl+A</code> <span>行首</span></li>
+                                    <li><code>Ctrl+E</code> <span>行尾</span></li>
+                                    <li><code>Ctrl+F</code> <span>右移一个字符</span></li>
+                                    <li><code>Ctrl+B</code> <span>左移一个字符</span></li>
+                                    <li><code>Alt+F</code> <span>右移一个单词</span></li>
+                                    <li><code>Alt+B</code> <span>左移一个单词</span></li>
+                                </ul>
+                            </div>
+                            <div class="ref-card">
+                                <h4>编辑操作</h4>
+                                <ul class="ref-list">
+                                    <li><code>Ctrl+D</code> <span>删除光标字符</span></li>
+                                    <li><code>Ctrl+H</code> <span>退格删除</span></li>
+                                    <li><code>Ctrl+W</code> <span>删除单词</span></li>
+                                    <li><code>Ctrl+K</code> <span>删除到行尾</span></li>
+                                    <li><code>Ctrl+U</code> <span>删除到行首</span></li>
+                                    <li><code>Ctrl+Y</code> <span>粘贴删除内容</span></li>
+                                </ul>
+                            </div>
+                            <div class="ref-card">
+                                <h4>历史命令</h4>
+                                <ul class="ref-list">
+                                    <li><code>Ctrl+R</code> <span>反向搜索</span></li>
+                                    <li><code>Ctrl+P</code> <span>上一条</span></li>
+                                    <li><code>Ctrl+N</code> <span>下一条</span></li>
+                                    <li><code>!!</code> <span>执行上一条</span></li>
+                                    <li><code>!n</code> <span>执行第n条</span></li>
+                                    <li><code>!$</code> <span>上条最后参数</span></li>
+                                </ul>
+                            </div>
+                            <div class="ref-card">
+                                <h4>控制</h4>
+                                <ul class="ref-list">
+                                    <li><code>Ctrl+C</code> <span>终止进程</span></li>
+                                    <li><code>Ctrl+Z</code> <span>暂停进程</span></li>
+                                    <li><code>Ctrl+L</code> <span>清屏</span></li>
+                                    <li><code>Ctrl+S</code> <span>暂停输出</span></li>
+                                    <li><code>Ctrl+Q</code> <span>恢复输出</span></li>
+                                    <li><code>Ctrl+T</code> <span>交换字符</span></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Module 8: Practice -->
+            <section class="section" id="practice">
+                <div class="section-header animate-on-scroll">
+                    <span class="section-number">Module 08</span>
+                    <h2 class="section-title">实战练习</h2>
+                    <p class="section-desc">通过实际场景巩固所学知识。</p>
+                </div>
+
+                <div class="practice-card animate-on-scroll">
+                    <div class="practice-header">
+                        <div class="practice-icon">🎯</div>
+                        <h3 class="practice-title">练习 1：日志分析</h3>
+                    </div>
+                    <p class="practice-desc">分析一个 Apache 访问日志，找出访问最多的 IP 和页面。</p>
                     <div class="code-block">
-                        <div class="code-header">
-                            <div class="code-dots">
-                                <span></span>
-                                <span></span>
-                                <span></span>
-                            </div>
-                        </div>
                         <div class="code-content">
-<span class="comment"># grep: 文本搜索</span>
-<span class="command">grep</span> <span class="arg">"error" log.txt</span>           <span class="comment"># 基础搜索</span>
-<span class="command">grep</span> <span class="arg">-i "warning" file</span>        <span class="comment"># 忽略大小写</span>
-<span class="command">grep</span> <span class="arg">-r "pattern" /var/log</span>   <span class="comment"># 递归搜索</span>
-<span class="command">grep</span> <span class="arg">-E "error|warning" log</span>   <span class="comment"># 正则表达式</span>
+<span class="comment"># 假设日志格式：IP - - [时间] "请求" 状态码 字节数</span>
+<span class="comment"># 1. 统计访问最多的 IP（Top 10）</span>
+<span class="command">awk</span> <span class="arg">'{print $1}'</span> <span class="arg">access.log</span> <span class="option">|</span> <span class="command">sort</span> <span class="option">|</span> <span class="command">uniq</span> <span class="option">-c</span> <span class="option">|</span> <span class="command">sort</span> <span class="option">-rn</span> <span class="option">|</span> <span class="command">head</span> <span class="option">-10</span>
 
-<span class="comment"># sed: 流编辑器</span>
-<span class="command">sed</span> <span class="arg">'s/old/new/g' file.txt</span>    <span class="comment"># 全局替换</span>
-<span class="command">sed</span> <span class="arg">-i '1d' file</span>               <span class="comment"># 删除第一行</span>
-<span class="command">sed</span> <span class="arg">-n '5,10p' file</span>          <span class="comment"># 打印 5-10 行</span>
+<span class="comment"># 2. 统计访问最多的页面</span>
+<span class="command">awk</span> <span class="arg">'{print $7}'</span> <span class="arg">access.log</span> <span class="option">|</span> <span class="command">sort</span> <span class="option">|</span> <span class="command">uniq</span> <span class="option">-c</span> <span class="option">|</span> <span class="command">sort</span> <span class="option">-rn</span> <span class="option">|</span> <span class="command">head</span> <span class="option">-10</span>
 
-<span class="comment"># awk: 文本分析</span>
-<span class="command">awk</span> <span class="arg">'{print $1}' file</span>         <span class="comment"># 打印第一列</span>
-<span class="command">awk</span> <span class="arg">-F: '{print $NF}' /etc/passwd</span>
-<span class="command">awk</span> <span class="arg">'NR>1 {sum+=$3} END {print sum}' data</span>
+<span class="comment"># 3. 查找 404 错误</span>
+<span class="command">grep</span> <span class="arg">' 404 '</span> <span class="arg">access.log</span> <span class="option">|</span> <span class="command">awk</span> <span class="arg">'{print $7}'</span> <span class="option">|</span> <span class="command">sort</span> <span class="option">|</span> <span class="command">uniq</span> <span class="option">-c</span> <span class="option">|</span> <span class="command">sort</span> <span class="option">-rn</span>
                         </div>
                     </div>
-                </article>
+                </div>
 
-                <!-- Package Managers -->
-                <article class="tutorial-card card-medium animate-on-scroll" id="tools-pkg">
-                    <p class="card-desc">不同发行版的软件管理。</p>
+                <div class="practice-card animate-on-scroll">
+                    <div class="practice-header">
+                        <div class="practice-icon">🎯</div>
+                        <h3 class="practice-title">练习 2：批量处理</h3>
+                    </div>
+                    <p class="practice-desc">批量重命名文件、压缩备份、清理旧文件。</p>
                     <div class="code-block">
-                        <div class="code-header">
-                            <div class="code-dots">
-                                <span></span>
-                                <span></span>
-                                <span></span>
-                            </div>
-                        </div>
                         <div class="code-content">
-<span class="comment"># Debian/Ubuntu</span>
-<span class="command">apt</span> <span class="arg">update</span>
-<span class="command">apt</span> <span class="arg">install nginx</span>
-<span class="command">apt</span> <span class="arg">remove nginx</span>
+<span class="comment"># 1. 批量将 .txt 重命名为 .bak</span>
+<span class="command">for</span> <span class="arg">file</span> <span class="command">in</span> <span class="arg">*.txt</span>; <span class="command">do</span> <span class="command">mv</span> <span class="arg">"$file"</span> <span class="arg">"${file%.txt}.bak"</span>; <span class="command">done</span>
 
-<span class="comment"># CentOS/RHEL/Fedora</span>
-<span class="command">dnf</span> <span class="arg">install nginx</span>
+<span class="comment"># 2. 创建带日期的备份压缩包</span>
+<span class="command">tar</span> <span class="option">-czf</span> <span class="arg">backup-$(date +%Y%m%d).tar.gz</span> <span class="path">important/</span>
 
-<span class="comment"># Arch Linux</span>
-<span class="command">pacman</span> <span class="arg">-S nginx</span>
+<span class="comment"># 3. 删除 30 天前的日志</span>
+<span class="command">find</span> <span class="path">/var/log</span> <span class="option">-name</span> <span class="arg">"*.log"</span> <span class="option">-mtime</span> <span class="arg">+30</span> <span class="option">-delete</span>
+
+<span class="comment"># 4. 批量转换图片格式</span>
+<span class="command">for</span> <span class="arg">img</span> <span class="command">in</span> <span class="arg">*.png</span>; <span class="command">do</span> <span class="command">convert</span> <span class="arg">"$img"</span> <span class="arg">"${img%.png}.jpg"</span>; <span class="command">done</span>
                         </div>
                     </div>
-                </article>
+                </div>
 
-                <!-- Pipes -->
-                <article class="tutorial-card card-small animate-on-scroll" id="tools-pipe">
-                    <p class="card-desc">小工具组合的强大力量。</p>
+                <div class="practice-card animate-on-scroll">
+                    <div class="practice-header">
+                        <div class="practice-icon">🎯</div>
+                        <h3 class="practice-title">练习 3：系统监控脚本</h3>
+                    </div>
+                    <p class="practice-desc">编写一个系统状态监控脚本。</p>
                     <div class="code-block">
-                        <div class="code-header">
-                            <div class="code-dots">
-                                <span></span>
-                                <span></span>
-                                <span></span>
-                            </div>
-                        </div>
                         <div class="code-content">
-<span class="command">cat</span> <span class="arg">log.txt |</span>
-<span class="command">grep</span> <span class="arg">"ERROR" |</span>
-<span class="command">wc</span> <span class="arg">-l</span>
+<span class="command">#!/bin/bash</span>
+<span class="comment"># system_monitor.sh</span>
+
+<span class="arg">LOG_FILE</span>=<span class="path">"/var/log/system_monitor.log"</span>
+
+<span class="command">echo</span> <span class="arg">"=== System Report $(date) ==="</span> <span class="option">|</span> <span class="command">tee</span> <span class="option">-a</span> <span class="arg">$LOG_FILE</span>
+
+<span class="comment"># CPU 使用率</span>
+<span class="command">echo</span> <span class="arg">"CPU Usage:"</span>
+<span class="command">top</span> <span class="option">-bn1</span> <span class="option">|</span> <span class="command">grep</span> <span class="arg">"Cpu(s)"</span> <span class="option">|</span> <span class="command">sed</span> <span class="arg">'s/.*, *\([0-9.]*\)%* id.*/\1/'</span> <span class="option">|</span> <span class="command">awk</span> <span class="arg">'{print 100 - $1"%"}'</span>
+
+<span class="comment"># 内存使用</span>
+<span class="command">echo</span> <span class="arg">"Memory Usage:"</span>
+<span class="command">free</span> <span class="option">-h</span> <span class="option">|</span> <span class="command">awk</span> <span class="arg">'/^Mem:/ {print $3"/"$2 " (" $3/$2 * 100.0 "%)"}'</span>
+
+<span class="comment"># 磁盘使用</span>
+<span class="command">echo</span> <span class="arg">"Disk Usage:"</span>
+<span class="command">df</span> <span class="option">-h</span> <span class="option">|</span> <span class="command">awk</span> <span class="arg">'NR>1 {print $5 " " $1}'</span>
+
+<span class="comment"># 负载最高的进程</span>
+<span class="command">echo</span> <span class="arg">"Top CPU Processes:"</span>
+<span class="command">ps</span> <span class="arg">aux</span> <span class="option">|</span> <span class="command">sort</span> <span class="option">-nrk 3,3</span> <span class="option">|</span> <span class="command">head</span> <span class="option">-5</span> <span class="option">|</span> <span class="command">awk</span> <span class="arg">'{print $11 " " $3"%"}'</span>
                         </div>
                     </div>
-                </article>
-            </div>
-        </section>
+                </div>
+            </section>
 
-        <section class="cta-section">
-            <h2 class="cta-title animate-on-scroll">开始你的 Linux 之旅</h2>
-            <p class="cta-desc animate-on-scroll">最好的学习方式就是实践。打开终端，输入第一个命令。</p>
-            <div style="display: flex; gap: var(--space-md); justify-content: center; flex-wrap: wrap;" class="animate-on-scroll">
-                <a href="https://github.com/susurrune/linux-tutorial" class="btn">
-                    查看源码 →
-                </a>
-                <button class="btn btn-secondary" onclick="toggleTheme()">
-                    切换主题
-                </button>
-            </div>
-        </section>
-    </main>
+            <section class="cta-section">
+                <h2 class="cta-title animate-on-scroll">继续你的 Linux 之旅</h2>
+                <p class="cta-desc animate-on-scroll">命令行是无尽的探索。最好的老师就是实践。</p>
+                <div style="display: flex; gap: var(--space-md); justify-content: center; flex-wrap: wrap;" class="animate-on-scroll">
+                    <a href="https://github.com/susurrune/linux-tutorial" class="btn">查看源码 →</a>
+                    <button class="btn btn-secondary" onclick="toggleTheme()">切换主题</button>
+                </div>
+            </section>
+        </main>
+    </div>
 
     <footer>
         <p>Made with precision by <a href="https://github.com/susurrune">susurrune</a></p>
@@ -2042,335 +2873,191 @@
     <script>
         // Scroll progress bar
         const scrollProgress = document.getElementById('scrollProgress');
-        if (scrollProgress) {
-            window.addEventListener('scroll', () => {
-                const scrollTop = window.scrollY;
-                const docHeight = document.documentElement.scrollHeight - window.innerHeight;
-                const scrollPercent = (scrollTop / docHeight) * 100;
-                scrollProgress.style.width = scrollPercent + '%';
-            });
-        }
+        window.addEventListener('scroll', () => {
+            const scrollTop = window.scrollY;
+            const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+            const scrollPercent = (scrollTop / docHeight) * 100;
+            scrollProgress.style.width = scrollPercent + '%';
+        });
 
-        // Scroll-triggered animations
-        const observerOptions = {
-            threshold: 0.1,
-            rootMargin: '0px 0px -50px 0px'
-        };
-
+        // Scroll animations
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
                     entry.target.classList.add('visible');
                 }
             });
-        }, observerOptions);
+        }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
 
-        document.querySelectorAll('.animate-on-scroll').forEach(el => {
-            observer.observe(el);
-        });
+        document.querySelectorAll('.animate-on-scroll').forEach(el => observer.observe(el));
 
-        // Mobile menu toggle
+        // Mobile menu
         const menuBtn = document.getElementById('menuBtn');
         const navLinks = document.getElementById('navLinks');
 
         if (menuBtn && navLinks) {
-            menuBtn.addEventListener('click', (e) => {
-                e.stopPropagation();
+            menuBtn.addEventListener('click', () => {
                 menuBtn.classList.toggle('active');
                 navLinks.classList.toggle('active');
-                document.body.style.overflow = navLinks.classList.contains('active') ? 'hidden' : '';
-            });
-
-            // Close menu when clicking a link
-            navLinks.querySelectorAll('a').forEach(link => {
-                link.addEventListener('click', () => {
-                    menuBtn.classList.remove('active');
-                    navLinks.classList.remove('active');
-                    document.body.style.overflow = '';
-                });
-            });
-
-            // Close menu when clicking outside
-            document.addEventListener('click', (e) => {
-                if (!navLinks.contains(e.target) && !menuBtn.contains(e.target)) {
-                    menuBtn.classList.remove('active');
-                    navLinks.classList.remove('active');
-                    document.body.style.overflow = '';
-                }
-            });
-
-            // Close menu on escape key
-            document.addEventListener('keydown', (e) => {
-                if (e.key === 'Escape' && navLinks.classList.contains('active')) {
-                    menuBtn.classList.remove('active');
-                    navLinks.classList.remove('active');
-                    document.body.style.overflow = '';
-                }
             });
         }
 
-        // Smooth scroll for navigation
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    const offsetTop = target.offsetTop - 80;
-                    window.scrollTo({
-                        top: offsetTop,
-                        behavior: 'smooth'
-                    });
-                }
-            });
-        });
-
-        // Theme toggle
-        let darkTheme = true;
-
-        // Search command database
-        const commandDatabase = [
-            { command: 'pwd', section: 'basics-nav', title: '打印当前工作目录', desc: 'Print Working Directory' },
-            { command: 'ls', section: 'basics-nav', title: '列出文件', desc: 'List directory contents' },
-            { command: 'cd', section: 'basics-nav', title: '切换目录', desc: 'Change directory' },
-            { command: 'touch', section: 'basics-ops', title: '创建空文件', desc: 'Create empty file' },
-            { command: 'mkdir', section: 'basics-ops', title: '创建目录', desc: 'Make directory' },
-            { command: 'cp', section: 'basics-ops', title: '复制文件', desc: 'Copy files' },
-            { command: 'mv', section: 'basics-ops', title: '移动/重命名', desc: 'Move/rename files' },
-            { command: 'rm', section: 'basics-ops', title: '删除文件', desc: 'Remove files' },
-            { command: 'chmod', section: 'system-perm', title: '修改权限', desc: 'Change file permissions' },
-            { command: 'chown', section: 'system-perm', title: '修改所有者', desc: 'Change file owner' },
-            { command: 'ps', section: 'system-proc', title: '查看进程', desc: 'Process status' },
-            { command: 'top', section: 'system-proc', title: '实时进程', desc: 'System monitor' },
-            { command: 'htop', section: 'system-proc', title: '交互式进程', desc: 'Interactive process viewer' },
-            { command: 'kill', section: 'system-proc', title: '终止进程', desc: 'Terminate process' },
-            { command: 'killall', section: 'system-proc', title: '按名终止', desc: 'Kill by name' },
-            { command: 'ping', section: 'network-tools', title: '网络测试', desc: 'Test network connectivity' },
-            { command: 'curl', section: 'network-tools', title: '数据传输', desc: 'Transfer data' },
-            { command: 'wget', section: 'network-tools', title: '下载文件', desc: 'Download files' },
-            { command: 'grep', section: 'tools-text', title: '文本搜索', desc: 'Search text' },
-            { command: 'sed', section: 'tools-text', title: '流编辑', desc: 'Stream editor' },
-            { command: 'awk', section: 'tools-text', title: '文本分析', desc: 'Text processing' },
-            { command: 'apt', section: 'tools-pkg', title: 'Debian包管理', desc: 'Package manager' },
-            { command: 'dnf', section: 'tools-pkg', title: 'Fedora包管理', desc: 'Package manager' },
-            { command: 'pacman', section: 'tools-pkg', title: 'Arch包管理', desc: 'Package manager' },
-            { command: 'cat', section: 'tools-pipe', title: '显示内容', desc: 'Concatenate files' },
-            { command: '|', section: 'tools-pipe', title: '管道', desc: 'Pipe output' },
-        ];
-
-        // Active TOC link highlighting
-        const sections = ['hero', 'basics', 'basics-nav', 'basics-ops', 'basics-tips',
-                          'system', 'system-perm', 'system-proc', 'system-signal',
-                          'network', 'network-tools',
-                          'tools', 'tools-text', 'tools-pkg', 'tools-pipe'];
+        // Sidebar TOC highlighting
+        const sections = document.querySelectorAll('section[id], .command-card[id]');
+        const tocLinks = document.querySelectorAll('.toc-link');
 
         const tocObserver = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
-                    document.querySelectorAll('.toc-link').forEach(link => {
-                        link.classList.remove('active');
-                    });
+                    tocLinks.forEach(link => link.classList.remove('active'));
                     const activeLink = document.querySelector(`.toc-link[href="#${entry.target.id}"]`);
-                    if (activeLink) {
-                        activeLink.classList.add('active');
-                        const parentLi = activeLink.closest('ul')?.closest('li');
-                        if (parentLi) {
-                            parentLi.querySelector('.toc-link')?.classList.add('active');
-                        }
-                    }
+                    if (activeLink) activeLink.classList.add('active');
                 }
             });
-        }, { threshold: 0.2, rootMargin: '-80px 0px -50% 0px' });
+        }, { threshold: 0.2, rootMargin: '-100px 0px -50% 0px' });
 
-        sections.forEach(id => {
-            const section = document.getElementById(id);
-            if (section) tocObserver.observe(section);
-        });
-
-        // Section Indicator
-        const sectionIndicator = document.getElementById('sectionIndicator');
-        const mainSections = ['hero', 'basics', 'system', 'network', 'tools'];
-
-        const sectionObserver = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    document.querySelectorAll('.section-dot').forEach(dot => {
-                        dot.classList.remove('active');
-                        if (dot.dataset.section === entry.target.id) {
-                            dot.classList.add('active');
-                        }
-                    });
-                }
-            });
-        }, { threshold: 0.3 });
-
-        mainSections.forEach(id => {
-            const section = document.getElementById(id);
-            if (section) sectionObserver.observe(section);
-        });
-
-        document.querySelectorAll('.section-dot').forEach(dot => {
-            dot.addEventListener('click', () => {
-                const target = document.getElementById(dot.dataset.section);
-                if (target) {
-                    window.scrollTo({
-                        top: target.offsetTop - 80,
-                        behavior: 'smooth'
-                    });
-                }
-            });
-        });
-
-        // Breadcrumb
-        const breadcrumb = document.getElementById('breadcrumb');
-        const breadcrumbCurrent = document.getElementById('breadcrumbCurrent');
-        const sectionNames = {
-            'hero': '首页',
-            'basics': '文件与目录',
-            'system': '权限与进程',
-            'network': '网络诊断',
-            'tools': '文本与工具'
-        };
-
-        window.addEventListener('scroll', () => {
-            const currentScrollY = window.scrollY;
-            if (currentScrollY > 400) {
-                breadcrumb?.classList.add('visible');
-            } else {
-                breadcrumb?.classList.remove('visible');
-            }
-
-            mainSections.forEach(id => {
-                const section = document.getElementById(id);
-                if (section) {
-                    const rect = section.getBoundingClientRect();
-                    if (rect.top <= 100 && rect.bottom >= 100) {
-                        if (breadcrumbCurrent) {
-                            breadcrumbCurrent.textContent = sectionNames[id];
-                        }
-                    }
-                }
-            });
-        }, { passive: true });
+        sections.forEach(section => tocObserver.observe(section));
 
         // Back to top
         const backToTop = document.getElementById('backToTop');
-        if (backToTop) {
-            window.addEventListener('scroll', () => {
-                if (window.scrollY > 500) {
-                    backToTop.classList.add('visible');
-                } else {
-                    backToTop.classList.remove('visible');
-                }
-            }, { passive: true });
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 500) {
+                backToTop.classList.add('visible');
+            } else {
+                backToTop.classList.remove('visible');
+            }
+        });
 
-            backToTop.addEventListener('click', () => {
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-            });
-        }
+        backToTop.addEventListener('click', () => {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
 
-        // Search
+        // Search functionality
         const searchBtn = document.getElementById('searchBtn');
         const searchModal = document.getElementById('searchModal');
         const searchBox = document.getElementById('searchBox');
         const searchResults = document.getElementById('searchResults');
 
+        const commandDatabase = [
+            { command: 'pwd', title: '显示当前目录', category: '文件' },
+            { command: 'ls', title: '列出文件', category: '文件' },
+            { command: 'cd', title: '切换目录', category: '文件' },
+            { command: 'touch', title: '创建文件', category: '文件' },
+            { command: 'mkdir', title: '创建目录', category: '文件' },
+            { command: 'cp', title: '复制', category: '文件' },
+            { command: 'mv', title: '移动/重命名', category: '文件' },
+            { command: 'rm', title: '删除', category: '文件' },
+            { command: 'find', title: '查找文件', category: '文件' },
+            { command: 'chmod', title: '修改权限', category: '权限' },
+            { command: 'chown', title: '修改所有者', category: '权限' },
+            { command: 'ps', title: '查看进程', category: '进程' },
+            { command: 'top', title: '进程监控', category: '进程' },
+            { command: 'kill', title: '终止进程', category: '进程' },
+            { command: 'ping', title: '网络测试', category: '网络' },
+            { command: 'curl', title: '数据传输', category: '网络' },
+            { command: 'grep', title: '文本搜索', category: '文本' },
+            { command: 'sed', title: '流编辑', category: '文本' },
+            { command: 'awk', title: '文本分析', category: '文本' }
+        ];
+
         function openSearch() {
-            searchModal?.classList.add('active');
-            searchBox?.focus();
+            searchModal.classList.add('active');
+            searchBox.focus();
         }
 
         function closeSearch() {
-            searchModal?.classList.remove('active');
-            if (searchResults) searchResults.innerHTML = '';
+            searchModal.classList.remove('active');
+            searchResults.innerHTML = '';
         }
 
         searchBtn?.addEventListener('click', openSearch);
+        searchModal?.addEventListener('click', (e) => {
+            if (e.target === searchModal) closeSearch();
+        });
 
         document.addEventListener('keydown', (e) => {
             if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
                 e.preventDefault();
                 openSearch();
             }
+            if (e.key === 'Escape') {
+                closeSearch();
+                if (navLinks?.classList.contains('active')) {
+                    menuBtn.classList.remove('active');
+                    navLinks.classList.remove('active');
+                }
+            }
         });
 
-        if (searchBox) {
-            searchBox.addEventListener('input', (e) => {
-                const query = e.target.value.toLowerCase().trim();
-                if (!searchResults) return;
-                if (query.length === 0) {
-                    searchResults.innerHTML = '';
-                    return;
-                }
+        searchBox?.addEventListener('input', (e) => {
+            const query = e.target.value.toLowerCase().trim();
+            if (query.length === 0) {
+                searchResults.innerHTML = '';
+                return;
+            }
 
-                const matches = commandDatabase.filter(cmd =>
-                    cmd.command.toLowerCase().includes(query) ||
-                    cmd.title.toLowerCase().includes(query) ||
-                    cmd.desc.toLowerCase().includes(query)
-                );
+            const matches = commandDatabase.filter(cmd =>
+                cmd.command.toLowerCase().includes(query) ||
+                cmd.title.toLowerCase().includes(query) ||
+                cmd.category.toLowerCase().includes(query)
+            );
 
-                if (matches.length === 0) {
-                    searchResults.innerHTML = '<div style="padding: 20px; color: var(--text-muted); text-align: center;">未找到相关命令</div>';
-                    return;
-                }
+            if (matches.length === 0) {
+                searchResults.innerHTML = '<div style="padding: 20px; color: var(--text-muted); text-align: center;">未找到相关命令</div>';
+                return;
+            }
 
-                searchResults.innerHTML = matches.map(match => `
-                    <div class="search-result-item" data-section="${match.section}">
-                        <div class="search-result-title">${highlightMatch(match.command, query)} - ${match.title}</div>
-                        <div class="search-result-desc">${highlightMatch(match.desc, query)}</div>
-                    </div>
-                `).join('');
+            searchResults.innerHTML = matches.map(match => `
+                <div class="search-result-item">
+                    <div class="search-result-title"><code>${match.command}</code> - ${match.title}</div>
+                    <div class="search-result-desc">分类: ${match.category}</div>
+                </div>
+            `).join('');
+        });
 
-                searchResults.querySelectorAll('.search-result-item').forEach(item => {
-                    item.addEventListener('click', () => {
-                        const section = item.dataset.section;
-                        const target = document.getElementById(section);
-                        if (target) {
-                            closeSearch();
-                            window.scrollTo({
-                                top: target.offsetTop - 100,
-                                behavior: 'smooth'
-                            });
-                        }
-                    });
+        // Accordion
+        document.querySelectorAll('.accordion-header').forEach(header => {
+            header.addEventListener('click', () => {
+                const accordion = header.parentElement;
+                accordion.classList.toggle('active');
+            });
+        });
+
+        // Tabs
+        document.querySelectorAll('.tab-header').forEach(header => {
+            const buttons = header.querySelectorAll('.tab-btn');
+            const panels = header.nextElementSibling?.parentElement?.querySelectorAll('.tab-panel');
+
+            buttons.forEach((btn, index) => {
+                btn.addEventListener('click', () => {
+                    buttons.forEach(b => b.classList.remove('active'));
+                    panels?.forEach(p => p.classList.remove('active'));
+                    btn.classList.add('active');
+                    panels?.[index]?.classList.add('active');
                 });
             });
-        }
-
-        function highlightMatch(text, query) {
-            if (!query) return text;
-            const regex = new RegExp(`(${query})`, 'gi');
-            return text.replace(regex, '<span class="search-result-match">$1</span>');
-        }
-
-        searchModal?.addEventListener('click', (e) => {
-            if (e.target === searchModal) closeSearch();
         });
 
         // Theme toggle
+        let darkTheme = true;
         function toggleTheme() {
             const root = document.documentElement;
             darkTheme = !darkTheme;
 
             if (!darkTheme) {
-                // Light theme colors
                 root.style.setProperty('--color-bg', 'oklch(98% 0.01 260)');
                 root.style.setProperty('--color-bg-elevated', 'oklch(95% 0.02 260)');
                 root.style.setProperty('--color-bg-card', 'oklch(100% 0 0)');
+                root.style.setProperty('--color-bg-code', 'oklch(93% 0.01 260)');
                 root.style.setProperty('--color-text', 'oklch(20% 0.02 260)');
                 root.style.setProperty('--text-muted', 'oklch(45% 0.03 260)');
                 root.style.setProperty('--text-dim', 'oklch(60% 0.04 260)');
                 root.style.setProperty('--border-subtle', 'oklch(85% 0.02 260)');
                 root.style.setProperty('--border-hover', 'oklch(75% 0.03 260)');
             } else {
-                // Dark theme (reset to default)
-                root.style.removeProperty('--color-bg');
-                root.style.removeProperty('--color-bg-elevated');
-                root.style.removeProperty('--color-bg-card');
-                root.style.removeProperty('--color-text');
-                root.style.removeProperty('--text-muted');
-                root.style.removeProperty('--text-dim');
-                root.style.removeProperty('--border-subtle');
-                root.style.removeProperty('--border-hover');
+                ['--color-bg', '--color-bg-elevated', '--color-bg-card', '--color-bg-code',
+                 '--color-text', '--text-muted', '--text-dim', '--border-subtle', '--border-hover']
+                .forEach(prop => root.style.removeProperty(prop));
             }
         }
 
@@ -2378,60 +3065,39 @@
         document.querySelectorAll('.code-block').forEach(block => {
             block.style.cursor = 'pointer';
             block.addEventListener('click', function() {
-                const code = this.querySelector('.code-content').innerText;
+                const code = this.querySelector('.code-content')?.innerText || this.innerText;
                 navigator.clipboard.writeText(code).then(() => {
-                    showToast('代码已复制');
-                    // Haptic feedback on mobile
-                    if (navigator.vibrate && window.matchMedia('(pointer: coarse)').matches) {
-                        navigator.vibrate(50);
-                    }
+                    const toast = document.createElement('div');
+                    toast.style.cssText = `
+                        position: fixed;
+                        bottom: 2rem;
+                        left: 50%;
+                        transform: translateX(-50%);
+                        background: var(--color-primary);
+                        color: var(--color-bg);
+                        padding: 0.75rem 1.5rem;
+                        border-radius: 100px;
+                        font-family: var(--font-mono);
+                        font-size: 0.875rem;
+                        z-index: 1000;
+                    `;
+                    toast.textContent = '代码已复制';
+                    document.body.appendChild(toast);
+                    setTimeout(() => toast.remove(), 2000);
                 });
             });
         });
 
-        // Keyboard shortcuts
-        document.addEventListener('keydown', (e) => {
-            // ESC to close mobile menu
-            if (e.key === 'Escape' && navLinks && navLinks.classList.contains('active')) {
-                menuBtn.classList.remove('active');
-                navLinks.classList.remove('active');
-                document.body.style.overflow = '';
-            }
-            // ESC to close search is handled in search modal
-        });
-
-        function showToast(message) {
-            const toast = document.createElement('div');
-            toast.style.cssText = `
-                position: fixed;
-                bottom: 2rem;
-                left: 50%;
-                transform: translateX(-50%) translateY(100px);
-                background: var(--color-primary);
-                color: var(--color-bg);
-                padding: 0.75rem 1.5rem;
-                border-radius: 100px;
-                font-family: var(--font-mono);
-                font-size: 0.875rem;
-                font-weight: 500;
-                z-index: 1000;
-                opacity: 0;
-                transition: all 0.4s var(--ease-out-expo);
-            `;
-            toast.textContent = message;
-            document.body.appendChild(toast);
-
-            requestAnimationFrame(() => {
-                toast.style.transform = 'translateX(-50%) translateY(0)';
-                toast.style.opacity = '1';
+        // Smooth scroll for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
             });
-
-            setTimeout(() => {
-                toast.style.transform = 'translateX(-50%) translateY(100px)';
-                toast.style.opacity = '0';
-                setTimeout(() => toast.remove(), 400);
-            }, 2000);
-        }
+        });
     </script>
 </body>
 </html>
