@@ -143,6 +143,21 @@
         h3 { font-size: clamp(1.125rem, 2vw, 1.5rem); }
         h4 { font-size: clamp(1rem, 1.5vw, 1.125rem); }
 
+        /* SVG Icons */
+        .icon {
+            display: inline-block;
+            width: 1em;
+            height: 1em;
+            vertical-align: middle;
+            margin-right: 0.5em;
+            flex-shrink: 0;
+        }
+
+        .icon-large {
+            width: 1.5em;
+            height: 1.5em;
+        }
+
         /* Hero Section */
         .hero {
             position: relative;
@@ -1243,7 +1258,7 @@
             }
 
             .nav-links .search-btn::before {
-                content: "🔍";
+                content: "<svg class="icon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>";
             }
 
             .nav-menu-btn {
@@ -1305,26 +1320,26 @@
     <aside class="toc-sidebar" id="tocSidebar">
         <div class="toc-title">目录导航</div>
         <ul class="toc-list">
-            <li class="toc-item"><a href="#intro" class="toc-link toc-section">🚀 入门指南</a></li>
-            <li class="toc-item"><a href="#basics" class="toc-link toc-section">📁 文件与目录</a></li>
+            <li class="toc-item"><a href="#intro" class="toc-link toc-section"><svg class="icon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"/><path d="M12 15l-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 5.06-2.05 7.03-1.07 1.62-2.54 3.03-3.95 4.02z"/><path d="M9 12H4s.55-3.03 2.13-4.67C7.63 5.7 10.5 5.5 10.5 5.5"/><path d="M12 15v5s3.03-.55 4.67-2.13C18.3 15.37 18.5 12.5 18.5 12.5"/></svg> 入门指南</a></li>
+            <li class="toc-item"><a href="#basics" class="toc-link toc-section"><svg class="icon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg> 文件与目录</a></li>
             <li class="toc-item toc-subsection"><a href="#cmd-pwd" class="toc-link">pwd / ls / cd</a></li>
             <li class="toc-item toc-subsection"><a href="#cmd-touch" class="toc-link">touch / mkdir</a></li>
             <li class="toc-item toc-subsection"><a href="#cmd-cp" class="toc-link">cp / mv / rm</a></li>
             <li class="toc-item toc-subsection"><a href="#cmd-find" class="toc-link">find / locate</a></li>
-            <li class="toc-item"><a href="#system" class="toc-link toc-section">🔐 权限与进程</a></li>
+            <li class="toc-item"><a href="#system" class="toc-link toc-section"><svg class="icon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg> 权限与进程</a></li>
             <li class="toc-item toc-subsection"><a href="#cmd-chmod" class="toc-link">chmod / chown</a></li>
             <li class="toc-item toc-subsection"><a href="#cmd-ps" class="toc-link">ps / top / htop</a></li>
             <li class="toc-item toc-subsection"><a href="#cmd-kill" class="toc-link">kill / 信号</a></li>
-            <li class="toc-item"><a href="#network" class="toc-link toc-section">🌐 网络诊断</a></li>
+            <li class="toc-item"><a href="#network" class="toc-link toc-section"><svg class="icon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg> 网络诊断</a></li>
             <li class="toc-item toc-subsection"><a href="#cmd-ip" class="toc-link">ip / ping</a></li>
             <li class="toc-item toc-subsection"><a href="#cmd-curl" class="toc-link">curl / wget</a></li>
-            <li class="toc-item"><a href="#text" class="toc-link toc-section">📝 文本处理</a></li>
+            <li class="toc-item"><a href="#text" class="toc-link toc-section"><svg class="icon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg> 文本处理</a></li>
             <li class="toc-item toc-subsection"><a href="#cmd-grep" class="toc-link">grep / sed</a></li>
             <li class="toc-item toc-subsection"><a href="#cmd-awk" class="toc-link">awk 高级</a></li>
-            <li class="toc-item"><a href="#shell" class="toc-link toc-section">💻 Shell 编程</a></li>
-            <li class="toc-item"><a href="#regex" class="toc-link toc-section">🔍 正则表达式</a></li>
-            <li class="toc-item"><a href="#reference" class="toc-link toc-section">📚 速查手册</a></li>
-            <li class="toc-item"><a href="#practice" class="toc-link toc-section">🎯 实战练习</a></li>
+            <li class="toc-item"><a href="#shell" class="toc-link toc-section"><svg class="icon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/></svg> Shell 编程</a></li>
+            <li class="toc-item"><a href="#regex" class="toc-link toc-section"><svg class="icon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg> 正则表达式</a></li>
+            <li class="toc-item"><a href="#reference" class="toc-link toc-section"><svg class="icon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg> 速查手册</a></li>
+            <li class="toc-item"><a href="#practice" class="toc-link toc-section"><svg class="icon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg> 实战练习</a></li>
         </ul>
     </aside>
 
@@ -1341,21 +1356,21 @@
     <nav class="nav">
         <a href="#" class="nav-logo"><span>$</span> Linux Guide</a>
         <div style="display: flex; align-items: center; gap: 12px;">
-            <button class="search-btn" id="searchBtnNav" aria-label="搜索">🔍</button>
+            <button class="search-btn" id="searchBtnNav" aria-label="搜索"><svg class="icon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></button>
             <button class="nav-menu-btn" id="menuBtn" aria-label="菜单">
                 <span></span><span></span><span></span>
             </button>
         </div>
         <ul class="nav-links" id="navLinks">
-            <li><a href="#intro">🚀 入门指南</a></li>
-            <li><a href="#basics">📁 文件操作</a></li>
-            <li><a href="#system">🔐 权限进程</a></li>
-            <li><a href="#network">🌐 网络诊断</a></li>
-            <li><a href="#text">📝 文本处理</a></li>
-            <li><a href="#shell">💻 Shell编程</a></li>
-            <li><a href="#regex">🔍 正则表达式</a></li>
-            <li><a href="#reference">📚 速查手册</a></li>
-            <li><a href="#practice">🎯 实战练习</a></li>
+            <li><a href="#intro"><svg class="icon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"/><path d="M12 15l-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 5.06-2.05 7.03-1.07 1.62-2.54 3.03-3.95 4.02z"/><path d="M9 12H4s.55-3.03 2.13-4.67C7.63 5.7 10.5 5.5 10.5 5.5"/><path d="M12 15v5s3.03-.55 4.67-2.13C18.3 15.37 18.5 12.5 18.5 12.5"/></svg> 入门指南</a></li>
+            <li><a href="#basics"><svg class="icon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg> 文件操作</a></li>
+            <li><a href="#system"><svg class="icon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg> 权限进程</a></li>
+            <li><a href="#network"><svg class="icon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg> 网络诊断</a></li>
+            <li><a href="#text"><svg class="icon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg> 文本处理</a></li>
+            <li><a href="#shell"><svg class="icon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/></svg> Shell编程</a></li>
+            <li><a href="#regex"><svg class="icon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg> 正则表达式</a></li>
+            <li><a href="#reference"><svg class="icon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg> 速查手册</a></li>
+            <li><a href="#practice"><svg class="icon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg> 实战练习</a></li>
         </ul>
     </nav>
 
@@ -1411,7 +1426,7 @@
                     </div>
 
                     <div class="info-box tip">
-                        <div class="info-box-title">💡 提示</div>
+                        <div class="info-box-title"><svg class="icon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18h6M10 22h4M12 2v1M12 2a7 7 0 0 1 7 7c0 2.38-1.19 4.47-3 5.74V17a1 1 0 0 1-1 1H9a1 1 0 0 1-1-1v-2.26C6.19 13.47 5 11.38 5 9a7 7 0 0 1 7-7z"/></svg> 提示</div>
                         <p>查看当前使用的 Shell：<code class="command">echo $SHELL</code></p>
                     </div>
 
@@ -1487,7 +1502,7 @@
                         </div>
 
                         <div class="info-box note">
-                            <div class="info-box-title">📝 注意</div>
+                            <div class="info-box-title"><svg class="icon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg> 注意</div>
                             <p>在脚本中使用 <code>pwd</code> 获取当前目录时，建议使用 <code>$(pwd)</code> 或环境变量 <code>$PWD</code>。</p>
                         </div>
                     </div>
@@ -1534,7 +1549,7 @@
                         </div>
 
                         <div class="example-block">
-                            <div class="example-title">🎯 实用示例：查找最近修改的文件</div>
+                            <div class="example-title"><svg class="icon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg> 实用示例：查找最近修改的文件</div>
                             <div class="code-block">
                                 <div class="code-content">
 <span class="command">ls</span> <span class="option">-lt</span> <span class="path">/var/log</span> <span class="option">|</span> <span class="command">head</span> <span class="option">-10</span>
@@ -1576,7 +1591,7 @@
                         </div>
 
                         <div class="info-box tip">
-                            <div class="info-box-title">💡 Tab 自动补全</div>
+                            <div class="info-box-title"><svg class="icon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18h6M10 22h4M12 2v1M12 2a7 7 0 0 1 7 7c0 2.38-1.19 4.47-3 5.74V17a1 1 0 0 1-1 1H9a1 1 0 0 1-1-1v-2.26C6.19 13.47 5 11.38 5 9a7 7 0 0 1 7-7z"/></svg> Tab 自动补全</div>
                             <p>输入目录名的前几个字母，按 <kbd>Tab</kbd> 键自动补全。按两次 <kbd>Tab</kbd> 显示所有匹配项。</p>
                         </div>
                     </div>
@@ -1693,7 +1708,7 @@
                         </div>
 
                         <div class="info-box warning">
-                            <div class="info-box-title">⚠️ 警告</div>
+                            <div class="info-box-title"><svg class="icon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> 警告</div>
                             <p>复制目录时不要忘记 <code>-r</code> 选项，否则会报错。<code>cp -r</code> 会跟随符号链接，如果需要保留链接使用 <code>-a</code>。</p>
                         </div>
                     </div>
@@ -1732,7 +1747,7 @@
                         </div>
 
                         <div class="info-box tip">
-                            <div class="info-box-title">💡 技巧</div>
+                            <div class="info-box-title"><svg class="icon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18h6M10 22h4M12 2v1M12 2a7 7 0 0 1 7 7c0 2.38-1.19 4.47-3 5.74V17a1 1 0 0 1-1 1H9a1 1 0 0 1-1-1v-2.26C6.19 13.47 5 11.38 5 9a7 7 0 0 1 7-7z"/></svg> 技巧</div>
                             <p>使用 <code>mv</code> 重命名时如果目标已存在，会被覆盖。使用 <code>mv -i</code> 或 <code>mv -n</code> 来避免意外覆盖。</p>
                         </div>
                     </div>
@@ -1778,13 +1793,13 @@
                         </div>
 
                         <div class="info-box warning">
-                            <div class="info-box-title">⚠️ 警告：rm -rf</div>
+                            <div class="info-box-title"><svg class="icon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> 警告：rm -rf</div>
                             <p><code>rm -rf /</code> 会删除整个系统！现代系统有 <code>--preserve-root</code> 保护，但仍需极度小心。使用 <code>rm -rf</code> 前务必确认路径正确。</p>
                         </div>
 
                         <div class="accordion">
                             <div class="accordion-header">
-                                <h4>🛡️ 安全的删除习惯</h4>
+                                <h4><svg class="icon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg> 安全的删除习惯</h4>
                                 <span class="accordion-icon">▼</span>
                             </div>
                             <div class="accordion-content">
@@ -1848,7 +1863,7 @@
                         </div>
 
                         <div class="example-block">
-                            <div class="example-title">🎯 实用示例：批量重命名</div>
+                            <div class="example-title"><svg class="icon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg> 实用示例：批量重命名</div>
                             <div class="code-block">
                                 <div class="code-content">
 <span class="comment"># 将所有 .txt 文件转换为 .bak</span>
@@ -1886,7 +1901,7 @@
                         </div>
 
                         <div class="info-box note">
-                            <div class="info-box-title">📝 locate vs find</div>
+                            <div class="info-box-title"><svg class="icon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg> locate vs find</div>
                             <p><code>locate</code> 搜索数据库，速度快但可能不包含最新文件；<code>find</code> 实时搜索文件系统，准确但更慢。</p>
                         </div>
                     </div>
@@ -1895,7 +1910,7 @@
                 <!-- Practice -->
                 <div class="practice-card animate-on-scroll">
                     <div class="practice-header">
-                        <div class="practice-icon">🎯</div>
+                        <div class="practice-icon"><svg class="icon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg></div>
                         <h3 class="practice-title">实战练习：文件管理</h3>
                     </div>
                     <p class="practice-desc">完成以下任务，巩固文件操作命令：</p>
@@ -1910,7 +1925,7 @@
 
                     <div class="accordion">
                         <div class="accordion-header">
-                            <h4>📖 参考答案</h4>
+                            <h4><svg class="icon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg> 参考答案</h4>
                             <span class="accordion-icon">▼</span>
                         </div>
                         <div class="accordion-content">
@@ -1996,7 +2011,7 @@
                         </div>
 
                         <div class="info-box note">
-                            <div class="info-box-title">📝 权限符号说明</div>
+                            <div class="info-box-title"><svg class="icon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg> 权限符号说明</div>
                             <p><code>u</code>=用户(user), <code>g</code>=组(group), <code>o</code>=其他(other), <code>a</code>=所有(all)</p>
                             <p><code>+</code>=添加, <code>-</code>=移除, <code>=</code>=设置</p>
                         </div>
@@ -2032,7 +2047,7 @@
                         </div>
 
                         <div class="example-block">
-                            <div class="example-title">🎯 常见场景：Web 服务器权限</div>
+                            <div class="example-title"><svg class="icon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg> 常见场景：Web 服务器权限</div>
                             <div class="code-block">
                                 <div class="code-content">
 <span class="comment"># 将网站目录所有权给 web 服务器用户</span>
@@ -2141,7 +2156,7 @@
                         </div>
 
                         <div class="info-box tip">
-                            <div class="info-box-title">💡 安装 htop</div>
+                            <div class="info-box-title"><svg class="icon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18h6M10 22h4M12 2v1M12 2a7 7 0 0 1 7 7c0 2.38-1.19 4.47-3 5.74V17a1 1 0 0 1-1 1H9a1 1 0 0 1-1-1v-2.26C6.19 13.47 5 11.38 5 9a7 7 0 0 1 7-7z"/></svg> 安装 htop</div>
                             <p>大多数发行版需要单独安装：<code>sudo apt install htop</code> 或 <code>sudo dnf install htop</code></p>
                         </div>
                     </div>
@@ -2193,7 +2208,7 @@
                         </div>
 
                         <div class="info-box warning">
-                            <div class="info-box-title">⚠️ SIGKILL vs SIGTERM</div>
+                            <div class="info-box-title"><svg class="icon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> SIGKILL vs SIGTERM</div>
                             <p>优先使用 <code>SIGTERM</code>（默认），给进程清理资源的机会。<code>SIGKILL</code> 是最后手段，进程无法捕获或忽略它，可能导致数据丢失。</p>
                         </div>
                     </div>
@@ -2202,7 +2217,7 @@
                 <!-- Practice -->
                 <div class="practice-card animate-on-scroll">
                     <div class="practice-header">
-                        <div class="practice-icon">🎯</div>
+                        <div class="practice-icon"><svg class="icon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg></div>
                         <h3 class="practice-title">实战练习：权限与进程</h3>
                     </div>
                     <ol class="practice-steps">
@@ -2289,7 +2304,7 @@
                         </div>
 
                         <div class="example-block">
-                            <div class="example-title">🎯 解读 ping 输出</div>
+                            <div class="example-title"><svg class="icon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg> 解读 ping 输出</div>
                             <div class="code-block">
                                 <div class="code-content">
 <span class="output">64 bytes from 142.250.80.46: icmp_seq=1 ttl=117 time=15.3 ms</span>
@@ -2365,7 +2380,7 @@
                         </div>
 
                         <div class="info-box note">
-                            <div class="info-box-title">📝 curl vs wget</div>
+                            <div class="info-box-title"><svg class="icon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg> curl vs wget</div>
                             <p><strong>curl</strong>：功能全面，支持更多协议，适合 API 调用和复杂请求。<br>
                             <strong>wget</strong>：擅长递归下载和断点续传，适合镜像网站和大文件下载。</p>
                         </div>
@@ -2375,7 +2390,7 @@
                 <!-- Practice -->
                 <div class="practice-card animate-on-scroll">
                     <div class="practice-header">
-                        <div class="practice-icon">🎯</div>
+                        <div class="practice-icon"><svg class="icon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg></div>
                         <h3 class="practice-title">实战练习：网络诊断</h3>
                     </div>
                     <ol class="practice-steps">
@@ -2452,7 +2467,7 @@
                         </div>
 
                         <div class="example-block">
-                            <div class="example-title">🎯 实用示例：日志分析</div>
+                            <div class="example-title"><svg class="icon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg> 实用示例：日志分析</div>
                             <div class="code-block">
                                 <div class="code-content">
 <span class="comment"># 统计 ERROR 出现次数</span>
@@ -2509,7 +2524,7 @@
                         </div>
 
                         <div class="info-box tip">
-                            <div class="info-box-title">💡 sed 定界符</div>
+                            <div class="info-box-title"><svg class="icon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18h6M10 22h4M12 2v1M12 2a7 7 0 0 1 7 7c0 2.38-1.19 4.47-3 5.74V17a1 1 0 0 1-1 1H9a1 1 0 0 1-1-1v-2.26C6.19 13.47 5 11.38 5 9a7 7 0 0 1 7-7z"/></svg> sed 定界符</div>
                             <p>可以使用任意字符作为定界符，当模式包含/时很有用：<code>sed 's#/usr/local#/opt#g'</code></p>
                         </div>
                     </div>
@@ -2556,7 +2571,7 @@
                         </div>
 
                         <div class="example-block">
-                            <div class="example-title">🎯 实用示例：进程内存统计</div>
+                            <div class="example-title"><svg class="icon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg> 实用示例：进程内存统计</div>
                             <div class="code-block">
                                 <div class="code-content">
 <span class="command">ps</span> <span class="arg">aux</span> <span class="option">|</span> <span class="command">awk</span> <span class="arg">'{sum += $6} END {printf "Total RSS: %.2f MB\n", sum/1024}'</span>
@@ -2757,7 +2772,7 @@
                         </div>
 
                         <div class="example-block">
-                            <div class="example-title">🎯 grep 中使用正则</div>
+                            <div class="example-title"><svg class="icon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg> grep 中使用正则</div>
                             <div class="code-block">
                                 <div class="code-content">
 <span class="comment"># 基本正则（BRE）</span>
@@ -2933,7 +2948,7 @@
 
                 <div class="practice-card animate-on-scroll">
                     <div class="practice-header">
-                        <div class="practice-icon">🎯</div>
+                        <div class="practice-icon"><svg class="icon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg></div>
                         <h3 class="practice-title">练习 1：日志分析</h3>
                     </div>
                     <p class="practice-desc">分析一个 Apache 访问日志，找出访问最多的 IP 和页面。</p>
@@ -2954,7 +2969,7 @@
 
                 <div class="practice-card animate-on-scroll">
                     <div class="practice-header">
-                        <div class="practice-icon">🎯</div>
+                        <div class="practice-icon"><svg class="icon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg></div>
                         <h3 class="practice-title">练习 2：批量处理</h3>
                     </div>
                     <p class="practice-desc">批量重命名文件、压缩备份、清理旧文件。</p>
@@ -2977,7 +2992,7 @@
 
                 <div class="practice-card animate-on-scroll">
                     <div class="practice-header">
-                        <div class="practice-icon">🎯</div>
+                        <div class="practice-icon"><svg class="icon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg></div>
                         <h3 class="practice-title">练习 3：系统监控脚本</h3>
                     </div>
                     <p class="practice-desc">编写一个系统状态监控脚本。</p>
