@@ -1171,13 +1171,15 @@
             top: 70px;
             width: 240px;
             height: calc(100vh - 70px);
-            background: var(--color-bg-elevated);
+            background: var(--color-bg);
             border-right: 1px solid var(--border-subtle);
             padding: 20px;
             overflow-y: auto;
             z-index: 90;
             transform: translateX(-100%);
             transition: transform 0.3s var(--ease-out-expo);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
         }
 
         .toc-sidebar.active {
@@ -1567,6 +1569,8 @@
             .toc-sidebar {
                 width: 85%;
                 max-width: 300px;
+                background: var(--color-bg);
+                box-shadow: 4px 0 24px rgba(0, 0, 0, 0.3);
             }
 
             .toc-toggle.active {
